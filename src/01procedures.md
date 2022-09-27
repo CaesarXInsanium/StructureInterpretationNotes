@@ -247,3 +247,121 @@ facing function.
 ```
 
 ## Procedures and Processes They Generate
+
+In order to make the best use of procedure it is not enough to know how they work
+one must also know tactics and strategies for using them.
+In order to get the bast idea on how to design and build a system one must have
+a very good idea on what we want the end result to be. It makes it necessary to
+plan out much of what we want to do. Procedures are local evolutions of computational
+processes and as such can be built on top of each other in order to create the
+bigger result. They are some "shapes" that procedure definitions can follow.
+
+Lisp allows reasoning about and build procedures as if they were mathematical expressions.
+
+### Linear Recursion
+
+The definition of factorial is as follows
+
+$$
+n! = n *(n - 1)*(n -2) ...3*2*1
+$$
+
+From this it is logical to assume that *n* factorial is equal to *n* times *n* minus
+one factorial.
+
+$$
+n! = n * (n-1)!
+$$
+
+> Here is a more recursive method
+
+```lisp
+(define (factorial n)
+  (if (= n 1)
+    1
+    (* n (factorial (- n -1)))
+  )
+)
+```
+
+> Here is another method of defining the factorial function.
+
+```lisp
+(define (factorial n)
+  (define (iter product counter)
+    (if (> counter n)
+      product
+      (iter (* counter product)
+            (+ counter 1))))
+  (iter 1 1))
+```
+
+Expanding expression allows one to see the true "shape" of a procedure as it evaluates.
+Some have a diamond shape as the expression expands to the simplest term and then
+contracts as each term is evaluated.
+
+The expansion evaluation of a procedure is known as `deferred operations` in which
+an is like as the program is being run this is the part where each function is
+being initial called. And then after that the evaluation of the value is the actual
+recursion.
+
+With the iterative function definition each time the recursive function is called
+it is being immediate evaluated before it can be called again. This is `iterative`
+processes. In this method the state can be tracked with certain variables keeping
+track of when the process should end if at all. For is a for loop in most languages.
+
+Iterative procedures allow for easy description of the entire state of the process
+at any given point. Recursive not so much since the compiler/interpreter hide away
+much of the inner working up to the point in which it is difficult to resume from
+any position.
+
+Recursive procedures are strictly those that call themselves within their own definition.
+Iterative procedures hold their state in outside variables.
+
+Most languages define iterative procedures using for/while loop unlike Scheme and
+any other lisp dialect.
+
+### Tree Recursion
+
+*Tree recursion* occurs when a procedure calls itself more than once inside
+its own definition. For example look at this procedure for getting Fibonacci numbers.
+
+```lisp
+(define (fib n)
+  (cond ((= n 0) 0)
+        ((= n 1) 1)
+        (else (+ (fib (- n 1))
+                 (fib (- n 2))))))
+```
+
+This example is not efficient because work is repeated. Computing the Fibonacci
+of any sufficiently big number will result with entire branches of work being
+recalculate in different branches in the execution of the procedure. The time
+complexity of this function is exponential. Space complexity grow linearly.
+
+Here is iterative version.
+
+```lisp
+(define (fib_i n)
+  (fib-iter 1 0 n))
+
+(define (fib-iter a b counter)
+  (if (= counter 0)
+    b
+    (fib-iter (+ a b) a (- ounter 1))))
+```
+
+Here the time complexity is linear.
+
+Tree recursion and iteration are tools and should be used when it is the best tool
+in the current situation.
+
+### Orders of Growth
+
+Order of growth simply describe who quickly the time it takes for a procedure to
+finish executing given data size *n* as *n* reaches infinity. *N* can be used to
+describe the size of a number itself, the number of bit required to describe a
+piece of data, the number of elements in a data structure.
+
+Such method of describing a procedure grows in computation time is inaccurate, but
+it is very useful in describing how efficient an algorithm really is.
