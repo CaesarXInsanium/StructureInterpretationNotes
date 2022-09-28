@@ -365,3 +365,42 @@ piece of data, the number of elements in a data structure.
 
 Such method of describing a procedure grows in computation time is inaccurate, but
 it is very useful in describing how efficient an algorithm really is.
+
+### Exponentiation
+
+One way to calculate the exponent of a value is to use the recursive definition
+of exponentiation.
+
+$$
+b^n = b * b^{n-1},
+b^0 = 1
+$$
+
+Here it is in scheme.
+
+```lisp
+(define (expt b n)
+  (if (= n 0)
+    1
+    (* b ( expt b (- n 1)))))
+```
+
+It is possible to make a faster procedure by simply using a different algorithm.
+It can be done using the idea that certain value can be reached faster. For example
+take following expression.
+
+$$
+b^4 = b^2 * b^2
+$$
+
+Using this \\(b^8\\) can be calculated much faster. Here is an implementation.
+
+```lisp
+(define (fast-expt b n)
+  (cond ((= n 0) 1)
+        ((even? n) (square (fast-expt b (/ n 2))))
+        (else (* b (fast-expt b (- n 1))))))
+```
+
+Given from this implementation, it can be easy to see that the time complexity to
+logarithmic because each exponent jump is bigger the deeper the recursion goes.
