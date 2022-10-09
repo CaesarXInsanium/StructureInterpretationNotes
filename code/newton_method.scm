@@ -1,3 +1,15 @@
+(define (floor-test x)
+  (write "Floor of ")
+  (write x)
+  (write " is ")
+  (write (floor x))
+  (newline))
+
+(floor-test 4.5)
+(floor-test 0.0001)
+(floor-test 9.5)
+(define EPSILON 0.00001)
+
 (define (floor x)
   (cond ((<= x 1) 0)
         (else (+ 1  (floor (- x 1))))))
@@ -12,16 +24,46 @@
   (/ (+ x y) 2))
 
 (define (good-enough? guess x)
-    (< (abs (- (square guess) x)) 0.000000001))
+    (< (abs (- (square guess) x)) EPSILON))
+
+(define
+  (better-good-enough
+    guess 
+    x 
+    previous_guess
+  )
+  (and 
+    (<
+      (abs
+        (-
+          (square 
+            guess
+          )
+          x
+        )
+      )
+      EPSILON
+    )
+    (<
+      (abs
+        (- 
+          previous_guess
+          guess 
+        )
+      )
+      EPSILON
+    )
+  )
+)
     
-(define (sqrt-iter guess x)
-  (if (good-enough? guess x)
+(define (sqrt-iter guess x previous_guess)
+  (if (better-good-enough guess x previous_guess)
     guess
     (sqrt-iter (improve guess x)
-                x)))
+                x guess)))
 
 (define (sqrt x)
-  (sqrt-iter 1.0 x))
+  (sqrt-iter 1.0 x 0.0))
 
 (define (sqrt-test x)
   (write "Square root of ")
@@ -38,13 +80,3 @@
 (sqrt-test 0.5)
 (sqrt-test 0.0001)
 
-(define (floor-test x)
-  (write "Floor of ")
-  (write x)
-  (write " is ")
-  (write (floor x))
-  (newline))
-
-(floor-test 4.5)
-(floor-test 0.0001)
-(floor-test 9.5)

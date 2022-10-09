@@ -55,3 +55,50 @@
 ;; (write "Square Root of four is ")
 ;; (write foursqrt)
 ;; (newline)
+
+;; Exercise 1.7
+
+
+;; My Previous Implementation was stupid and I had to change it
+(define (good-enough? guess x)
+    (< (abs (- (square guess) x)) EPSILON))
+
+(define
+  (better-good-enough
+    guess 
+    x 
+    previous_guess
+  )
+  (and 
+    (<
+      (abs
+        (-
+          (square 
+            guess
+          )
+          x
+        )
+      )
+      EPSILON
+    )
+    (<
+      (abs
+        (- 
+          previous_guess
+          guess 
+        )
+      )
+      EPSILON
+    )
+  )
+)
+    
+(define (sqrt-iter guess x previous_guess)
+  (if (better-good-enough guess x previous_guess)
+    guess
+    (sqrt-iter (improve guess x)
+                x guess)))
+
+(define (sqrt x)
+  (sqrt-iter 1.0 x 0.0))
+
