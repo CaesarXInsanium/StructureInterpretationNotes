@@ -102,3 +102,34 @@
 (define (sqrt x)
   (sqrt-iter 1.0 x 0.0))
 
+;; Exercise 1.8
+;; Simple translation from the equation shown in the book
+
+(define (cube x)
+  (* x x x))
+
+(define (improve y x)
+  (/ (+ (/ x (square y)) (* 2 y)) 3))
+
+(define (good-enough? guess x)
+    (< (abs (- (cube guess) x)) 0.00001))
+    
+(define (cbrt-iter guess x)
+  (if (good-enough? guess x)
+    guess
+    (cbrt-iter (improve guess x)
+                x)))
+
+;; Exercise 1.11
+
+(define (f n)
+  (cond ((< n 3) n)
+        ((>= n 2) (+
+                    (f (- n 1))
+                    (* 2 (f (- n 2)))
+                    (* 3 (f (- n 3)))
+                  )
+        )
+  )
+)
+

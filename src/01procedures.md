@@ -162,71 +162,6 @@ We see the base form for a conditional statement in lisp.
   (sqrt-iter 1.0 x))
 ```
 
-#### Exercises: Attractions
-
-```lisp
-10
-12
-8
-3
-6
-a=3
-b=a+1=4
-19
-false
-4
-17
-16
-
-(define (threesum x y z)
-  (+ (square x) (square y) (square z)))
-
-;; This is a function that in its conditional will return an operator that it will
-;; then use in order to peform on the provided arguments
-(define (a-plus-abs-b a b)
-  ((if (> b 0) + -) a b))
-
-
-;; Exercise 1.6
-it does not call recursively on values and new values are not passed
-It will condinue forever
-
-;; Exercise 1.7
-Because floats are discrete and finite representations of the infinite real number
-plane. This means that evenuall with very large, small and accurate numbers cannot
-be represented.
-
-;; Exercise 1.8
-(define (cube x)
-  (* x x x))
-
-(define (improve y x)
-  (/ (+ (/ x (square y)) (* 2 y)) 3))
-
-(define (good-enough? guess x)
-    (< (abs (- (cube guess) x)) 0.00001))
-    
-(define (cbrt-iter guess x)
-  (if (good-enough? guess x)
-    guess
-    (cbrt-iter (improve guess x)
-                x)))
-
-(define (cbrt x)
-  (cbrt-iter 1.0 x))
-
-(write (cbrt 8) )
-(newline)
-(write (cbrt 27))
-(newline)
-(write (cbrt 125))
-(newline)
-(write (cbrt 1000))
-(newline)
-(write (cbrt 69))
-(newline)
-```
-
 ### Procedures as Black-Box Abstractions
 
 Procedure Abstraction should allow for encapsulation of lower level procedure and
@@ -380,6 +315,15 @@ Here it is in scheme.
 
 ```lisp
 (define (expt b n)
+  (if (= n 0)
+    1
+    (* b ( expt b (- n 1)))))
+```
+
+Here it is in Clojure
+
+```clojure
+(defn expt [b n]
   (if (= n 0)
     1
     (* b ( expt b (- n 1)))))
