@@ -1,8 +1,3 @@
-;;
-;; (define (f-iter x n)
-;;   (cond ((< n 3) n)
-;;         ((>= n 2) ())
-
 (define (f n)
   (cond ((< n 3) n)
         ((>= n 3) (+
@@ -14,11 +9,24 @@
   )
 )
 
+(define (g-iter n m f1 f2 f3)
+  (define fnew (+ f1 (* 2 f2) (* 3 f3)))
+  (cond ((< m n) (g-iter n (+ m 1) fnew f1 f2))
+        (else f3)))
+
+(define (g n)
+  (cond ((< n 3) n)
+        (else (g-iter n 0 2 1 0 ))))
+
 (define (test x)
   (write "Eval f(n) for ")
   (write x)
   (write " is ")
   (write (f x))
+  (write " Eval g(n) for ")
+  (write x)
+  (write " is ")
+  (write (g x))
   (newline)
 )
 
