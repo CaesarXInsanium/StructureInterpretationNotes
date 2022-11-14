@@ -9,7 +9,8 @@
          (+ (pow b 2) (pow c 2)))
         ((and (< b a) (< b c)) (+ (pow a 2) (pow c 2)))
         ((and (< c a) (< c b) (+ (pow a 2) (pow b 2))))
-        ))
+  )
+)
 
 (define x (aaa 1 2 3))
 (write "Exercise 1.3")

@@ -1,5 +1,9 @@
 # Abstractions with Procedures
 
+[Lecture 1A](https://www.youtube.com/watch?v=eJeMOEiHv8c)
+
+[Lecture 1B](https://www.youtube.com/watch?v=-J_xL4IGhJA&list=PLE18841CABEA24090&index=1)
+
 A process is an idea of a set of events occurring under the direction of a program.
 
 Lips was invited as a way to express computational thought in a manner using recursion
