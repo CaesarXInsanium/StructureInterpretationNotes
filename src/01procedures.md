@@ -30,7 +30,7 @@ Expressions are evaluated and interpreter will return a value, usually itself.
 
 Here is an example in lisp
 
-```lisp
+```scheme
 89 ;; will return 89 as an integers
 (+ 9 10) ;; will evaluate result of adding 9 and 10 and then return
 (+ 1 1 1 1) ;; unlimited number of operands
@@ -45,7 +45,7 @@ can easily handle complexity.
 Of course such expressions can also be rewritten in a way that would allow for
 easier human understanding by aligning operators.
 
-```lisp
+```scheme
 (+ (* 3
       (+ (* 2 4)
          (+ 3 5)))
@@ -59,7 +59,7 @@ In lisp things can be named with `define`. This allows easy reference with a val
 without spelling it out. Assigned variable names are evaluated with their referred
 value.
 
-```lisp
+```scheme
 (define size 2)
 (+ size 2) ;; evaluates to
 ```
@@ -83,7 +83,7 @@ multiple times in a program.
 
 Here is procedure that square a number.
 
-```lisp
+```scheme
 (define (square x) (* x x))
 ;; here is example usage
 (square 21)
@@ -95,7 +95,7 @@ Define a procedure where we multiply a thing by itself. Here we use the `define`
 keyword to name a procedure, specify that it takes only one parameter and then following
 expression is that happens to data that is passed.
 
-```lisp
+```scheme
 (define (<name> <formal parameters>) (<body expression>))
 ```
 
@@ -119,7 +119,7 @@ order evaluation where expressions are evaluated before applying.
 Method for executing different based on results of tests if required for Turing
 completeness and is basis for any for decision-making. Here are some examples.
 
-```lisp
+```scheme
 (define (abs x)
   (cond ((> x 0) x) ;; i thing cond keyword is akin to switch statement
         ((= x 0) 0)
@@ -177,7 +177,7 @@ Lisp also allows defining private procedures inside other procedures in order
 to be able to maintain a specific procedure that is important to working of public
 facing function.
 
-```lisp
+```scheme
 (define (public x)
   (define (private y)
     (write y)
@@ -190,7 +190,7 @@ facing function.
 In order to make the best use of procedure it is not enough to know how they work
 one must also know tactics and strategies for using them.
 In order to get the bast idea on how to design and build a system one must have
-a very good idea on what we want the end result to be. It makes it necessary to
+a good idea on what we want the end result to be. It makes it necessary to
 plan out much of what we want to do. Procedures are local evolutions of computational
 processes and as such can be built on top of each other in order to create the
 bigger result. They are some "shapes" that procedure definitions can follow.
@@ -214,7 +214,7 @@ $$
 
 > Here is a more recursive method
 
-```lisp
+```scheme
 (define (factorial n)
   (if (= n 1)
     1
@@ -225,7 +225,7 @@ $$
 
 > Here is another method of defining the factorial function.
 
-```lisp
+```scheme
 (define (factorial n)
   (define (iter product counter)
     (if (> counter n)
@@ -265,7 +265,7 @@ any other lisp dialect.
 *Tree recursion* occurs when a procedure calls itself more than once inside
 its own definition. For example look at this procedure for getting Fibonacci numbers.
 
-```lisp
+```scheme
 (define (fib n)
   (cond ((= n 0) 0)
         ((= n 1) 1)
@@ -280,7 +280,7 @@ complexity of this function is exponential. Space complexity grow linearly.
 
 Here is iterative version.
 
-```lisp
+```scheme
 (define (fib_i n)
   (fib-iter 1 0 n))
 
@@ -303,7 +303,7 @@ describe the size of a number itself, the number of bit required to describe a
 piece of data, the number of elements in a data structure.
 
 Such method of describing a procedure grows in computation time is inaccurate, but
-it is very useful in describing how efficient an algorithm really is.
+it is useful in describing how efficient an algorithm really is.
 
 ### Exponentiation
 
@@ -317,7 +317,7 @@ $$
 
 Here it is in scheme.
 
-```lisp
+```scheme
 (define (expt b n)
   (if (= n 0)
     1
@@ -343,12 +343,151 @@ $$
 
 Using this \\(b^8\\) can be calculated much faster. Here is an implementation.
 
-```lisp
+```scheme
 (define (fast-expt b n)
   (cond ((= n 0) 1)
         ((even? n) (square (fast-expt b (/ n 2))))
         (else (* b (fast-expt b (- n 1))))))
 ```
 
-Given from this implementation, it can be easy to see that the time complexity to
-logarithmic because each exponent jump is bigger the deeper the recursion goes.
+Given from this implementation, it can be easy to see that the time complexity goes
+to logarithmic because each exponent jump is bigger the deeper the recursion goes.
+
+### Greatest Common Divisor
+
+Greatest Common Divisor or GCD is defined as the largest integers that divides
+integers A and B. Meaning that there are integers x and y such that
+\\( x *GCD =A \\)
+and \\( y* GCD =  B \\)
+
+Finding the GCD is simple since one can take the recursive definition.
+
+$$
+GCD(a,b) = GCD(b,r)
+$$
+
+Use it to define this function in scheme.
+
+```scheme
+(define (gdc a b) (if (= b 0)
+                    a
+                    (gcd (remainder a b))))
+```
+
+We continuously divide a from b recursively until the final GCD is found.
+
+This algorithm is iterative in nature as each recursion is a tail recursion and grows
+in logarithmic time.
+
+### Testing for Primality
+
+There are two main methods for testing if integer n is a prime number or not.
+
+One strategy is to find if it has any factors.
+
+```scheme
+;;Naive Method
+
+(define (square x) (* x x))
+
+(define (smallest-divisor n)
+  (find-divisor n 2))
+
+(define (divides? a b) (= (remainder b a) 0))
+
+(define (find-divisor n test-divisor)
+  (cond ((> (square test-divisor) n ) n)
+        ((divides? test-divisor n) test-divisor)
+        (else (find-divisor n (+ test-divisor 1)))))
+
+(define (prime? n) (= n (smallest-divisor n)))
+```
+
+What this implementation does it check all numbers less than square root of n if
+they are the prime numbers. The logic goes if none of those work then the number
+*n* is prime.
+
+The second big strategy is based on Fermat's Little theorem which states basically
+the idea that is *n* is a prime number and *a* is a positive integer less than
+*n* then *a* raised to the *n* power is congruent to *a* modulo *n*.
+
+> Two numbers are congruent if when divide by the same number have the same remainder.
+
+```scheme
+;; Fermats Theorem applied
+
+(define (expmod base exp m)
+  (cond ((= exp 0)
+         1)
+        ((even? exp)
+         (remainder (square (expmod base (/ exp 2) m)) m))
+        (else
+          (remainder (* base (expmod base (- exp 1)m))m))))
+```
+
+This procedure grows logarithmic in accordance to size of input. Using it we can
+implement the Fermat test.
+
+```scheme
+(define (fermat-test n)
+  (define (try-it a)
+    (= (expmod a n n) a))
+  (try-it (+ 1 (random (- n 1))))
+)
+```
+
+The final form. Will take a number and number of attempts to see if it is prime.
+
+```scheme
+(define (fast-prime? n times)
+  (cond ((= times 0) 1)
+        ((fermat-test n) (fast-prime? n (- times 1))) (else 0)
+```
+
+However, it has been proven that even if the procedure says that a number passes
+the test then it does not mean that it is prime. There is also the fact that some
+non primes that fool the Fermat test for why modulo congruent with a lot of numbers.
+This algorithm is an example of a `Probabilistic Algorithm` in which there is a
+chance of error that the algorithm yields the incorrect result.
+
+## Formulating Abstractions with Higher Order Procedures
+
+The ability to write procedures and function allows for the ability to create program
+that can work on higher and higher levels of abstraction and reuse instructions and
+operations without repeat the definitions.
+
+Procedures that only work on numbers can be limiting. `Higher Order` procedures
+are those that accept functions as arguments and can return functions as results.
+
+### Procedures as Argument
+
+Here we have three procedures.
+
+```scheme
+;; Sums Integers from A to B
+(define (sum-integers a b)
+        (if (> a b)
+            0
+            (+ a (sum-integers (+ a 1) b))))
+
+;; Computers Sum of Cubes of Integers
+(define (sum-cubes a b)
+    (if (> a b)
+        0
+        (+ (cube a) (sum-cubes (+ a 1) b))))
+
+;; Computes Series of multiplied cubes
+;;; 1 / (1 * 3) + 1 / (5 * 7) +1 / (9 * 11)
+(define (pi-sum a b)
+    (if (> a b)
+        0
+        (+ (/ 1.0 (* a (+ a 2))) (pi-sum (+ a 4) b))))
+```
+
+These are similar procedures, that have the same template and could be automatically
+generated. Sigma notation is used in order to express how express a method to add
+the results of a function given a range of integer values.
+
+$$
+\sum_{n=a}^{b}(f(n) = f(a)+...+f(b))
+$$

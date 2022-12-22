@@ -20,6 +20,8 @@
            (else (iter (- N 1) B (* B A))))) 
    (iter n b 1))
 
+(iter-fast-expt 4 3)
+
 (define (test b n)
   (write "b = ")
   (write b)

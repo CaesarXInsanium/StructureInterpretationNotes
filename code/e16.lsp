@@ -27,8 +27,7 @@
   (write n)
   (write " :b^n =")
   (write (iter-fast-expt b n))
-  (newline)
-)
+  (newline))
 
 (test 2 2)
 (test 2 0)

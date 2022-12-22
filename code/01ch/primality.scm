@@ -1,3 +1,5 @@
+;;Naive Method
+
 (define (square x) (* x x))
 
 (define (smallest-divisor n)
@@ -11,10 +13,23 @@
         (else (find-divisor n (+ test-divisor 1)))))
 
 (define (prime? n) (= n (smallest-divisor n)))
-(define (gcd a b) (if (= b 0)
-                    a
-                    (gcd b (remainder a b))))
 
+(define (test fn a) 
+ (display "A: ")
+ (display a)
+ (display "\t")
+ (display "Result: ")
+ (display (fn a))
+ (newline)
+)
+
+(test prime? 7)
+(test prime? 9)
+
+
+;; Fermats Theorem applied
+
+;; uses succesive squaring to the time complexity is logarithmic
 (define (expmod base exp m)
   (cond ((= exp 0)
          1)
@@ -23,12 +38,14 @@
         (else
           (remainder (* base (expmod base (- exp 1)m))m))))
 
+;; testing algorithm
+
 (define (fermat-test n)
   (define (try-it a)
     (= (expmod a n n) a))
   (try-it (+ 1 (random (- n 1)))))
 
 (define (fast-prime? n times)
-  (cond ((= times 0) 1)
-        ((fermat-test n) (fast-prime? n (- times 1)))
-        (else 0)))
+  (cond ((= times 0) true)
+        ((fermat-test n) (fast-prime? m (- times 1)))
+        (else false)))
