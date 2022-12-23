@@ -1,6 +1,6 @@
 PANDOC=pandoc
 
-PANDOC_OPTIONS= -V 'mainfont:/usr/share/fonts/TTF/CascadiaCodePL.ttf'
+PANDOC_OPTIONS= -V 'mainfont:/home/cxi/.fonts/Iosevka\ Nerd\ Font\ Complete.ttf'
          
 
 PANDOC_HTML_OPTIONS=--to html5
@@ -13,9 +13,7 @@ PANDOC_EPUB_OPTIONS=--to epub3
 # One Page per book Chapter
 NOTES_DIR=src
 PANDOC_BUILD_DIR=pandoc
-TARGET=StructureInterpertrationNotes
-
-PART1 := $(wildcard $(NOTES_DIR)/Foundations/*.md)
+TARGET=StructureAndInterpretationNotes
 
 ALL_NOTES := \
 	src/SUMMARY.md \

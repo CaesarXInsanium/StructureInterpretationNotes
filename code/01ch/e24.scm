@@ -8,9 +8,8 @@
         ((= n 1) b)
         ((= n 2) (square b))
         ((even? n) (fast-expt (square b) (/ n 2)))
-        (else (* b (fast-expt b (- n 1))))
-  )
-)
+        (else (* b (fast-expt b (- n 1))))))
+
  (define (square x) (* x x)) 
   
  (define (expmod base exp m) 
@@ -31,7 +30,7 @@
    (cond ((= times 0) true) 
          ((fermat-test n) (fast-prime? n (- times 1))) 
          (else false))) 
-  
+
  (define (prime? n) 
    ; Perform the test how many times? 
    ; Use 100 as an arbitrary value. 

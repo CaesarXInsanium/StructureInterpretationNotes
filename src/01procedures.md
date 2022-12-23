@@ -490,4 +490,27 @@ the results of a function given a range of integer values.
 
 $$
 \sum_{n=a}^{b}(f(n) = f(a)+...+f(b))
-$$
+$
+
+The realization that the pattern being emulated is in fact a mathematical summation
+allows for easy redefinition using the scheme language.
+
+```scheme
+(define (sum term a next b)
+        (if (> a b)
+            0
+            (+ (term a)
+                (sum term (next a) next b))))
+
+;; term is a function that determines the selection of items being summed
+;; next is a function that determines which is the next items after the previus one
+    ;; for function term
+```
+
+Using some other helper functions it is possible to redefine all the functions
+
+```scheme
+(define (sum-cubes a b)
+        (sum cube a inc b))
+        
+```
