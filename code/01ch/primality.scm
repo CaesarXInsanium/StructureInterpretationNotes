@@ -20,8 +20,8 @@
  (display "\t")
  (display "Result: ")
  (display (fn a))
- (newline)
-)
+ (newline))
+
 
 (test prime? 7)
 (test prime? 9)
