@@ -450,7 +450,7 @@ non primes that fool the Fermat test for why modulo congruent with a lot of numb
 This algorithm is an example of a `Probabilistic Algorithm` in which there is a
 chance of error that the algorithm yields the incorrect result.
 
-## Formulating Abstractions with Higher Order Procedures
+## Formulating Abstractions with Higher Order Procedures 1.3
 
 The ability to write procedures and function allows for the ability to create program
 that can work on higher and higher levels of abstraction and reuse instructions and
@@ -507,10 +507,36 @@ allows for easy redefinition using the scheme language.
     ;; for function term
 ```
 
-Using some other helper functions it is possible to redefine all the functions
+Using some other helper functions it is possible to redefine all the functions.
 
 ```scheme
-(define (sum-cubes a b)
+;; redefinition of a previous function
+(define (sum-cubex a b)
         (sum cube a inc b))
-        
+
+(define (sum-integers a b)
+        (sum identity a inc b))
+
+(define (pi-sum a b)
+        (define (pi-term x)
+                (/ 1.0 (* x (+ x 2))))
+        (define (pi-next x)
+                (+ x 4))
+        (sum pi-term a pi-next b))
+```
+
+Using this same higher order procecure it is possible to define a function to approximate
+the integral of a function.
+
+```scheme
+(define (integral f a b dx)
+        (define (add-dx x)
+                (+ x dx))
+        (* (sum f (+ a (/ dx 2.0)) add-dx b)
+            dx))
+;; can be used to approximate the integral from 0 to 1 of x^3
+(integral cube 0 1 0.01)
+;; .24998750000000042 result
+(integral cube 0 1 0.001)
+;; .249999875000001 result
 ```
