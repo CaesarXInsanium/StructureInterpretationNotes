@@ -35,13 +35,13 @@
 (define (report-prime elapse-time)
   (display '***')
   (display elapse-time)
-  (newline)
-)
+  (newline))
+
 
 (define (process-prime n)
   (define result (time-prime-test n))
-  (true)
-)
+  (true))
+
 
 (define (search-for-primes start end f)
   (define (iter current end f)
@@ -49,8 +49,8 @@
     (cond
      ((and (not (= current end)) stop) (iter (+ current 1) end f))
      ((= current end) (display "Loop Ended"))))
-  (iter start end f)
-  )
+  (iter start end f))
+  
 
 (search-for-primes 0 10 num)
 
