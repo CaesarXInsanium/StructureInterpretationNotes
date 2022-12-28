@@ -5,12 +5,12 @@
 
 ;; exercice 1.3
 (define (aaa a b c)
-  (cond (( and (< a b) (< a c) )
+  (cond (( and (< a b) (< a c))
          (+ (pow b 2) (pow c 2)))
         ((and (< b a) (< b c)) (+ (pow a 2) (pow c 2)))
-        ((and (< c a) (< c b) (+ (pow a 2) (pow b 2))))
-  )
-)
+        ((and (< c a) (< c b) (+ (pow a 2) (pow b 2))))))
+  
+
 
 (define x (aaa 1 2 3))
 (write "Exercise 1.3")
@@ -68,37 +68,37 @@
   (better-good-enough
     guess 
     x 
-    previous_guess
-  )
+    previous_guess)
+  
   (and 
     (<
       (abs
         (-
           (square 
-            guess
-          )
-          x
-        )
-      )
-      EPSILON
-    )
+            guess)
+          
+          x))
+        
+      
+      EPSILON)
+    
     (<
       (abs
         (- 
           previous_guess
-          guess 
-        )
-      )
-      EPSILON
-    )
-  )
-)
+          guess)) 
+        
+      
+      EPSILON)))
+    
+  
+
     
 (define (sqrt-iter guess x previous_guess)
   (if (better-good-enough guess x previous_guess)
     guess
     (sqrt-iter (improve guess x)
-                x guess)))
+               x guess)))
 
 (define (sqrt x)
   (sqrt-iter 1.0 x 0.0))
@@ -119,7 +119,7 @@
   (if (good-enough? guess x)
     guess
     (cbrt-iter (improve guess x)
-                x)))
+               x)))
 
 ;; Exercise 1.11
 
@@ -128,9 +128,9 @@
         ((>= n 2) (+
                     (f (- n 1))
                     (* 2 (f (- n 2)))
-                    (* 3 (f (- n 3)))
-                  )
-        )
-  )
-)
+                    (* 3 (f (- n 3)))))))
+                  
+        
+  
+
 

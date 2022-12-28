@@ -1,7 +1,7 @@
 
 (define (gcd a b) (display "X")(if (= b 0)
-                    a
-                    (gcd b (remainder a b))))
+                                a
+                                (gcd b (remainder a b))))
 
 (define (test fn a b) 
  (display "A: ")
@@ -12,8 +12,8 @@
  (display "\t")
  (display "Result: ")
  (display (fn a b))
- (newline)
-)
+ (newline))
+
 
 (test gcd 206 40)
 

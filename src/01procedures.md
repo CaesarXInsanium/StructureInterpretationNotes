@@ -490,7 +490,7 @@ the results of a function given a range of integer values.
 
 $$
 \sum_{n=a}^{b}(f(n) = f(a)+...+f(b))
-$
+$$
 
 The realization that the pattern being emulated is in fact a mathematical summation
 allows for easy redefinition using the scheme language.
@@ -540,3 +540,203 @@ the integral of a function.
 (integral cube 0 1 0.001)
 ;; .249999875000001 result
 ```
+
+### Constructing Procedures Using Lambda
+
+Scheme allows for a methods of defining simple single use functions without giving
+them names. This are `lambda`, anonymous function that are a definition of a function
+that does one simple thing and developer forgets about them.
+
+```scheme
+(lambda (x) (+ x 4))
+;; Format
+(lambda (<name> <formal-parameters>) <body>)
+```
+
+Usually these are passed to other functions in order to generate higher level procedures
+and are the hallmark of a functional programming language. An example using previous
+mentions.
+
+```scheme
+(define (pi-sum a b)
+        (sum (lambda (x) (/ 1.0 (* x (+ x 2))))
+            a
+            (lambda (x) (+ x 4))
+            b))
+
+(define (integral f a b dx)
+        (* (sum f
+                (+ a (/ dx 2.0))
+                (lambda (x) (+ x dx))
+                b)
+            dx))
+```
+
+The usualy method for defining named function can be thought of as syntactic sugar
+for lambda.
+
+```scheme
+(define (f x) (+ x 1)) ;; is the same as
+(define f (lambda (x) (+ x 1)))
+```
+
+### Using `let` to create local variables
+
+Using the `let` keyword is useful in defining variables with limited scope in order
+to pollute namespace. Taking the mathematical expression
+
+$$
+f(x, y) = x(1 + (x * y))^2 +y(1-y) + (1+(x * y))(1-y)
+$$
+
+can be simplified to
+
+$$
+a = 1 + (x * y),
+b = 1 - y,
+f(x, y) = xa^2 + (y * b) + ab
+$$
+
+Writing scheme code in order to emulate this function would require not only
+the parameters but also defining the local variables a and b. Here is some normal
+scheme code.
+
+```scheme
+(define (f x y)
+        (define (f-helper a b)
+                (+ (* x (square a))
+                   (* y b)
+                   (* a b)))
+        (f-helper (+ 1(* x y))
+                  (- 1 y)))
+```
+
+Here is the simplification. Side note, getting the indentation correct was a pain
+in the ass.
+
+```scheme
+(define (f x y)
+    (let ((a (+ 1 (* x y)))
+          (b (- 1 y)))
+
+         (+ (* x (square a))
+            (* y b)
+            (* a b))))
+```
+
+General form for let expression is this
+
+```text
+(let ((<var1> <exp1>)
+      (<var2> <exp2>)
+      ...
+      (<varn> <expn>))
+    <body>)
+```
+
+Each section can be thought of as its own little mini section with define pairs.
+The different is that the variables here have limited scope and exist only within
+the confines of the S expression of let. Even this expression can be thought of as
+syntactic sugar for a lambda expression that take in certain parameters that are
+the names of parameters and outputs a list with each item being corresponding
+to the value of expression.
+
+If a variable already has a value, then the `let` expression overrides it within
+the scope of the expression, ignoring outside values.
+
+```scheme
+(define x 5)
+(+ (let ((x 3))
+        (+ x (* x 10)))
+   x) ;; evaluates to 38
+```
+
+Best practices dictates to use `let` in defining variables and `define` in defining
+internal procedures.
+
+### Procedures as General Methods
+
+Strategies have been introduced that allow for expression numerical methods as
+scheme procedures, and abstracting away general strategies to be independent of
+numbers and or even computation involved.
+
+#### Finding Roots of Equations by Half Interval Methods
+
+Half interval method involved in finding roots of function which average in range
+of values is found and if prove that a zero exists in interval, the interval is
+cut in half until the root is found.
+
+The number of steps required to find the root grows logarithmic in relation to size
+of starting interval. Here is example from book.
+
+```scheme
+
+(define (search f neg-point pos-point)
+  (let ((midpoint (average neg-point pos-point)))
+        
+       (if (close-enough? neg-point pos-point)
+           midpoint
+           (let ((test-value (f midpoint)))
+                (cond ((positive? test-value)
+                       (search f neg-point mid-point))
+                      ((negative? test-value)
+                       (search f midpoint pos-point))
+                      (else midpoint))))))
+```
+
+What this code does is first calculated the midpoint of the interval. Then it checks
+to see if the interval is close enough, if it is, it returns the midpoint. If not,
+then it evaluates the function f at the midpoint. If this new value is positive
+then it calls itself with new interval from beginning to midpoint. Then if negative
+the new range is from midpoint to end of range. If the midpoint evaluates to zero
+then it gets returned.
+
+Search should not be called directly and instead suitable interval should first
+be found and then `search` should be called.
+
+#### Fixed Points of Functions
+
+Fixed point in function are where the output of a function is the same as the input.
+These points can be found by applying this calculation. Where x is a guess and
+applying the same transformation.
+
+$$
+f(x), f(f(x)), f(f(f(x))), f(f(f(f(x))))
+$$
+
+Using this definition it is possible to define procedure that finds a fixed point
+given a function and initial guess. Here is the example the book gives.
+
+```scheme
+(define tolerance 0.00001)
+
+(define (close-enough? x y)
+  (< (abs (- x y)) tolerance))
+(define (fixed-point f first-guess)
+  (define (try guess)
+    (let ((next (f guess)))
+         (if (close-enough? guess next)
+             next
+             (try next))))
+  (try first-guess))
+  
+(fixed-point cos 1.0)
+```
+
+This code basically just guesses the fixed point until it gets it close enough
+based on some criteria.
+
+It can also find the solution to equations. Give for example.
+
+$$
+y = cos(y) + sin(y)
+$$
+
+Can be solved with.
+
+```scheme
+(fixed-point (lambda (x) (+ (sin x) (cos x))) 1.0)
+```
+
+Average Damping can also be used in order to more carefully converged towards the
+wanted value without getting stuck in an infinite loop.
