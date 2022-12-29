@@ -740,3 +740,122 @@ Can be solved with.
 
 Average Damping can also be used in order to more carefully converged towards the
 wanted value without getting stuck in an infinite loop.
+
+### Procedures as Returned Values
+
+More power and expression ability can be achieved by using procedures that generate
+and return procedures. For example, procedure can be defined that can average damp
+the result of a function.
+
+```scheme
+(define (average-damp f)
+  (lambda (x) (average x (f x))))
+```
+
+What this function does is it take a function and return a new function that takes
+the average of an input and the result of calling that function on an input. This
+concept can be used in order to redefine the square root function in terms of the
+previously define `fixed-point` function.
+
+```scheme
+(define (sqrt x)
+  (fixed-point (average-damp (lambda (y) (/ x y))) 1.0))
+
+;; Cube Root can also be defined
+```
+
+Recognizing patterns that repeat in procedures is an important skill to have as
+it for more easy reuse of different components.
+
+#### Newton's Method
+
+Early implementation of square root function involved Newton's method in which solution
+can be approximated using the identity.
+
+$$
+f(x) = x - \frac{g(x)}{Dg(x)}
+$$
+
+The does here is to find *x* such that f(x) = 0. The bottom term is the derivative
+of the function *g* at *x*. This method does not always converge but does converge
+enough times such that it is useful approximation.
+
+In order to use this method, the derivative must found, and used. It is defined
+as
+
+$$
+g'(x) = \frac{g(x + dx) - g(x)}{dx}
+$$
+
+The code here is simply returning a new function that is in terms of the passed
+and uses the definition of the derivative in order to calculate the derivative
+at a certain value of *x*.
+
+```scheme
+(define dx 0.000001)
+(define (deriv g)
+  (lambda (x) 
+        (/ (- (g (+ x dx))
+              (g x))
+           dx)))
+```
+
+A new procedure can be defined that take a function *f* and returns it's derivative
+in terms of *f*. Then Newton's Method can be implemented by using it as a fixed
+point function.
+
+```scheme
+(define (newton-transform g)
+  (lambda (x)
+          (- (/ (g x)
+                ((derive g) x)))))
+
+(define (newtons-method g guess)
+  (fixed-point (newton-transform g) guess))
+```
+
+The square root function can be redefined in terms of these new functions.
+
+#### Abstractions and First Class Procedures
+
+Further abstraction can be achieved by formulating the repeat used of the fixed
+point function and abstracting its repeated use.
+
+```scheme
+(define (fixed-point-of-transform g transform guess)
+  (fixed-point (transform g) guess))
+```
+
+This procedure takes as arguments function g, a function that a solution found,
+and an initial guess. What is does is it calls the fixed point function that takes
+the transform procedure and calls it on g, and the guess. The whole purpose is to
+define a function that can be solved and to solve it. And this can be used to redefine
+the square root function.
+
+```scheme
+(define (fixed-point-of-transform g transform guess)
+  (fixed-point (transform g) guess))
+
+(define (sqrt x)
+  (fixed-point-of-transform (lambda (y) (/ x y))
+                            average-damp
+                            1.0))
+```
+
+These higher order procedures allow for easy expression of computing methods using
+more basic elements that already been defined in our code. Overly abstraction code
+can also de detrimental but the price of not doing so is worse. The key is thinking
+in terms of abstraction and reusing them whenever code begins to feel repetitive
+and to apply them and new contexts.
+
+In computer languages there is a concept of first-class elements. These have properties
+in computer languages in which there are few restrictions and have some features.
+
+- Can be named as variables
+- passed as arguments to functions
+- returned as result of procedures
+- include in data structure
+
+In lisp and other dialects function are first class citizens, with all the above
+features. Fast and efficient implementation is difficult, but expression are very
+powerful.
