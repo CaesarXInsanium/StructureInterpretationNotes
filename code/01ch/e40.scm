@@ -1,5 +1,5 @@
-
 (define tolerance 0.000001)
+(define dx 0.000001)
 (define (close-enough? x y)
   (< (abs (- x y)) tolerance))
 (define (average x y)
@@ -33,3 +33,13 @@
 
 (define (fixed-point-of-transform g transform guess)
   (fixed-point (transform g) guess))
+
+(define (cube x) (* x x x))
+(define (cubic a b c)
+  (lambda (x)
+          (+ (* a (cube x))
+             (* b (square x))
+             c)))
+
+((cubic 1 0 0) 2)
+(newtons-method (cubic 1 0 0) 1)
