@@ -670,7 +670,6 @@ The number of steps required to find the root grows logarithmic in relation to s
 of starting interval. Here is example from book.
 
 ```scheme
-
 (define (search f neg-point pos-point)
   (let ((midpoint (average neg-point pos-point)))
         
@@ -833,9 +832,6 @@ define a function that can be solved and to solve it. And this can be used to re
 the square root function.
 
 ```scheme
-(define (fixed-point-of-transform g transform guess)
-  (fixed-point (transform g) guess))
-
 (define (sqrt x)
   (fixed-point-of-transform (lambda (y) (/ x y))
                             average-damp
