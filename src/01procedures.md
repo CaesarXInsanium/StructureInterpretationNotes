@@ -1,9 +1,5 @@
 # Abstractions with Procedures
 
-[Lecture 1A](https://www.youtube.com/watch?v=eJeMOEiHv8c)
-
-[Lecture 1B](https://www.youtube.com/watch?v=-J_xL4IGhJA&list=PLE18841CABEA24090&index=1)
-
 A process is an idea of a set of events occurring under the direction of a program.
 
 Lips was invited as a way to express computational thought in a manner using recursion
@@ -12,6 +8,12 @@ While it used to be slow it became able to translate directly to machine code in
 order to get that boost in performance. It can now be used in production and as
 an extension language. In lisp, data and function can be both be returned from
 function calls.
+
+## Relevant Lectures
+
+[Lecture 1A](https://www.youtube.com/watch?v=eJeMOEiHv8c)
+
+[Lecture 1B](https://www.youtube.com/watch?v=-J_xL4IGhJA&list=PLE18841CABEA24090&index=1)
 
 ## Elements of Programming
 
@@ -121,7 +123,7 @@ completeness and is basis for any for decision-making. Here are some examples.
 
 ```scheme
 (define (abs x)
-  (cond ((> x 0) x) ;; i thing cond keyword is akin to switch statement
+  (cond ((> x 0) x) ;; this function is very similar to switch statement from C
         ((= x 0) 0)
         ((< x 0) (-x))))
 (define (abs x)
@@ -171,7 +173,7 @@ We see the base form for a conditional statement in lisp.
 Procedure Abstraction should allow for encapsulation of lower level procedure and
 joining them together in order to make larger procedures. Naming arguments generally
 does not matter to user of a procedure. All that matters is that the function is
-correct and return need value.
+correct and returns needed value.
 
 Lisp also allows defining private procedures inside other procedures in order
 to be able to maintain a specific procedure that is important to working of public
@@ -202,7 +204,7 @@ Lisp allows reasoning about and build procedures as if they were mathematical ex
 The definition of factorial is as follows
 
 $$
-n! = n *(n - 1)*(n -2) ...3*2*1
+n! = n * (n - 1) * (n -2) ...3 * 2 * 1
 $$
 
 From this it is logical to assume that *n* factorial is equal to *n* times *n* minus
@@ -324,15 +326,6 @@ Here it is in scheme.
     (* b ( expt b (- n 1)))))
 ```
 
-Here it is in Clojure
-
-```clojure
-(defn expt [b n]
-  (if (= n 0)
-    1
-    (* b ( expt b (- n 1)))))
-```
-
 It is possible to make a faster procedure by simply using a different algorithm.
 It can be done using the idea that certain value can be reached faster. For example
 take following expression.
@@ -341,7 +334,7 @@ $$
 b^4 = b^2 * b^2
 $$
 
-Using this \\(b^8\\) can be calculated much faster. Here is an implementation.
+Using this $$ b^8 $$ can be calculated much faster. Here is an implementation.
 
 ```scheme
 (define (fast-expt b n)
@@ -357,8 +350,8 @@ to logarithmic because each exponent jump is bigger the deeper the recursion goe
 
 Greatest Common Divisor or GCD is defined as the largest integers that divides
 integers A and B. Meaning that there are integers x and y such that
-\\( x *GCD =A \\)
-and \\( y* GCD =  B \\)
+$$ x *GCD =A $$
+and $$ y* GCD =  B $$
 
 Finding the GCD is simple since one can take the recursive definition.
 
@@ -543,8 +536,8 @@ the integral of a function.
 
 ### Constructing Procedures Using Lambda
 
-Scheme allows for a methods of defining simple single use functions without giving
-them names. This are `lambda`, anonymous function that are a definition of a function
+Scheme allows for methods of defining simple single use functions without giving
+them names. These are `lambda`, anonymous function that are a definition of a function
 that does one simple thing and developer forgets about them.
 
 ```scheme
@@ -586,7 +579,7 @@ Using the `let` keyword is useful in defining variables with limited scope in or
 to pollute namespace. Taking the mathematical expression
 
 $$
-f(x, y) = x(1 + (x * y))^2 +y(1-y) + (1+(x * y))(1-y)
+f(x, y) = x(1 + (x * y))^2 + 1 y (1 - y) + ( 1 + (x * y))(1 - y)
 $$
 
 can be simplified to
