@@ -58,3 +58,5 @@ and combined `additively`
 ## Relevant Lectures
 
 [Lecture 2B](https://www.youtube.com/watch?v=DrFkf-T-6Co&t=3722s)
+
+> on 56:47
