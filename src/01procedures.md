@@ -15,6 +15,8 @@ function calls.
 
 [Lecture 1B](https://www.youtube.com/watch?v=-J_xL4IGhJA&list=PLE18841CABEA24090&index=1)
 
+[Lecture 2A](https://youtu.be/eJeMOEiHv8c?list=PLE18841CABEA24090)
+
 ## Elements of Programming
 
 Programming languages can be used to express ideas about instructions that we want

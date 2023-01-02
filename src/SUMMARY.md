@@ -2,7 +2,7 @@
 
 - [Building Abstractions with Procedures](./01procedures.md)
 - [Building Abstractions with Data](./02intro.md)
-  - [Introduction to Data Abstraction](./02data_abstrations.md)
+  - [Introduction to Data Abstraction](./02data_abstractions.md)
   - [Hierarchical Data and Closure Property](./02hierarchy_closure.md)
   - [Symbolic Data](./02symbolic_data.md)
   - [Multiple Representations of Abstract Data](./02abstract_representation.md)

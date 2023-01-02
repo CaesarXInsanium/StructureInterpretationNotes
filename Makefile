@@ -15,9 +15,17 @@ NOTES_DIR=src
 PANDOC_BUILD_DIR=pandoc
 TARGET=StructureAndInterpretationNotes
 
+CHAP02 := \
+		  src/02intro.md \
+		  src/02data_abstractions.md \
+		  src/02hierarchy_closure.md \
+		  src/02abstract_representation.md \
+		  src/02generic_operations.md \
+
 ALL_NOTES := \
 	src/SUMMARY.md \
-	src/01procedures.md
+	src/01procedures.md \
+	$(CHAP02)
 
 .PHONY: all clean
 
