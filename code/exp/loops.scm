@@ -22,3 +22,7 @@
 
 
 (repeat 0 10 num)
+
+(define (f x)
+  (let ((square (lambda (x) (* x x))))
+       (+ (square x) + 0)))
