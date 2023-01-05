@@ -16,4 +16,17 @@
 
 (make-point 0 0)
 (print-point (make-point 1 2))
-  
+
+(define (midpoint-segment s)
+  (let ((start (start-segment s))
+        (end (end-segment s)))
+       (let ((x1 (x-point start))
+             (x2 (x-point end))
+             (y1 (y-point start))
+             (y2 (y-point end)))
+            (make-point (/ (+ x1 x2) 2)
+                        (/ (+ y1 y2) 2)))))
+(let ((p (make-point 1 1))
+      (q (make-point 0 0)))
+     (let ((s (make-segment p q)))
+          (print-point (midpoint-segment s))))
