@@ -102,3 +102,18 @@ when we need to find the greatest common divisor, do we reduce it at constructio
 or evaluate it whenever we need to access to perform some other action.
 
 These questions have be answered by the one implementing an abstract data interface.
+
+## 2.1.3
+
+In this chapter we have defined data structures and procedures that function purely
+on the creator of a data structure on methods to obtain specific data based
+on the abstract definition of the data structure it is supposed to represent.
+
+This brings up the question, what is data. This data must be able to satisfy the
+definitions that are defined by the program given the methods. A data structure
+must satisfy the condition the numerator and denominator are equal to relevant
+rational number that it is representing.
+
+The constructor and getters of a data structure must be usable in a way that they
+can work as the basis for which other methods can be implemented, with no regards
+for implementation.
