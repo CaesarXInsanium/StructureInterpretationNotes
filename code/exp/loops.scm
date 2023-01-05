@@ -1,8 +1,3 @@
-;; #lang scheme
-;; -*- geiser-scheme-implementation: guile -*-
-
-;; really
-
 (define (num n)
   (display "Loop Number")
   (display n)
