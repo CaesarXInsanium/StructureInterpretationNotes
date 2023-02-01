@@ -59,4 +59,6 @@ and combined `additively`
 
 [Lecture 2B](https://www.youtube.com/watch?v=DrFkf-T-6Co&t=3722s)
 
-> on 56:47
+[Lecture 3A](https://www.youtube.com/watch?v=PEwZL3H2oKg&list=PLE18841CABEA24090&index=5)
+
+> on 08:00

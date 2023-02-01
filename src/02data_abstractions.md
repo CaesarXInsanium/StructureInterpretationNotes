@@ -103,7 +103,7 @@ or evaluate it whenever we need to access to perform some other action.
 
 These questions have be answered by the one implementing an abstract data interface.
 
-## 2.1.3
+## 2.1.3 What is Meant by Data?
 
 In this chapter we have defined data structures and procedures that function purely
 on the creator of a data structure on methods to obtain specific data based
@@ -117,3 +117,40 @@ rational number that it is representing.
 The constructor and getters of a data structure must be usable in a way that they
 can work as the basis for which other methods can be implemented, with no regards
 for implementation.
+
+The scheme function `cons`, `car` and `pair` all work in this same methodology.
+These function have a hidden implementation, but it does not matter since they satisfy
+the conditions and definitions of the abstract pair data structure.
+
+It is possible to implement these functions using simple scheme code. Usually scheme
+implementations do not work this way, but it is possible.
+
+```scheme
+(define (cons x y)
+  (define (dispatch m)
+    (cond ((= m 0) x)
+          ((= m 1) y)
+          (else (error "Argument not 0 or 1 -- CONS" m))))
+  dispatch)
+
+(define (car z) (z 0))
+(define (cdr z) (z 1))
+```
+
+Using procedures to represent abstract compound data is one way to implement at them.
+This method is called 'message passing'.
+
+### 2.1.4 Extended Exercise Interval Arithmetic
+
+System is being designed with ability to control the level of precision in the computation.
+This must be able to compute electrical resistance given resistors strength. The
+thing is that resistors come in different levels of guarantee on how effective.
+
+```scheme
+(define (resistance r1 r2)
+  (/ 1 
+     (+ (/ 1 r1)
+        (/ 1 r2))))
+```
+
+

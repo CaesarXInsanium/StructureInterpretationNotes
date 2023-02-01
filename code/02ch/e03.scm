@@ -17,6 +17,7 @@
   (display (x-point p))
   (display ",")
   (display (y-point p))
+
   (display ")"))
 
 ;; Segments
@@ -31,19 +32,19 @@
 (define (get-length s)
   (let ((start (start-segment s))
         (end (end-segment s)))
-       (let ((x1 (x-point start))
-             (x2 (x-point end))
-             (y1 (y-point start))
-             (y2 (y-point end)))
-            (sqrt (+ (square (- x2 x1))
-                    (square (- y2 y1)))))))
+    (let ((x1 (x-point start))
+          (x2 (x-point end))
+          (y1 (y-point start))
+          (y2 (y-point end)))
+      (sqrt (+ (square (- x2 x1))
+               (square (- y2 y1)))))))
 
 (define (get-line-slope s)
   (let ((dy (- (y-point (end-segment s)) (y-point (start-segment s))))
         (dx (- (x-point (end-segment s)) (x-point (start-segment s)))))
-       (let ((slope (/ dy dx)))
-         slope)))
-         
+    (let ((slope (/ dy dx)))
+      slope)))
+
 
 (define (is-parallel s1 s2)
   (= (get-line-slope s1) (get-line-slope s2)))
@@ -51,7 +52,7 @@
 (define (is-perpindicular s1 s2)
   (let ((m1 (get-line-slope s1))
         (m2 (get-line-slope s2)))
-       (= s1 (- 0 s2))))
+    (= s1 (- 0 s2))))
 
 ;; RECT
 ;; Rectangles can be define as two lines parallel lines of equal lenght
@@ -68,12 +69,12 @@
 (define (get-perimeter r)
   (let ((a (get-length (side-a r)))
         (b (get-length (side-b r))))
-       (* (+ a b) 2)))
+    (* (+ a b) 2)))
 
 (define (get-area r)
   (let ((a (get-length (side-a r)))
         (b (get-length (side-b r))))
-       (* a b)))
+    (* a b)))
 
 (define rek (make-rekt (make-segment (make-point 2 2) (make-point 4 2))
                        (make-segment (make-point 2 7) (make-point 4 7))))
