@@ -1,6 +1,14 @@
+(define (make-interval a b) (cons a b))
+(define (lower-bound x) (min (car x) (cdr x)))
+(define (upper-bound x) (max (car x) (cdr x)))
+
 (define (add-interval x y)
   (make-interval (+ (lower-bound x) (lower-bound y))
                  (+ (upper-bound x) (upper-bound y))))
+
+(define (sub-interval x y)
+  (make-interval (- (lower-bound x) (lower-bound y))
+                 (- (upper-bound x) (upper-bound y))))
 
 (define (mul-interval x y)
   (let ((p1 (* (lower-bound x) (lower-bound y)))
@@ -14,8 +22,15 @@
   (mul-interval x (make-interval (/ 1.0 (upper-bound y))
                                  (/ 1.0 (lower-bound y)))))
 
-(define (resistance r1 r2)
-  (/ 1 (+ (/ 1 r1)
-          (/ 1 r2))))
+(define (width x) (/ (- (upper-bound x) (lower-bound x)) 2))
 
-(resistance 3 4)
+(define x (make-interval 1 0))
+(width x)
+(define y (make-interval 4 9))
+(width y)
+(define z (add-interval x y))
+(width z)
+
+(define t (sub-interval x y))
+(width t)
+(width (mul-interval x y))
