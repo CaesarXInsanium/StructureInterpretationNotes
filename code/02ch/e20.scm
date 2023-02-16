@@ -42,16 +42,14 @@
 
 (define (parity? x y) (or (= x y) (= (remainder x 2) (remainder y 2))))
 
-(define (same-parity-inner x items)
-  (if (not (null? items))
-      (if (parity? x (car items))
-          (cons (car items) (same-parity-inner x (cdr items)))
-          (same-parity-inner x (cdr items)))
-      nil))
-
 (define (same-parity x . items)
-
-  (cons x (same-parity-inner x items)))
+  (define (parity x items)
+    (if (not (null? items))
+        (if (parity? x (car items))
+            (cons (car items) (parity x (cdr items)))
+            (parity x (cdr items)))
+        nil))
+  (cons x (parity x items)))
 
 (same-parity 1 2 3 4 5 6 7)
 (same-parity 2 3 4 5 6 7)

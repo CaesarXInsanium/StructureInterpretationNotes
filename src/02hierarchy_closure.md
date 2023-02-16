@@ -71,3 +71,36 @@ a new list with a new element added.
       list2
       (cons (car list1) (append (cdr list1) list2))))
 ```
+
+### Mapping Over Lists
+
+One useful function is to take a list and apply a transformation on each item and
+generate a new list. The scheme `map` function is for this purpose. This is a higher
+order procedure.
+
+```scheme
+(define nil '())
+(define (map proc items)
+  (if (null? items)
+      nil
+      (cons (proc (car items))
+            (map proc (cdr items)))))
+
+;; Scheme Standard defines a map function that takes in a procedure of n parameters
+;; and with n lists of same length
+(map (lambda (x y z) (+ x y z)) (list 1 2 3) (list 4 5 6) (list 7 8 9))
+```
+
+Other functions can then be defined in terms of this map function.
+
+```scheme
+(define (scale-list items factor)
+  (map (lambda (x) (* factor x)) items))
+```
+
+The key concept here are the layers of abstraction that hides away the complexities
+in order to allow programmer to work on the their program instead of their implementation.
+
+Abstraction allows for using a high level concept without regards to implementation
+and allows and a change in implementation should not result in change in behaviour
+for the use to deal with.
