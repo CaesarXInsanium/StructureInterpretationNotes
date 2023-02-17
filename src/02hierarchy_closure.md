@@ -99,8 +99,37 @@ Other functions can then be defined in terms of this map function.
 ```
 
 The key concept here are the layers of abstraction that hides away the complexities
-in order to allow programmer to work on the their program instead of their implementation.
+in order to allow programmer to work on their program instead of their implementation.
 
 Abstraction allows for using a high level concept without regards to implementation
-and allows and a change in implementation should not result in change in behaviour
+and allows and a change in implementation should not result in change in behavior
 for the use to deal with.
+
+### 2.2.2 Hierarchical Structures
+
+The `cons` function allows for the holding of more than just numbers, other cons
+boxes can hold more cons boxes. This allows for a rudimentary tree to be defined
+and used. Cons boxes can hold indefinite levels of cons boxes.
+
+```scheme
+(cons (cons 1 2)
+      (cons 3 4))
+```
+
+Tree structures lend themselves easily to recursion since operations on entire trees
+can be simplified to operations on branches and then to leaves. Deciding weather
+or not an object is a pair can be made easy with the scheme function `pair?`
+
+```scheme
+(pair? (cons 1 2)) => #t
+```
+
+A simple procedure for recursively counting the number of leaves on a tree is shown.
+
+```scheme
+(define (count-leaves x)
+  (cond ((null? x) o)
+        ((not (pair? x)) 1)
+        (else (+ (count-leaves (car x))
+                 (count-leaves (cdr x))))))
+```
