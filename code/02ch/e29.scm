@@ -38,6 +38,7 @@
 (total-weight mm)
 
 ;;; Part C
+;; Incorrect since I did no use torque in my calculations
 
 (define (mobile-balanced? mobile)
   (let ((left (left-branch mobile))
