@@ -31,14 +31,6 @@
 (define z (list 3 (list 4 5)))
 
 (define (fringe items)
-  (if (null? items)
-      nil
-      (cons (if (list? (car items))
-                (fringe (car items))
-                (car items))
-            (fringe (cdr items)))))
-
-(define (fringe items)
   (if (and (not (null? items)) list? items)
       (let ((head (car items)))
         (cond ((list? head) (append (fringe head) 
