@@ -133,3 +133,30 @@ A simple procedure for recursively counting the number of leaves on a tree is sh
         (else (+ (count-leaves (car x))
                  (count-leaves (cdr x))))))
 ```
+
+#### Mapping Over Trees
+
+The `map` procedure is a powerful concept that can be used in order to define
+a way to create a new list using the elements of an existing list and applying
+a procedure to build it. A procedure to apply the same idea to trees should not
+be difficult to imagine.
+
+```scheme
+;; Here is test procedure to apply an operation accrross every object in a tree
+(define (scale-tree tree factor)
+  (cond ((null? tree) nil)
+        ((not (pair? tree)) (* tree factor))
+        (else (cons (scale-tree (car tree) factor)
+                    (scale-tree (cdr tree) factor)))))
+```
+
+Then we can build a procedure that abstract away from of the details and leaves
+a simple interface.
+
+```scheme
+(define (tree-map proc tree)
+  (cond ((null? tree) nil)
+        ((not (pair? tree)) (proc tree))
+        (else (cons (tree-map proc (car tree))
+                    (tree-map proc (cdr tree))))))
+```
