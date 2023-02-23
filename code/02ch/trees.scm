@@ -22,8 +22,16 @@
 (define (scaled-tree tree factor)
   (map (lambda (sub-tree)
          (if (pair? sub-tree)
-           (scaled-tree sub-tree factor)
-           (* sub-tree factor)))
+             (scaled-tree sub-tree factor)
+             (* sub-tree factor)))
        tree))
 
 (scaled-tree (list 1 (list 2 (list 3 4) 5) (list 6 7)) 10)
+
+(define (enumurate-tree tree)
+  (cond ((null? tree) nil)
+        ((not (pair? tree)) (list tree))
+        (else (append (enumurate-tree (car tree))
+                      (enumurate-tree (cdr tree))))))
+
+(enumurate-tree (list 1 (list 2 (list 3 4) ) 5))

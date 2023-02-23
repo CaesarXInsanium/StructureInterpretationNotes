@@ -61,4 +61,4 @@ and combined `additively`
 
 [Lecture 3A](https://www.youtube.com/watch?v=PEwZL3H2oKg&list=PLE18841CABEA24090&index=5)
 
-> on 28:38
+> on 27:00

@@ -160,3 +160,124 @@ a simple interface.
         (else (cons (tree-map proc (car tree))
                     (tree-map proc (cdr tree))))))
 ```
+
+### 2.2.3 Sequences as Conditional Interfaces
+
+Conventional Interfaces are used in order to design data in a way to solve a partifular
+problem without regards to underlying implementations. This allows for internal
+representation to change and as long as behavior does not change this allows for
+user to continue using the data with no worry.
+
+For example given the two programs.
+
+```scheme
+(define (even-fibs n)
+  (define (next k)
+    (if (> k n)
+        nil
+        (let ((f (fib k)))
+          (if (even? f)
+              (cons f (next (+ k 1)))
+              (next (+ k 1))))))
+  (next 0))
+
+(define (sum-odd-squares tree)
+  (cond ((null? tree) 0)
+        ((not (pair? tree)) (if (odd? tree) (square tree) 0))
+        (else (+ (sum-odd-squares (car tree))
+                 (sum-odd-squares (cdr tree))))))
+```
+
+These follow a similar pattern in that follow similar steps
+
+- travel through the different leaves
+- selects them based on criteria
+- accumulates the results
+
+In there are steps of enumeration, mapping and accumulation. However, the different
+is the order in which steps are done.
+
+#### Sequence Operations
+
+One way to think about this is laid out big the book in which each number or
+leave that is traversed is a signal, and they must be processed, filtered and measured
+in order to be useful.
+
+Defining signals as simply lists allow us to simply `map` over them in order to
+process them.
+
+```scheme
+(map square (list 1 2 3 4 5))
+```
+
+Filtering can be easily implemented for lists.
+
+```scheme
+(define nums (list 1 2 3 4 5 6))
+
+(define (filter predicate sequence)
+  (cond ((null? sequence) nil)
+        ((predicate (car sequence))
+         (cons (car sequence)
+               (filter predicate (cdr sequence))))
+        (else (filter predicate (cdr sequence)))))
+
+;; usage like so
+(filter odd? nums) ;; => (1 3 5)
+```
+
+Accumulation
+
+```scheme
+(define (accumulate op initial sequence)
+  (if (null? sequence)
+      initial
+      (op (car sequence)
+          (accumulate op initial (cdr sequence)))))
+
+(accumulate + 0 nums);; => 21
+```
+
+Final thing need for implementation of signal processing is the enumeration for
+numbers and trees.
+
+```scheme
+(define (enumurate-interval low high)
+  (if (> low high)
+    nil
+    (cons low (enumurate-interval (+ low 1) high))))
+
+(define (enumurate-tree tree)
+  (cond ((null? tree) nil)
+        ((not (pair? tree)) (list tree))
+        (else (append (enumurate-tree (car tree))
+                      (enumurate-tree (cdr tree))))))
+```
+
+The same procedures can now be implemented in terms of these functions.
+One may notice that each procedure is a sequence of operations. Designing
+programs in a modular and sequential way allows for easy modularity in by allowing
+a library of components that can then be stringed together in order to solve a
+problem.
+
+```scheme
+;; Gives of the squares of fibanacchi numbers
+(define (list-of-fib-square n)
+  (accumulate cons nil (map square
+                            (map fib (enumurate-interval 0 n)))))
+
+;; Squares the odd elements and multiplies them together
+(define (product-of-squares-of-odd-elements sequence)
+  (accumulate * 1 (map square
+                       (filter odd? sequence))))
+
+;; Example on how joining these operations can be used in order to solve real
+;; world problems. This reminds me of SQL selector operations
+(define (salary-of-higher-paid-programmer records)
+  (accumulate max 0 (map salary
+                         (filter programmer? record))))
+```
+
+Moral of the story here, if one sees a low of repeating code the goal is to abstract
+what is possible into a modular procedure that can be called with arguments
+being the differentiation part of the thing.
