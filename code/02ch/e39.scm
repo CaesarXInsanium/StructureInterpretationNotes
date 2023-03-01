@@ -17,10 +17,20 @@
             (cdr rest))))
   (iter initial sequence))
 
+(define (enumurate-tree tree)
+  (cond ((null? tree) nil)
+        ((not (pair? tree)) (list tree))
+        (else (append (enumurate-tree (car tree))
+                      (enumurate-tree (cdr tree))))))
+
 ;; Begin
 
 (define (reverse sequence)
-  (fold-right (lambda (x y) (newline)) nil sequence))
+  (fold-right (lambda (x y) (enumurate-tree (list y x))) nil sequence))
 
-(define (reverse sequence)
-  (fold-left (lambda (x y) (newline)) nil sequence))
+(reverse (list 1 2 3 4 5 6))
+
+(define (reversed sequence)
+  (fold-left (lambda (x y) (cons y x)) nil sequence))
+
+(reversed (list 12 13 14 15 16 17))

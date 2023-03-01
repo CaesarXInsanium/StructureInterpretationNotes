@@ -281,3 +281,68 @@ problem.
 Moral of the story here, if one sees a low of repeating code the goal is to abstract
 what is possible into a modular procedure that can be called with arguments
 being the differentiation part of the thing.
+
+#### Nested Mappings
+
+It is possible to use the mapping and accumulated procedures in order to device
+a way of implementing nested for loops. For each value of *i* and then for each
+value of *j*. The method for applying this is to generate a list of the relevant
+indexes, then mapping over and filtering relevant values and finally generate
+a sequence of the answers that we are looking for.
+
+In the example problem, we are trying to find all the unique pairs of *i* and *j*
+such that their sum is a prime number.
+
+```scheme
+;; Generate pairs of indices
+(define (gen-pairs n) 
+  (accumulate append
+              nil
+              (map (lambda (i) 
+                     (map (lambda (j)
+                            (list i j))
+                          (enumurate-interval 1 (- i 1))))
+                   (enumurate-interval 1 n))))
+
+(define (flatmap proc seq)
+  (accumulate append nil (map proc seq)))
+
+;; Filter Function
+(define (prime-sum? pair)
+  (prime? (+ (car pair) (cadr pair))))
+
+;; Generate list with pairs and their sum
+(define (make-pair-sum pair)
+  (list (car pair) (cadr pair) (+ (car pair) (cadr pair))))
+
+;; Final Generate the actual list, final answer
+(define (prime-sum-pairs n)
+  (map make-pair-sum (filter prime-sum?
+                             (flatmap (lambda (i)
+                                        (map (lambda (j) (list i j))
+                                             (enumurate-interval 1 (- i 1))))
+                                      (enumurate-interval 1 n)))))
+```
+
+Using nested mapping allow for easy generation of permutations and combinations.
+Generating permutations can be achieved with this simple procedure.
+
+```scheme
+(define (remove item sequence)
+  (filter (lambda (x) (not (= x item))) sequence))
+
+(define (permutations s)
+  (if (null? s)
+      (list nil)
+      (flatmap (lambda (x)
+                 (map (lambda (p)
+                        (cons x p))
+                      (permutations (remove x s))))
+               s)))
+
+(permutations (list 1 2 3))
+```
+
+This allows use to more easily work with nested mappings so that the code
+the deals with the nested mapping is separate from the code the deals with
+generating the nested data structures that the nested maps work with.
