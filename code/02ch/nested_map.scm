@@ -27,9 +27,11 @@
       (cons (car list1) (append (cdr list1) list2))))
 
 (define (enumurate-interval low high)
-  (if (> low high)
+  (if (>= low high)
       nil
       (cons low (enumurate-interval (+ low 1) high))))
+
+(enumurate-interval -3 3)
 
 ;; Begin
 

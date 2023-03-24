@@ -346,3 +346,7 @@ Generating permutations can be achieved with this simple procedure.
 This allows use to more easily work with nested mappings so that the code
 the deals with the nested mapping is separate from the code the deals with
 generating the nested data structures that the nested maps work with.
+
+#### Example: A Picture Language
+
+After watching the lecture. This book will go into indefinite hiatus
