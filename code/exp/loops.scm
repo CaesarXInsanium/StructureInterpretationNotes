@@ -21,3 +21,8 @@
 (define (f x)
   (let ((square (lambda (x) (* x x))))
        (+ (square x) + 0)))
+
+(define (relu x)
+        (if (> x 0) 
+            0 
+            x))

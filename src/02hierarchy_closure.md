@@ -285,20 +285,20 @@ being the differentiation part of the thing.
 #### Nested Mappings
 
 It is possible to use the mapping and accumulated procedures in order to device
-a way of implementing nested for loops. For each value of *i* and then for each
-value of *j*. The method for applying this is to generate a list of the relevant
+a way of implementing nested for loops. For each value of _i_ and then for each
+value of _j_. The method for applying this is to generate a list of the relevant
 indexes, then mapping over and filtering relevant values and finally generate
 a sequence of the answers that we are looking for.
 
-In the example problem, we are trying to find all the unique pairs of *i* and *j*
+In the example problem, we are trying to find all the unique pairs of _i_ and _j_
 such that their sum is a prime number.
 
 ```scheme
 ;; Generate pairs of indices
-(define (gen-pairs n) 
+(define (gen-pairs n)
   (accumulate append
               nil
-              (map (lambda (i) 
+              (map (lambda (i)
                      (map (lambda (j)
                             (list i j))
                           (enumurate-interval 1 (- i 1))))
@@ -348,5 +348,3 @@ the deals with the nested mapping is separate from the code the deals with
 generating the nested data structures that the nested maps work with.
 
 #### Example: A Picture Language
-
-After watching the lecture. This book will go into indefinite hiatus

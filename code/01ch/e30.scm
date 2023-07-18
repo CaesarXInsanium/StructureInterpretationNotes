@@ -1,11 +1,11 @@
 (define (even? n)
-        (= (remainder n 2) 0))
+        (= (remainder n 2) 0)
 
-(define (sum term a next b)
-        (if (> a b)
-            0
-            (+ (term a)
-               (sum term (next a) next b))))
+ (define (sum term a next b)
+         (if (> a b)
+             0
+             (+ (term a)
+                (sum term (next a) next b)))))
 
 ;; I managed to figure this one out myself. if you dont believe me then
 ;; Freak off
