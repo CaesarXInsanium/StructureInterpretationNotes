@@ -163,7 +163,7 @@ a simple interface.
 
 ### 2.2.3 Sequences as Conditional Interfaces
 
-Conventional Interfaces are used in order to design data in a way to solve a partifular
+Conventional Interfaces are used in order to design data in a way to solve a particular
 problem without regards to underlying implementations. This allows for internal
 representation to change and as long as behavior does not change this allows for
 user to continue using the data with no worry.
