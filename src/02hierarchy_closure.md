@@ -347,4 +347,23 @@ This allows use to more easily work with nested mappings so that the code
 the deals with the nested mapping is separate from the code the deals with
 generating the nested data structures that the nested maps work with.
 
-#### Example: A Picture Language
+#### 2.2.4 Example: A Picture Language
+
+We are introduced to a hypothetical picture language that makes use of the concept
+of a painter. If a painter is given a rectangle, it will attempt to draw an image
+on it given a set definitions of a rectangle and treats it as a canvas. Painters
+can be stacked on top of each other in a form of closure. It can use the lisp programming
+language in order to satisfy this closure property.
+
+The closure property refers to ability of express the idea that complex things can
+be built using simple things. It is possible to generate very complex patterns by
+the different procedures that act on the painter.
+
+Higher order operations can be achieved with procedure generators. The power lies
+in lisp's ability to create entirely new languaghes.
+
+I am able to use the picture language and test it out using DrRacket and the SCIP
+pacakge.
+
+The lecture talks about the closure property. From I can follow I only need to implement
+some very basic primitives in order to implement the full stack of the picture language.
