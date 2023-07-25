@@ -360,10 +360,13 @@ be built using simple things. It is possible to generate very complex patterns b
 the different procedures that act on the painter.
 
 Higher order operations can be achieved with procedure generators. The power lies
-in lisp's ability to create entirely new languaghes.
+in lisp's ability to create entirely new languages.
 
 I am able to use the picture language and test it out using DrRacket and the SCIP
-pacakge.
+package.
 
 The lecture talks about the closure property. From I can follow I only need to implement
 some very basic primitives in order to implement the full stack of the picture language.
+
+Frames are a definition of rectangles/canvas that are painter. A painter is an
+object that when painted draws a picture.
