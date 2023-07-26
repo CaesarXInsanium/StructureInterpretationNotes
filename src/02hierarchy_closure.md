@@ -370,3 +370,4 @@ some very basic primitives in order to implement the full stack of the picture l
 
 Frames are a definition of rectangles/canvas that are painter. A painter is an
 object that when painted draws a picture.
+

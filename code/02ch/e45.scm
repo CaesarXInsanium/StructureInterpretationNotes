@@ -1,3 +1,6 @@
+;; Wrong? YES!!
+;; I forgot to define nth level recursion
+;; I should of have tested
 (define (beside painter) (+ 1 painter))
 (define (below painter) (- 1 painter))
 

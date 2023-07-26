@@ -17,10 +17,13 @@
                       (scale-vec (vecy v)
                                  (edge2-frame frame))))))
 
-(define (frame-coord))
 
+(define (make-frame origin edge1 edge2)
+        (list origin edge1 edge2))
 
-(define (make-frame origin
-                    edge1
-                    edge2
-                (list origin edge1 edge2)))
+(define (segments->painter segment-list)
+  (lambda (frame)
+    (for-each (lambda (segment)
+                (draw-line ((frame-coord-map frame) (start-segment segment))
+                           ((frame-coord-map frame) (end-segment segment))))
+              segment-list)))
