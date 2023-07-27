@@ -371,3 +371,74 @@ some very basic primitives in order to implement the full stack of the picture l
 Frames are a definition of rectangles/canvas that are painter. A painter is an
 object that when painted draws a picture.
 
+```scheme
+;; Allows for creation of a new procedure that represents a linear transformation
+(define (frame-coord-map frame)
+  (lambda (v)
+    (add-vec (origin-frame frame)
+             (add-vec (scale-vec (vecx v)
+                                 (edge1-frame frame))
+                      (scale-vec (vecy v)
+                                 (edge2-frame frame))))))
+
+;; takes list of segments and create a painter that draws line in those represented segments
+(define (segments->painter segment-list)
+  (lambda (frame)
+    (for-each (lambda (segment)
+                (draw-line ((frame-coord-map frame) (start-segment segment))
+                           ((frame-coord-map frame) (end-segment segment))))
+              segment-list)))
+
+```
+
+Using these functions it is possible to define new ways of creating painter objects
+in terms of other painter objects.
+
+```scheme
+
+;; This will create a new painter that will flip the image upside down
+(define (flip-vert painter)
+  (transform-painter painter
+                     (make-vect 0.0 1.0)
+                     (make-vect 1.0 1.0)
+                     (make-vect 0.0 0.0)))
+
+;; self explanatory
+(define (shrink-to-upper-right painter)
+  (transform-painter painter
+                     (make-vect 0.5 0.5)
+                     (make-vect 1.0 0.5)
+                     (make-vect 0.5 1.0)))
+
+(define (rotate90 painter)
+  (transform-painter painter
+                     (make-vect 1.0 0.0)
+                     (make-vect 1.0 1.0)
+                     (make-vect 0.0 0.0)))
+
+(define (squash-invards painter)
+  (transform-painter painter
+                     (make-vect 0.0 0.0)
+                     (make-vect 0.65 0.35)
+                     (make-vect 0.35 0.65)))
+```
+
+And now the all important beside function.
+
+```scheme
+(define (beside painter1 painter2)
+  (let ((split-point (make-vect 0.5 0.0)))
+    (let ((paint-left (transform-painter painter1
+                                         (make-vect 0.0 0.0)
+                                         split-point
+                                         (make-vect 0.0 1.0)))
+          (paint-right (transform-painter painter2
+                                          split-point
+                                          (make-vect 1.0 0.0)
+                                          (make-vect 0.5 1.0))))
+      (lambda (frame)
+        (paint-left frame)
+        (paint-right frame)))))
+```
+
+it is possible to do things
