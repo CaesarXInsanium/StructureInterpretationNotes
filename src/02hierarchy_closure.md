@@ -441,4 +441,14 @@ And now the all important beside function.
         (paint-right frame)))))
 ```
 
-it is possible to do things
+All of this satisfies the closure property. The closure property seems to be an
+ability for lower level primitives
+
+This idea of closure property allows for a `stratified` design in which one level
+solely depends on the lower levels. All computer science is based off of layers
+of abstraction. Lisp allows for language levels to be designed and use based one
+simple primitives the are provides on lower levels.
+
+In theory a change in design or implementation should not have a significant
+effect on the upper layers of the language. There are many examples of this, but
+the picture language is the example given by the book.
