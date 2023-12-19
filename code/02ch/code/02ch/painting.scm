@@ -74,5 +74,3 @@
       (lambda (frame)
         (paint-left frame)
         (paint-right frame)))))
-
-                                          

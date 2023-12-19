@@ -452,3 +452,5 @@ simple primitives the are provides on lower levels.
 In theory a change in design or implementation should not have a significant
 effect on the upper layers of the language. There are many examples of this, but
 the picture language is the example given by the book.
+
+Also the last exercise is skipped.

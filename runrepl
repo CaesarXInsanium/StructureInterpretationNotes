@@ -1,8 +1,0 @@
-#!/bin/sh
-
-set -xe
-
-SOCKET=$(git rev-parse --show-toplevel)/guile.socket
-if [ -f $SOCKET ]; then rm $SOCKET; fi
-guile --listen=$SOCKET
-rm $SOCKET

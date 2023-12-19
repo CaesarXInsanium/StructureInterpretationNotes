@@ -15,17 +15,32 @@ fast enough to my true goal of writing my own Minecraft clone.
 Crafting Interpreters can be read before or after this book.
 
 ** Goals
+- [ ] finish book
+- [ ] learn ORG mode
 - [X] Learn a LISP language
 - [X] learn to code, hard way
 - [X] create a strategy for note-taking
 - [X] create strategy for organizing exercises
 - [X] configure Neovim for Lisp code editing
 - [X] configure Neovim for note-taking.
-  - [ ] configure for ORG documents
-- [ ] attempt to use other editors for writing code
-- [ ] write notes in writing, condense to main ideas in this repo
-- [ ] write compiler in GNU Guild
-- [ ] finish book
+  - [X] configure for ORG documents
+- [X] attempt to use other editors for writing code
+  - sticking to Emacs with Lisp editing tools and Geiser
+- [X] write compiler in GNU Guild
 - [ ] move all notes to Notes to ORG documents
-- [ ] use doom emacs to take notes and write code
-  - [ ] for some reason I can't use the Geiser REPL plugin for stupid reason
+- [ ] switch to my own configured version of emacs
+- [ ] stick to Emacs for SICP, helix for everything and anything that has a proper language server
+
+
+** Example of Scheme Code
+
+#+begin_src scheme
+(define (square x) (* x x))
+(define relu (lambda (x) (if (< x 0)
+                             0
+                             x))))
+(square 3)
+(relu 7)
+(display "Hello World!\n")
+(relu -2)
+#+end_src

@@ -13,3 +13,8 @@
 
 (define l (list 0 1 2 3 4))
 (reverse l)
+
+(define (relu x)
+(if (< x 0)
+    0
+    x))
