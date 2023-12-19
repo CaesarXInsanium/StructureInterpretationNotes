@@ -151,9 +151,7 @@ generates a new list with a new element added.
 #+end_src
 
 *** Mapping Over Lists
-:PROPERTIES:
-:CUSTOM_ID: mapping-over-lists
-:END:
+
 One useful function is to take a list and apply a transformation on each
 item and generate a new list. The scheme =map= function is for this
 purpose. This is a higher order procedure.
@@ -168,10 +166,17 @@ purpose. This is a higher order procedure.
 
 ;; Scheme Standard defines a map function that takes in a procedure of n parameters
 ;; and with n lists of same length
-(map (lambda (x y z) (+ x y z)) (list 1 2 3) (list 4 5 6) (list 7 8 9))
+(map (lambda (x y z)
+       (+ x y z))
+     (list 1 2 3)
+     (list 4 5 6)
+     (list 7 8 9))
 #+end_src
 
-Other functions can then be defined in terms of this map function.
+Other functions can then be defined in terms of this map function. This function
+would take a list of numbers and return a new list with all the numbers multiplied
+against another value.
+
 
 #+begin_src scheme
 (define (scale-list items factor)
@@ -187,13 +192,11 @@ implementation and allows and a change in implementation should not
 result in change in behavior for the use to deal with.
 
 ** 2.2.2 Hierarchical Structures
-:PROPERTIES:
-:CUSTOM_ID: hierarchical-structures
-:END:
+
 The =cons= function allows for the holding of more than just numbers,
 other cons boxes can hold more cons boxes. This allows for a rudimentary
 tree to be defined and used. Cons boxes can hold indefinite levels of
-cons boxes.
+cons boxes. Restricted only by the amount of memory a computer holds.
 
 #+begin_src scheme
 (cons (cons 1 2)
@@ -221,9 +224,7 @@ tree is shown.
 #+end_src
 
 **** Mapping Over Trees
-:PROPERTIES:
-:CUSTOM_ID: mapping-over-trees
-:END:
+
 The =map= procedure is a powerful concept that can be used in order to
 define a way to create a new list using the elements of an existing list
 and applying a procedure to build it. A procedure to apply the same idea
@@ -592,7 +593,7 @@ allows for testing for the equality of symbols.
 #+RESULTS:
 : #t
 
-An implementation of =memq= is possible which checks a list of the precense
+An implementation of =memq= is possible which checks a list for the presence
 of a specific symbol inside of it. If it is not contained then the function
 returns false. If it is contained then the function returns a sublist
 which the item as first entry.
@@ -605,3 +606,7 @@ which the item as first entry.
 
 (memq 'a (list  '0 'banana 'a 'b 'c))
 #+end_src
+
+*** 2.3.2 Example: Symbolic Differentiation
+
+Note: I am assuming that I already did the exercises.
