@@ -609,4 +609,129 @@ which the item as first entry.
 
 *** 2.3.2 Example: Symbolic Differentiation
 
-Note: I am assuming that I already did the exercises.
+One main goals of symbol manipulation using a computer language was the quest for
+algebraic manipulation by a computer. To be more especific the question to find a
+a way to find the derivative of a function and symbolic differentiation. This started
+the development of systems used by physicists and mathmathecians. The book will
+now begin to describe the thought proccess in creating a system for symbol manipulation.
+
+**** Differentiation with Abstract Data
+
+The SICP implementation defines a set of differential properties that are kept in
+mind when beginning to implement a way to find derivative expressions.
+
+- \( \frac{dc}{dx} = 0 \) for any value
+- \( \frac{dx}{dx} = 1 \) identity
+- \( \frac{d(u + v)}{dx} = \frac{du}{dv} + \frac{dv}{dx} \)
+- \( \frac{d(u  v)}{dx} = u  \frac{dv}{dx} + v  \frac{du}{dx} \)
+
+  The third and fourth rules are recursive in nature, it allows for splitting a problem
+  into smaller, more solvable chunks. Further decomposing will produce very simple
+  problems that are easily solvable.
+
+  The most important technique to use is wishful thinking. The first we define
+  a representation for algebraic expressions. Then a way to compose the representations into
+  more complex expressions. Think of this as a way to parse expressions.
+
+#+begin_src scheme
+  ;; Wishful thinking to start off with
+  (variable? e)
+  (same-variable? v1 v2)
+  (sum? e)
+  (addend e)
+  (augend e)
+  (make-sum a1 a2)
+  (product? e)
+  (multiplier e)
+  (multiplicand e)
+  (make-product m1 m2)
+#+end_src
+
+all of these functions must be defined. If we assume that all of these functions
+are defined then we can create a function.
+
+#+begin_src scheme :tangle code/diffentiation.scm :mkdirp yes
+(define (deriv exp var) (cond ((number? exp) 0) ((variable? exp) (if (same-variable? exp-var) 1 0)) ((sum? exp) (make-sum (deriv (addend exp) var)
+                              (deriv (augend exp) var)))
+        ((product? exp)
+         (make-sum (make-product (multiplier exp)
+                                 (deriv (multiplicand exp) var))
+                   (make-product (deriv (multiplier exp) var)
+                                 (multiplicand exp))))
+        (else (error "Unknown expression type -- DERIV"))))
+#+end_src
+
+Now all that we need to do is define all of these relevant functions and values
+now we have a pretty good thing going on. We also need to define the representation
+for the algebraic expressions.
+
+**** Representing Algebraic Expressions
+
+Scheme's symbols are a straight forward way to define the expressions.
+\( ax + b \) becomes =(+ (* a x) b)= very easily. And so they can be defined using
+merely scheme primitives.
+
+#+begin_src scheme :tangle code/diffentiation.scm :mkdirp yes
+(define (variable? x) (symbol? x))
+(define (same-variable? v1 v2)
+  (and (variable? v1) (variable? v2) (eq? v1 v2)))
+
+(define (make-sum a1 a2) (list '+ a1 a2))
+(define (sum? x) (and (pair? x) (eq? (car x) '+)))
+(define (addend x) (cadr x))
+(define (augend x) (caddr x))
+
+(define (make-product m1 m2) (list '* m1 m2))
+(define (product? x) (and (pair? x) (eq? (car x) '*)))
+(define (multiplier p) (cadr p))
+(define (multiplicand p) (caddr p))
+#+end_src
+
+Once we have define all of the functions that we wish to exist, we can
+how we want them to behave and how to organize them in a way that makes
+sense. We can start defining tests for them.
+
+Here is one such example of a test.
+
+#+begin_src scheme
+;; derivative of 3x is 1
+(deriv '(+ x 3) 'x)
+;; (+ 1 0)
+(deriv '(* x y) 'x)
+;; (+ (* x 0) (* 1 y))
+(deriv '(* (x y) (+ x 3)) 'x)
+;; (+ (* (* x y) (+ 1 0)
+;;    (* (+ (* x 0) (* 1 y))
+;;       (+ x 3)))
+#+end_src
+
+The tests here are technically correct however they need to be simplified in order
+to be accepted as proper answers. In order to properly make amends for this issue
+changing that function =deriv= is not neccesary since we can instead change the
+other functions, the lower levels to account for the technicality.
+
+#+begin_src scheme :tangle code/diffentiation.scm :mkdirp yes
+;; required function
+(define (=number? exp num)
+  (and (number? exp) (= exp num)))
+
+(define (make-sum a1 a2)
+  (cond ((=number? a1 0) a2)
+        ((=number? a2 0) a1)
+        ((and (number? a1) (number? a2)) (+ a1 a2))
+        (else (list '+ a1 a2))))
+#+end_src
+
+This change allows for a better following of arithmetic and algebraic rules that
+make sense in a way and allows for simplification of expressions.
+
+#+begin_src scheme :tangle code/diffentiation.scm :mkdirp yes
+(define (make-product m1 m2)
+  (cond ((or (=number? m1 0) (=number? m2 0)) 0)
+        ((=number? m1 1) m2)
+        ((=number? m2 1) m1)
+        ((and (number? m1) (number? m2)) (* m1 m2))
+        (else (list '* m1 m2))))
+#+end_src
+
+These functions allow easier simplification.
