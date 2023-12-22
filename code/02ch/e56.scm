@@ -1,6 +1,7 @@
 ;; fix for defining an exponentiation function
 (define ** expt)
 
+
 (define (variable? x) (symbol? x))
 (define (same-variable? v1 v2)
   (and (variable? v1) (variable? v2) (eq? v1 v2)))
@@ -41,6 +42,7 @@
         (else (error "Unknown expression type -- DERIV"))))
 
 ;; Start Exercise
+;;; purpose was to implement a way to differentiate exponents and stuff
 
 (define (exponentiation? x) (and (pair? x) (eq? (car x) '**)))
 (define (base x) (cadr x))
@@ -50,3 +52,17 @@
         ((and (variable? b) (=number? e 1)) b)
         ((=number? e 0) 1)
         (else (list '** b e))))
+
+(define (deriv exp var)
+  (cond ((number? exp) 0)
+        ((variable? exp) (if (same-variable? exp var) 1 0))
+        ((sum? exp) (make-sum (deriv (addend exp) var)
+                              (deriv (augend exp) var)))
+        ((product? exp) (make-sum (make-product (multiplier exp)
+                                                (deriv (multiplicand exp) var))
+                                  (make-product (deriv (multiplier exp) var)
+                                                (multiplicand exp))))
+        ((exponentiation? exp) (make-product (exponent exp)
+                                             (make-exponentiation (base exp)
+                                                                  (- (exponent exp) 1))))
+        (else (error "Unknown expression type -- DERIV"))))

@@ -651,7 +651,10 @@ all of these functions must be defined. If we assume that all of these functions
 are defined then we can create a function.
 
 #+begin_src scheme :tangle code/diffentiation.scm :mkdirp yes
-(define (deriv exp var) (cond ((number? exp) 0) ((variable? exp) (if (same-variable? exp-var) 1 0)) ((sum? exp) (make-sum (deriv (addend exp) var)
+(define (deriv exp var)
+  (cond ((number? exp) 0)
+        ((variable? exp) (if (same-variable? exp-var) 1 0))
+        ((sum? exp) (make-sum (deriv (addend exp) var)
                               (deriv (augend exp) var)))
         ((product? exp)
          (make-sum (make-product (multiplier exp)
