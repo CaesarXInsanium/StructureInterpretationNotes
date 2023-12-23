@@ -738,3 +738,43 @@ make sense in a way and allows for simplification of expressions.
 #+end_src
 
 These functions allow easier simplification.
+
+*** 2.3.3 Example: Representing Sets
+
+The representation for rational numbers and algebraic expressions might
+of have been straight forward but it would not be for things such as sets.
+For a set is a collection of unique elements. The book will begin with
+defining possible operations and selectors in sets. A set representation
+in scheme will require the implementation of some ideas. It the primitive
+ideas are implementated then more complex ideas based around set theory
+can be very easily be built with those concepts.
+
+Here are some basic procedures for interating with sets.
+
+#+begin_src scheme :tangle code/sets.scm :mkdirp yes
+(define true #t)
+(define false #f)
+
+(define (element-of-set? x set)
+  (cond ((null? set) false)             ; elements cannot be part of empty sets
+        ((equal? x (car set)) true)
+        (else (element-of-set? x (cdr set)))))
+
+;; create new set with added element
+(define (adjoin-set x set)
+  (if (element-of-set? x set)
+      set
+      (cons x set)))
+
+(define (intersection-set set1 set2)
+  (cond ((or (null? set1) (null? set2)) '())
+        ((element-of-set? (car set1) set2)
+         (cons (car set1)
+               (intersection-set (cdr set1) set2)))
+        (else (intersection-set (cdr set1) set2))))
+#+end_src
+
+Efficiency if a require thing to think about since number of steps to
+do anything useful would in theory hamper what sort of things can be done
+in a reasonable amount of time. Here is where asymtotic notation rears its
+ugly head once again since set could be anything.
