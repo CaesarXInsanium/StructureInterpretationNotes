@@ -231,7 +231,7 @@ and applying a procedure to build it. A procedure to apply the same idea
 to trees should not be difficult to imagine.
 
 #+begin_src scheme
-;; Here is test procedure to apply an operation accrross every object in a tree
+;; Here is test procedure to apply an operation across every object in a tree
 (define (scale-tree tree factor)
   (cond ((null? tree) nil)
         ((not (pair? tree)) (* tree factor))
@@ -336,16 +336,16 @@ Final thing need for implementation of signal processing is the
 enumeration for numbers and trees.
 
 #+begin_src scheme
-(define (enumurate-interval low high)
+(define (enumerate-interval low high)
   (if (> low high)
     nil
-    (cons low (enumurate-interval (+ low 1) high))))
+    (cons low (enumerate-interval (+ low 1) high))))
 
-(define (enumurate-tree tree)
+(define (enumerate-tree tree)
   (cond ((null? tree) nil)
         ((not (pair? tree)) (list tree))
-        (else (append (enumurate-tree (car tree))
-                      (enumurate-tree (cdr tree))))))
+        (else (append (enumerate-tree (car tree))
+                      (enumerate-tree (cdr tree))))))
 #+end_src
 
 The same procedures can now be implemented in terms of these functions.
@@ -355,10 +355,10 @@ modularity in by allowing a library of components that can then be
 stringed together in order to solve a problem.
 
 #+begin_src scheme
-;; Gives of the squares of fibanacchi numbers
+;; Gives of the squares of Fibonacci numbers
 (define (list-of-fib-square n)
   (accumulate cons nil (map square
-                            (map fib (enumurate-interval 0 n)))))
+                            (map fib (enumerate-interval 0 n)))))
 
 ;; Squares the odd elements and multiplies them together
 (define (product-of-squares-of-odd-elements sequence)
@@ -398,8 +398,8 @@ In the example problem, we are trying to find all the unique pairs of
               (map (lambda (i)
                      (map (lambda (j)
                             (list i j))
-                          (enumurate-interval 1 (- i 1))))
-                   (enumurate-interval 1 n))))
+                          (enumerate-interval 1 (- i 1))))
+                   (enumerate-interval 1 n))))
 
 (define (flatmap proc seq)
   (accumulate append nil (map proc seq)))
@@ -417,8 +417,8 @@ In the example problem, we are trying to find all the unique pairs of
   (map make-pair-sum (filter prime-sum?
                              (flatmap (lambda (i)
                                         (map (lambda (j) (list i j))
-                                             (enumurate-interval 1 (- i 1))))
-                                      (enumurate-interval 1 n)))))
+                                             (enumerate-interval 1 (- i 1))))
+                                      (enumerate-interval 1 n)))))
 #+end_src
 
 Using nested mapping allow for easy generation of permutations and
@@ -464,7 +464,7 @@ complex patterns by the different procedures that act on the painter.
 Higher order operations can be achieved with procedure generators. The
 power lies in lisp's ability to create entirely new languages.
 
-I am able to use the picture language and test it out using DrRacket and
+I am able to use the picture language and test it out using Dr-Racket and
 the SCIP package.
 
 The lecture talks about the closure property. From I can follow I only
@@ -612,8 +612,8 @@ which the item as first entry.
 One main goals of symbol manipulation using a computer language was the quest for
 algebraic manipulation by a computer. To be more especific the question to find a
 a way to find the derivative of a function and symbolic differentiation. This started
-the development of systems used by physicists and mathmathecians. The book will
-now begin to describe the thought proccess in creating a system for symbol manipulation.
+the development of systems used by physicists and mathematicians. The book will
+now begin to describe the thought process in creating a system for symbol manipulation.
 
 **** Differentiation with Abstract Data
 
@@ -785,5 +785,49 @@ Here are some basic procedures for interating with sets.
 
 Efficiency if a require thing to think about since number of steps to
 do anything useful would in theory hamper what sort of things can be done
-in a reasonable amount of time. Here is where asymtotic notation rears its
+in a reasonable amount of time. Here is where asymptotic notation rears its
 ugly head once again since set could be anything.
+
+**** Sets as Ordered Lists
+
+One way to improve the efficiency of the set representation is to maintain it
+in sorted order. This requires a function that can be used to compare any two elements.
+Such a procedure will need to have a specification in order to deal with any define
+universe of elements. The book will focus on numbers. I have seen this code before
+it is simple binary search.
+
+#+begin_src scheme :tangle code/ordered_set.scm
+(define false #f)
+(define true #t)
+
+(define (element-of-set? x set)
+  (cond ((null? set) false)
+        ((= x (car set)) true)
+        ((< x (car set)) false)
+        (else (element-of-set? x (cdr set)))))
+#+end_src
+
+Blah blah blah the time savings are roughly one half of the expected time spent
+with the previous implementation. The time saving are most apperant with the procedure
+=intersection-set= as as soon as an elements if found to not exist in a set, it stop
+searching for it and begins with the next element.
+
+#+begin_src scheme :tangle code/ordered_set.scm
+(define (intersection-set set1 set2)
+  (if (or (null? set1) (null? set2))
+      '()
+      (let ((x1 (car set1))
+            (x2 (car set2)))
+        (cond ((= x1 x2)
+               (cond ((= x1 x2)
+                      (cons x1
+                            (intersection-set (cdr set1)
+                                              (cdr set2))))
+                     ((< x1 x2)
+                      (intersection-set (cdr set1) set2))
+                     ((< x2 x1)
+                      (intersection-set set1 (cdr set2)))))))))
+#+end_src
+
+The book claims the the increase in effiecieny is linear. I will now do the 61st
+exercise.

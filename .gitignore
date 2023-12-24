@@ -9,3 +9,4 @@ code/02ch/pictures
 /.clj-kondo/
 /.lsp/
 /src/#01procedures.md#
+*.scm#
