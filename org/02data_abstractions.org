@@ -838,4 +838,48 @@ Just as the title suggests the book now represent sets as a binary trees with ea
 node having a number and a two branches, one side has values less than node and other
 side has values greater than node. This would be a binary heap or a binary search tree.
 Nope its a tree. With a tree representation, it is possible to cut the search size
-in half with each comparison, if the key is present in node at all.
+in half with each comparison, if the key is present in tree at all.
+
+The nodes themselves are lists of three items, the item, and the two subtrees. With
+this idea it is possible to immediatly begin representing trees.
+
+#+begin_src scheme :tangle code/binary_tree.scm
+(define (entry tree) (car tree))
+(define (left-branch tree) (cadr tree))
+(define (right-branch tree) (caddr tree))
+
+(define (make-tree entry left right)
+  (list entry left right))
+#+end_src
+
+With this it is already possible to reimplement the =element-of-set= procedure.
+
+#+begin_src scheme :tangle code/binary_tree.scm
+(define false #f)
+(define true #t)
+(define (element-of-set? x set)
+  (cond ((null? set) false)
+        ((= x (entry set)) true)
+        ((< (entry set)) (element-of-set? x (left-branch set)))
+        ((> x (entry set)) (element-of-set? x (right-branch set)))))
+#+end_src
+
+The procedures work. These are the building blocks in order to create fun things
+such as =adjoin-set=
+
+#+begin_src scheme :tangle code/binary_tree.scm
+(define (adjoin-set x set)
+  (cond ((null? set) (make-tree x '() '()))
+        ((= x (entry set)) set)
+        ((< x (entry set)) (make-tree (entry set)
+                                      (adjoin-set x (left-branch set))
+                                      (right-branch set)))
+        ((> x (entry set)) (make-tree (entry set)
+                                      (left-branch set)
+                                      (adjoin-set x (right-branch set))))))
+#+end_src
+
+The tree can be searched in logarightmic time but that is under the assumption
+that the tree itself is balanced, meaing that one side has roughly the same number
+of elements as the other. It could lead to time complexity that is on par with a
+simple sorted linked list, which it is. The solution is to create a method for
