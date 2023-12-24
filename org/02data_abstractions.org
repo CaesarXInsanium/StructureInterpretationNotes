@@ -831,3 +831,11 @@ searching for it and begins with the next element.
 
 The book claims the the increase in effiecieny is linear. I will now do the 61st
 exercise.
+
+**** Sets as Binary Trees
+
+Just as the title suggests the book now represent sets as a binary trees with each
+node having a number and a two branches, one side has values less than node and other
+side has values greater than node. This would be a binary heap or a binary search tree.
+Nope its a tree. With a tree representation, it is possible to cut the search size
+in half with each comparison, if the key is present in node at all.
