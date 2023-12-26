@@ -4,7 +4,10 @@
 Relevant lectures
 - [[https://www.youtube.com/watch?v=DrFkf-T-6Co&t=3722s][Lecture 2B]]
 - [[https://www.youtube.com/watch?v=PEwZL3H2oKg&list=PLE18841CABEA24090&index=5][Lecture 3A]]
+- [[https://www.youtube.com/watch?v=bV87UzKMRtE&list=PLE18841CABEA24090&index=6&t=17s][Lecture 3B]]
 
+I might be lost on where I am supposed to be at with the lectures.
+  
 * 2.1 Introduction of Data Abstraction
 
 Chapter one focused on using elementary data and procedures to construct
@@ -883,3 +886,4 @@ The tree can be searched in logarightmic time but that is under the assumption
 that the tree itself is balanced, meaing that one side has roughly the same number
 of elements as the other. It could lead to time complexity that is on par with a
 simple sorted linked list, which it is. The solution is to create a method for
+keeping the tree balanced in some form. Here we start getting into the exercises.

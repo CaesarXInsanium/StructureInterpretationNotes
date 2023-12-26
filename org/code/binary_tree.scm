@@ -1,3 +1,5 @@
+(define nil '())
+(define dec (lambda (x) (- x 1)))
 (define (entry tree) (car tree))
 (define (left-branch tree) (cadr tree))
 (define (right-branch tree) (caddr tree))
