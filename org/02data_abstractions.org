@@ -887,3 +887,27 @@ that the tree itself is balanced, meaing that one side has roughly the same numb
 of elements as the other. It could lead to time complexity that is on par with a
 simple sorted linked list, which it is. The solution is to create a method for
 keeping the tree balanced in some form. Here we start getting into the exercises.
+
+**** Sets and Information Retrieval
+
+Look at different methods to implement the idea of a set can show how much of an
+impact that the choice of data representation strategy can have an impact on the
+peformance on the program.
+
+When creating a system for managing and searching large volumes of data it is helpful
+to define a method by which a /key/ can be used to search a value. Examples exists
+but the most obvious one is a dictionary. A lookup function is required to make
+use of the key with the dataset.
+
+This implementation assumes that the =set-of-records= is implemented as an unordered
+list. Actual peformace sysmtem will have more thought put into their system with
+a strategy such as a binary search tree.
+
+#+begin_src scheme :tangle code/information_retrieval.scm
+(define key nil)
+(define (lookup given-key set-of-records)
+  (cond ((null? set-of-records) #f)
+        ((equal? given-key (key (car set-of-records)))
+         (car set-of-records))
+        (else (lookup given-key (cdr set-of-records)))))
+#+end_src
