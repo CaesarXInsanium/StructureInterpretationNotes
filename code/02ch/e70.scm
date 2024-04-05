@@ -29,25 +29,18 @@
 
 ;; start: define succesive-merge
 
-(define initial-leaves '(('A . 8)
-                         ('B . 3)
-                         ('C . 1)
-                         ('D . 1)
-                         ('E . 1)
-                         ('F . 1)
-                         ('G . 1)
-                         ('H . 1)))
+(define initial-leaves '(('A . 2)
+                         ('BOOM . 1)
+                         ('GET . 2)
+                         ('JOB . 2)
+                         ('NA . 16)
+                         ('YIP . 9)
+                         ('WAH . 1)))
 
 (define (pair-compare a b)
   (> (cdr a) (cdr b)))
 
 
-(define (find-min l proc)
-  (define (find-min-iter min l proc)
-    (if (null? l) min (if (proc min (car l))
-                          (find-min-iter min (cdr l) proc)
-                          (find-min-iter (car l) (cdr l) proc))))
-  (find-min-iter (car l) l proc))
 
 ;; i give up
 (define (accumulate op initial sequence)
@@ -58,4 +51,3 @@
 
 (define (successive-merge set)
   (accumulate make-code-tree (car set) (cdr set)))
-;; well i dont get it

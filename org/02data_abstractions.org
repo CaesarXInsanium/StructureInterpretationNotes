@@ -5,9 +5,14 @@ Relevant lectures
 - [[https://www.youtube.com/watch?v=DrFkf-T-6Co&t=3722s][Lecture 2B]]
 - [[https://www.youtube.com/watch?v=PEwZL3H2oKg&list=PLE18841CABEA24090&index=5][Lecture 3A]]
 - [[https://www.youtube.com/watch?v=bV87UzKMRtE&list=PLE18841CABEA24090&index=6&t=17s][Lecture 3B]]
+- [[https://www.youtube.com/watch?v=_fXQ1SwKjDg][Lecture 4A]]
+- [[https://www.youtube.com/watch?v=OscT4N2qq7o&t=18s][Lecture 4B]]
 
 I might be lost on where I am supposed to be at with the lectures.
-current location: 4A 10:42
+ never mind the lecture is seperate, or a prefix to 2.3
+Its seems I was correct
+
+current location 4B start
   
 * 2.1 Introduction of Data Abstraction
 

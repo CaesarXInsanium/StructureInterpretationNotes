@@ -1,7 +1,6 @@
 PANDOC=pandoc
 
-PANDOC_OPTIONS= -V 'mainfont:/home/cxi/.fonts/Iosevka\ Nerd\ Font\ Complete.ttf'
-         
+PANDOC_OPTIONS=
 
 PANDOC_HTML_OPTIONS=--to html5
 PANDOC_PDF_OPTIONS=
@@ -30,7 +29,6 @@ ALL_NOTES := \
 .PHONY: all clean
 
 all: pdf
-	
 
 $(PANDOC_BUILD_DIR):
 	mkdir $(PANDOC_BUILD_DIR)
@@ -57,7 +55,6 @@ clean:
 
 %.pdf : %.md
 	$(PANDOC) $(PANDOC_OPTIONS) $(PANDOC_PDF_OPTIONS) -o $@ $<
-	
 %.docx : %.md
 	$(PANDOC) $(PANDOC_OPTIONS) $(PANDOC_DOCX_OPTIONS) -o $@ $<
 

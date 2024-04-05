@@ -629,7 +629,7 @@ language. An example using previous mentions.
      dx))
 #+end_src
 
-The usualy method for defining named function can be thought of as
+The usually method for defining named function can be thought of as
 syntactic sugar for lambda.
 
 #+begin_src scheme
