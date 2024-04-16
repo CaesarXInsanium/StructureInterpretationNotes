@@ -11,3 +11,7 @@ code/02ch/pictures
 /src/#01procedures.md#
 *.scm#
 /org/code/binary
+.session
+/*.html
+*.pdf
+*.tex

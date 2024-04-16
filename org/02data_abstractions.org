@@ -1029,6 +1029,7 @@ that is given.
 
 #+begin_src scheme :tangle code/huffman.scm
 (define (adjoin-set x set)
+
   (cond ((null? set) (list x))
         ((< (weight x) (weight (car set)))  (cons x set))
         (else (cons (car set)
@@ -1041,4 +1042,182 @@ that is given.
         (adjoin-set (make-leaf (car pair)
                                (cadr pair))
                     (make-leaf-set (cdr pairs))))))
+#+end_src
+
+* 2.4 Multiple Representations for Abstract Data
+
+> Revelant lecture: [[https://www.youtube.com/watch?v=OscT4N2qq7o&list=PLE18841CABEA24090&t=18][Lecture 4B: Generic Operators]]                                   
+
+This section deals with the more power to the abstract data representation. The main
+idea was seperating the representation of the data way from the usage and API that
+is present. The lecture talked about allowing for the system to have multiple different
+representations of the same data.
+
+The example giving of multiple different representations for the same data is seen
+with a representation of complex numbers.
+
+#+begin_src scheme
+;; standard rectangular representation
+(define (make-complex real imagi) (cons real imagi))
+
+;; polar representation
+(define (make-complex magnitude angle) (cons magnitude angle))
+#+end_src
+
+Scheme would allow use to write /generic procedures/ which is simply produres designed
+in such a way that allow them to operate on any form of data. Abstract implementation
+of generics that are so common in modern programming. Interfaces, traits and contracts.
+
+This scheme implementation would use =type tags=.
+
+- Data Oriented Programming :: implementation strategy that uses a global table to
+  lookup items and decide what to do based on what is found.
+- Type Tags :: tagged unions. data objects with type information embedded.
+
+The goal in being able to create multiple packages with seperate implementations
+of the an abstract data type and have generic procedures able to act on all of them.
+
+** 2.4.1 Representations of for Complex Numbers
+
+Here in this section is when the book begins to show the example of complex numbers.
+
+Adding complex numbers is easier with rectangular representations and multiplying
+complex numbers is easier with polar presentation. Same is subtracting and dividing
+respectively. There are two functions that deal with conversion.
+
+#+begin_src scheme :tangle code/complex.scm
+(make-from-real-imag (real-part z) (imag-part z))
+(make-from-mag-ang (magnitude z) (angle z))
+#+end_src
+
+Assuming these functions exist we can then implement some more functions.
+#+begin_src scheme :tangle code/complex.scm
+(define (add-complex z1 z2)
+  ((make-from-real-imag (+ (real-part z1) (real-part z2))
+                        (+ (imag-part z1) (imag-part z2)))))
+
+(define (sub-complex z1 z2)
+  (make-from-real-imag (- (real-part z1) (real-part z2))
+                       (- (imag-part z1) (imag-part z2))))
+
+;; multiplication and division is easier with polar representation
+
+(define (mul-complex z1 z2)
+  (make-from-mag-ang (* (magnitude z1) (magnitude z2))
+                     (+ (angle z1) (angle z2))))
+
+
+(define (div-complex z1 z2)
+  (make-from-mag-ang (/ (magnitude z1) (magnitude z2))
+                     (- (angle z1) (angle z2))))
+#+end_src
+
+This design of the API requires that neccesity to define some other functions.
+
+These are that the functions look like when dealing with a rectangular representation.
+
+#+begin_src scheme :tangle code/complex.scm
+;; Can only deal with the Rectangular representation
+(define (real-part) (car z))
+(define (imag-part z) (cdr z))
+
+(define (magnitude z) (sqrt (+ (square (real-part z)) (square (imag-part z)))))
+
+(define (angle z) (atan (imag-part z) (real-part z)))
+
+(define (make-from-real-imag x y) (cons x y))
+
+;; conversion from polar
+(define (make-from-mag-ang r a) (cons (* r (cos z)) (* (sin a))))
+#+end_src
+
+Here are what the functions look like to deal with a polar representation.
+
+#+begin_src scheme :tangle code/complex.scm
+(define (real-part z) (* (magnitude z) (cons (angle z))))
+
+(define (imag-part z) (* (magnitude z) (sin (angle z))))
+
+(define (magnitude z) (car z))
+
+(define (angle z) (cdr z))
+
+(define (make-from-real-img x y)
+  (cons (sqrt (+ (Square x) (square y)))
+        (atan y x)))
+
+ (define (make-from-mag-ang r a) (cons r a))
+#+end_src
+
+** 2.4.2 Tagged Data
+
+That view seen in SICP is the idea that implementations should do the minimum
+amount of work required in order to get something represented and worked out. Selectors
+and tagged data allows for the deferral of actual implementation to more and more
+select packages and procedures.
+
+The example given by the book assumes that each piece of data is actuall tagged
+with a symbol.
+
+#+begin_src scheme
+(cons <symbol>
+      <datum>)
+#+end_src
+
+This would allow for a way to differentiate between the two implementations. These
+require two procedures.
+
+#+begin_src scheme
+(define (attach-type type-tag contents)
+  (cons type-tag contents))
+
+(define (type-tag datum)
+  (if (pair? datum)
+      (cdr datum)
+      (error "Bad Tagged Datum -- TYPE-TAG" datum)))
+
+(define (contents datum)
+  (if (pair? datum)
+      (error "Bad Tagged datum -- CONTENTS" datum)))
+
+;; These allow for easy type checking at runtime.
+(define (rectangular? z)
+  (eq? (type-tag z) 'rectangular))
+
+(define (polar? z)
+  (eq? (type-tag z) 'polar))
+#+end_src
+
+From here on out it is possible for the two representations of the complex number
+type to exist simultanouisly. How we are still not done since each individual function
+still has to check the type of each item in order to do any sort of work.
+
+> code is on page 177, I'm not typing that in.
+
+Each 'generic' operation that can be done requires individual checks for the relevant
+types. Adding any new implementation requires editing each individual procedure.
+
+** 2.4.3 Data-Directed Programming and Additivity
+
+- Dispatching on Type :: checking on type of datum and calling the appropiate procedure
+  is the very essence of data oriented programming
+
+Extendebility requires that each implementation requires as little work as possible.
+Another weakness in given implementation is that requirement to give each procedure
+an unique name in order to reduce change of name collision.
+
+The solution to the complex number problem is given with two abstract procedures.
+
+#+begin_src scheme
+(put <op> <type> <item>)
+(get <op> <type>)
+#+end_src
+
+We pretend that there are two procedures, =put= and =get=. =put= places an item, a
+procedure on a table of procedures. Each column deals with a data type. Each row
+is an unique generic operation. The entries are unique procedures. Here is the new
+code.
+
+#+begin_src scheme :tangle code/complex-packages.scm
+(define (install-rectangular-package))
 #+end_src

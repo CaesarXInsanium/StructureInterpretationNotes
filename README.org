@@ -14,9 +14,12 @@ fast enough to my true goal of writing my own Minecraft clone.
 
 Crafting Interpreters can be read before or after this book.
 
+
 ** Goals
 - [ ] finish book
 - [ ] learn ORG mode
+   - failed because I have no loyalty to any editor. Also I am thinking of setting
+    everything back to markdown files
 - [X] Learn a LISP language
 - [X] learn to code, hard way
 - [X] create a strategy for note-taking
@@ -27,10 +30,10 @@ Crafting Interpreters can be read before or after this book.
 - [X] attempt to use other editors for writing code
   - sticking to Emacs with Lisp editing tools and Geiser
 - [X] write compiler in GNU Guild
-- [ ] move all notes to Notes to ORG documents
-- [ ] switch to my own configured version of emacs
+- [X] move all notes to Notes to ORG documents
+- [X] switch to my own configured version of emacs
 - [ ] stick to Emacs for SICP, helix for everything and anything that has a proper language server
-
+   - failed bacause I suck
 
 ** Example of Scheme Code
 
