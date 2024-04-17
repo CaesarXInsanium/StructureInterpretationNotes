@@ -1134,7 +1134,7 @@ These are that the functions look like when dealing with a rectangular represent
 Here are what the functions look like to deal with a polar representation.
 
 #+begin_src scheme :tangle code/complex.scm
-(define (real-part z) (* (magnitude z) (cons (angle z))))
+(define (real-part z) (* (magnitude z) (cos (angle z))))
 
 (define (imag-part z) (* (magnitude z) (sin (angle z))))
 
@@ -1219,5 +1219,73 @@ is an unique generic operation. The entries are unique procedures. Here is the n
 code.
 
 #+begin_src scheme :tangle code/complex-packages.scm
-(define (install-rectangular-package))
+(define (install-rectangular-package)
+  (define (real-part z) (car z))
+  (put 'real-part '(rectangular) real-part)
+  ...)
+
+
+(define (install-polar-package)
+  (define (real-part z) (* (magnitude z) (cos (angle z))))
+  (put 'real-part '(polar) real-part)
+  ...)
 #+end_src
+
+The book contains a lot more code but this is enough to get the idea accross.
+Assuming that there exists functions known as =put= and =get= we can allow for the
+easy table directed installation and usage of multiple representation of the same
+data and their respective generic operators. Usage can be done with following code.
+
+#+begin_src scheme :tangle code/complex-packages.scm
+(define (apply-generic op . args)
+  (let ((type-tags (map type-tag args)))
+    (let ((proc (get op type-tags))
+          (if proc
+              (apply proc (map contents args))
+              (error
+               "No Method for these types -- APPLY-GENERIC"
+               (list op type-tag)))))))
+
+;; This function allows for the real usage of API
+
+(define (real-part z) (apply-generic 'real-part z))
+
+;; ALl of this rests on the existance of function
+
+(define (get op datum) ...)
+#+end_src
+
+Contructors can be defined in terms of the procedures available in the table.
+
+#+begin_src scheme
+(define (make-from-real-imag x y)
+  ((get 'make-from-real-imag 'rectangular) x y))
+
+(define (make-from-mag-ang r a)
+  ((get 'make-from-mag-ang 'polar) r a))
+#+end_src
+
+It is at this point when we can start with the exercises. Best of luck to future Caesar.
+
+*** Message Passing
+
+Alternative implementation is to have table where types are actually procedures that
+take in a datum and a procedure to operate on and then the dispatching is done
+by the datums. I don't get it.
+
+#+begin_src scheme
+(define (make-from-real-imag x y)
+  (define (dispatch op)
+    (cond ((eq? op 'real-part) x)
+          ((eq? op 'imag-part) y)
+          ((eq? op 'magnitude)
+           (sqrt (+ (square x) (square y))))
+          ((eq? op 'angle) (atan y x))
+          (else (error "Unknown op -- MAKE_FROM-REAL-IMAG" op))))
+  dispatch)
+
+;; new apply-generic
+(define (apply-generic op arg) (arg op))
+#+end_src
+
+This is the essence of message passing. 
