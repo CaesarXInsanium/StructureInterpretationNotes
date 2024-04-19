@@ -13,3 +13,7 @@
 (put 'raise 'rational (lambda (x) (floor rat)))
 (define (identity x) x)
 (put 'raise 'scheme-number identity)
+
+;; Answers
+;; I misunderstood the question
+
