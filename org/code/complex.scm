@@ -33,7 +33,7 @@
 ;; conversion from polar
 (define (make-from-mag-ang r a) (cons (* r (cos z)) (* (sin a))))
 
-(define (real-part z) (* (magnitude z) (cons (angle z))))
+(define (real-part z) (* (magnitude z) (cos (angle z))))
 
 (define (imag-part z) (* (magnitude z) (sin (angle z))))
 

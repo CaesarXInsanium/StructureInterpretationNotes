@@ -20,6 +20,8 @@ Crafting Interpreters can be read before or after this book.
 - [ ] learn ORG mode
    - failed because I have no loyalty to any editor. Also I am thinking of setting
     everything back to markdown files
+   - I like neovim keybindings
+   - I dislike some Emacs
 - [X] Learn a LISP language
 - [X] learn to code, hard way
 - [X] create a strategy for note-taking
