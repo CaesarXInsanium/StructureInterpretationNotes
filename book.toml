@@ -1,9 +1,0 @@
-[book]
-authors = ["Caesar X Insanium"]
-language = "en"
-multilingual = false
-src = "src"
-title = "Notes on Structure and Interpretation of Computer Programs"
-
-[output.html]
-mathjax-support=true
