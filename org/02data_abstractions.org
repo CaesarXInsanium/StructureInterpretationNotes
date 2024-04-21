@@ -187,8 +187,7 @@ would take a list of numbers and return a new list with all the numbers multipli
 against another value.
 
 
-#+begin_sr
-c scheme
+#+begin_src scheme
 (define (scale-list items factor)
   (map (lambda (x) (* factor x)) items))
 #+end_src
