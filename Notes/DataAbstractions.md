@@ -632,7 +632,7 @@ way to parse expressions.
 All of these functions must be defined. If we assume that all of these
 functions are defined then we can create a function.
 
-``` {.scheme tangle="code/diffentiation.scm" mkdirp="yes"}
+```{.scheme tangle="code/diffentiation.scm" mkdirp="yes"}
 (define (deriv exp var)
   (cond ((number? exp) 0)
         ((variable? exp) (if (same-variable? exp-var) 1 0))
@@ -650,77 +650,77 @@ functions are defined then we can create a function.
     values now we have a pretty good thing going on. We also need to define the
     representation for the algebraic expressions.
 
-2.  Representing Algebraic Expressions
+2. Representing Algebraic Expressions
 
     Scheme\'s symbols are a straight forward way to define the expressions.
     $ ax + b $ becomes `(+ (* a x) b)`{.verbatim} very easily. And so they can
     be defined using merely scheme primitives.
 
-    ``` {.scheme tangle="code/diffentiation.scm" mkdirp="yes"}
-    (define (variable? x) (symbol? x))
-    (define (same-variable? v1 v2)
-      (and (variable? v1) (variable? v2) (eq? v1 v2)))
+```scheme
+(define (variable? x) (symbol? x))
+(define (same-variable? v1 v2)
+  (and (variable? v1) (variable? v2) (eq? v1 v2)))
 
-    (define (make-sum a1 a2) (list '+ a1 a2))
-    (define (sum? x) (and (pair? x) (eq? (car x) '+)))
-    (define (addend x) (cadr x))
-    (define (augend x) (caddr x))
+(define (make-sum a1 a2) (list '+ a1 a2))
+(define (sum? x) (and (pair? x) (eq? (car x) '+)))
+(define (addend x) (cadr x))
+(define (augend x) (caddr x))
 
-    (define (make-product m1 m2) (list '* m1 m2))
-    (define (product? x) (and (pair? x) (eq? (car x) '*)))
-    (define (multiplier p) (cadr p))
-    (define (multiplicand p) (caddr p))
-    ```
+(define (make-product m1 m2) (list '* m1 m2))
+(define (product? x) (and (pair? x) (eq? (car x) '*)))
+(define (multiplier p) (cadr p))
+(define (multiplicand p) (caddr p))
+```
 
-    Once we have define all of the functions that we wish to exist, we can how
-    we want them to behave and how to organize them in a way that makes sense.
-    We can start defining tests for them.
+Once we have define all of the functions that we wish to exist, we can how
+we want them to behave and how to organize them in a way that makes sense.
+We can start defining tests for them.
 
-    Here is one such example of a test.
+Here is one such example of a test.
 
-    ``` scheme
-    ;; derivative of 3x is 1
-    (deriv '(+ x 3) 'x)
-    ;; (+ 1 0)
-    (deriv '(* x y) 'x)
-    ;; (+ (* x 0) (* 1 y))
-    (deriv '(* (x y) (+ x 3)) 'x)
-    ;; (+ (* (* x y) (+ 1 0)
-    ;;    (* (+ (* x 0) (* 1 y))
-    ;;       (+ x 3)))
-    ```
+``` scheme
+;; derivative of 3x is 1
+(deriv '(+ x 3) 'x)
+;; (+ 1 0)
+(deriv '(* x y) 'x)
+;; (+ (* x 0) (* 1 y))
+(deriv '(* (x y) (+ x 3)) 'x)
+;; (+ (* (* x y) (+ 1 0)
+;;    (* (+ (* x 0) (* 1 y))
+;;       (+ x 3)))
+```
 
-    The tests here are technically correct however they need to be simplified in
-    order to be accepted as proper answers. In order to properly make amends for
-    this issue changing that function `deriv`{.verbatim} is not necessary since
-    we can instead change the other functions, the lower levels to account for
-    the technicality.
+The tests here are technically correct however they need to be simplified in
+order to be accepted as proper answers. In order to properly make amends for
+this issue changing that function `deriv`{.verbatim} is not necessary since
+we can instead change the other functions, the lower levels to account for
+the technicality.
 
-    ``` {.scheme tangle="code/diffentiation.scm" mkdirp="yes"}
-    ;; required function
-    (define (=number? exp num)
-      (and (number? exp) (= exp num)))
+```scheme
+;; required function
+(define (=number? exp num)
+  (and (number? exp) (= exp num)))
 
-    (define (make-sum a1 a2)
-      (cond ((=number? a1 0) a2)
-            ((=number? a2 0) a1)
-            ((and (number? a1) (number? a2)) (+ a1 a2))
-            (else (list '+ a1 a2))))
-    ```
+(define (make-sum a1 a2)
+  (cond ((=number? a1 0) a2)
+        ((=number? a2 0) a1)
+        ((and (number? a1) (number? a2)) (+ a1 a2))
+        (else (list '+ a1 a2))))
+```
 
-    This change allows for a better following of arithmetic and algebraic rules
-    that make sense in a way and allows for simplification of expressions.
+This change allows for a better following of arithmetic and algebraic rules
+that make sense in a way and allows for simplification of expressions.
 
-    ``` {.scheme tangle="code/diffentiation.scm" mkdirp="yes"}
-    (define (make-product m1 m2)
-      (cond ((or (=number? m1 0) (=number? m2 0)) 0)
-            ((=number? m1 1) m2)
-            ((=number? m2 1) m1)
-            ((and (number? m1) (number? m2)) (* m1 m2))
-            (else (list '* m1 m2))))
-    ```
+```scheme
+(define (make-product m1 m2)
+  (cond ((or (=number? m1 0) (=number? m2 0)) 0)
+        ((=number? m1 1) m2)
+        ((=number? m2 1) m1)
+        ((and (number? m1) (number? m2)) (* m1 m2))
+        (else (list '* m1 m2))))
+```
 
-    These functions allow easier simplification.
+These functions allow easier simplification.
 
 #### 2.3.3 Example: Representing Sets
 
@@ -734,7 +734,7 @@ those concepts.
 
 Here are some basic procedures for interacting with sets.
 
-``` {.scheme tangle="code/sets.scm" mkdirp="yes"}
+```scheme
 (define true #t)
 (define false #f)
 
@@ -773,48 +773,48 @@ once again since set could be anything.
 
 1.  Sets as Ordered Lists
 
-    One way to improve the efficiency of the set representation is to maintain
-    it in sorted order. This requires a function that can be used to compare any
-    two elements. Such a procedure will need to have a specification in order to
-    deal with any define universe of elements. The book will focus on numbers. I
-    have seen this code before it is simple binary search.
+One way to improve the efficiency of the set representation is to maintain
+it in sorted order. This requires a function that can be used to compare any
+two elements. Such a procedure will need to have a specification in order to
+deal with any define universe of elements. The book will focus on numbers. I
+have seen this code before it is simple binary search.
 
-    ``` {.scheme tangle="code/ordered_set.scm"}
-    (define false #f)
-    (define true #t)
+```scheme
+(define false #f)
+(define true #t)
 
-    (define (element-of-set? x set)
-      (cond ((null? set) false)
-            ((= x (car set)) true)
-            ((< x (car set)) false)
-            (else (element-of-set? x (cdr set)))))
-    ```
+(define (element-of-set? x set)
+  (cond ((null? set) false)
+        ((= x (car set)) true)
+        ((< x (car set)) false)
+        (else (element-of-set? x (cdr set)))))
+```
 
-    Blah blah blah the time savings are roughly one half of the expected time
-    spent with the previous implementation. The time saving are most apparent
-    with the procedure `intersection-set`{.verbatim} as as soon as an elements
-    if found to not exist in a set, it stop searching for it and begins with the
-    next element.
+Blah blah blah the time savings are roughly one half of the expected time
+spent with the previous implementation. The time saving are most apparent
+with the procedure `intersection-set`{.verbatim} as as soon as an elements
+if found to not exist in a set, it stop searching for it and begins with the
+next element.
 
-    ``` {.scheme tangle="code/ordered_set.scm"}
-    (define (intersection-set set1 set2)
-      (if (or (null? set1) (null? set2))
-          '()
-          (let ((x1 (car set1))
-                (x2 (car set2)))
-            (cond ((= x1 x2)
-                   (cond ((= x1 x2)
-                          (cons x1
-                                (intersection-set (cdr set1)
-                                                  (cdr set2))))
-                         ((< x1 x2)
-                          (intersection-set (cdr set1) set2))
-                         ((< x2 x1)
-                          (intersection-set set1 (cdr set2)))))))))
-    ```
+```scheme
+(define (intersection-set set1 set2)
+  (if (or (null? set1) (null? set2))
+      '()
+      (let ((x1 (car set1))
+            (x2 (car set2)))
+        (cond ((= x1 x2)
+               (cond ((= x1 x2)
+                      (cons x1
+                            (intersection-set (cdr set1)
+                                              (cdr set2))))
+                     ((< x1 x2)
+                      (intersection-set (cdr set1) set2))
+                     ((< x2 x1)
+                      (intersection-set set1 (cdr set2)))))))))
+```
 
-    The book claims the increase in efficiency is linear. I will now do the
-    61st exercise.
+The book claims the increase in efficiency is linear. I will now do the
+61st exercise.
 
 2.  Sets as Binary Trees
 
@@ -1483,3 +1483,48 @@ The system described in the book is not good for relationships of types
 representable with trees and graphs. Or even instances where an object can have
 multiple *parent* types. Object oriented programming is an attempt to solve this
 problem but it sucks hard.
+
+### 2.5.3 Example: Symbolic Algebra
+
+Book describes the reasoning behind using algebraic expressions in order to show
+hierarchical types and recursive structures and trees that can be defined in terms
+of themselves. The lecture actually ended with this idea as a sort of thinking
+point for the students. The book shows this equation.
+
+$$
+x^2 \sin(y^2 + 1) + x \cos(2y) + \cos(y^3 - 2y^2)
+$$
+
+Book talks about how it is going to show a partial implementation of the algebraic
+system with focus on polynomial arithmetic.
+
+#### Arithmetic on Polynomials
+
+ Indeterminate
+: Variables of a polynomial
+
+Book will focus on polynomials of a single variable, *univariate polynomial*.
+Polynomials will be a particular syntactic form, with no other considerations.
+Some restrictions must be applied.
+
+Some more code is defined, creating a  polynomial package. I will no longer copy
+it over in this document.
+
+> page 205 [code](../code/symbolic_algebra.scm)
+
+What was missing from the given code is ways to simply the expressions and add terms
+that have same power into one term with added coefficient. `add-terms` is defined
+
+From the `add-term` function there is a call to `add` which allows for more power
+in recursive nature of structures that it allows. Coercion works by simply raising
+the lower polynomial to sufficient rank with coefficient zero.
+
+I should really read the code provided to try and understand it.
+
+#### Representing Term Lists
+
+Term lists must have unique terms as well as be ordered from most significant to
+least. Ordered sets are required of the representation of terms. There is also
+*dense* $x^5 + 2x^4 +3x^2 - 2x - 5$ versus 
+*sparse* $x^100 + 2x^2 + 1$ term lists. Representing one would be less efficient
+for representing the other. So both types are going to be represented in the implementation.

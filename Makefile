@@ -28,3 +28,8 @@ pdf: $(TARGET_DIR)/$(TARGET).pdf
 
 clean:
 	rm -rf $(TARGET_DIR)
+
+# useful flags
+# shift to right
+# --shift-heading-level-by=-1
+#  --defaults

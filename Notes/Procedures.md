@@ -68,20 +68,13 @@ their referred value.
 (+ size 2) ;; evaluates to 2
 ```
 
-```c
-#include <stdio.h>
-int main() {
-    return 0;
-}
-```
-
 ### 1.1.3 Evaluating Combinations
 
 In order to evaluate lisp expression
 
--   evaluate sub-expressions
--   apply procedure on data
--   return value
+- evaluate sub-expressions
+- apply procedure on data
+- return value
 
 Imagine a tree structure that with each expression, there is an operator and a
 list of values. They can either be literals or expressions that themselves need
@@ -519,7 +512,7 @@ summation allows for easy redefinition using the scheme language.
                 (sum term (next a) next b))))
 
 ;; term is a function that determines the selection of items being summed
-;; next is a function that determines which is the next items after the previus one
+;; next is a function that determines which is the next items after the previous one
     ;; for function term
 ```
 

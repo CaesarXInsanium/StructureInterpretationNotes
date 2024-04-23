@@ -45,4 +45,4 @@
   (cons (sqrt (+ (Square x) (square y)))
         (atan y x)))
 
- (define (make-from-mag-ang r a) (cons r a))
+(define (make-from-mag-ang r a) (cons r a))
