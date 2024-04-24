@@ -1528,3 +1528,24 @@ least. Ordered sets are required of the representation of terms. There is also
 *dense* $x^5 + 2x^4 +3x^2 - 2x - 5$ versus 
 *sparse* $x^100 + 2x^2 + 1$ term lists. Representing one would be less efficient
 for representing the other. So both types are going to be represented in the implementation.
+
+#### Hierarchies of Types in Symbolic Algebra
+
+Everything goes to show the power of generic operations and hash maps. Algebraic
+expressions can be used to show limitations of a tower hierarchy of types since
+sometimes relationships and Hierarchies cannot be expressed linearly. The important
+thing is the idea of structures and modularity principles.
+
+#### Extended Exercise: Rational Functions
+
+Rational Function
+: fractions whose numerator and denominator are polynomials.
+
+The book gives this example.
+
+$$
+\frac{x+2}{x^3 - 1}
+$$
+
+The goal would be to support `add`, `sub`, `mul` and all of the other basic
+arithmetic operations as shown with other data types.
