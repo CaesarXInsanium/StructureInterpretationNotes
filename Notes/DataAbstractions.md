@@ -1548,4 +1548,8 @@ $$
 $$
 
 The goal would be to support `add`, `sub`, `mul` and all of the other basic
-arithmetic operations as shown with other data types.
+arithmetic operations as shown with other data types. The `GCD` function is revisited
+and applied to a function named `gcd-terms`.
+
+I am struggling to understand the point of the rest of this chapter, other than
+implementing mathematics in scheme.

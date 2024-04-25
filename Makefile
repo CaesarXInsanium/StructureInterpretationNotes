@@ -7,24 +7,35 @@ FLAGS= --pdf-engine=xelatex \
 			 --variable documentclass=report \
 			 --variable title="$(TARGET)" \
 			 --variable author="$(AUTHOR)" \
+			 --variable margin-left=1in \
+			 --variable margin-right=1in \
+			 --variable margin-top=1in \
+			 --variable margin-bottom=1in \
+
+#--variable classoption=landscape,twocolumn 
 
 SOURCES= Notes/Procedures.md \
 				 Notes/DataAbstractions.md \
-
+				 Notes/ModularityObjectsStateIntro.md \
+				 Notes/AssignmentAndLocalState.md \
+				 Notes/EnvironmentModelEvaluation.md
 
 # allow force rebuild
-.PHONY: all
 
-all: $(TARGET_DIR) \
-	  	$(TARGET_DIR)/$(TARGET).pdf
+.PHONY: $(TARGET_DIR) \
+	   $(TARGET_DIR)/$(TARGET).pdf \
+	   $(TARGET_DIR)/$(TARGET).epub
 
 $(TARGET_DIR)/$(TARGET).pdf: $(SOURCES)
 	$(PANDOC) $(FLAGS) $? -o $@
 
+$(TARGET_DIR)/$(TARGET).epub: $(SOURCES)
+	$(PANDOC) $(FLAGS) $? -o $@
+
+epub: $(TARGET_DIR)/$(TARGET).epub
+
 $(TARGET_DIR):
 	mkdir $@
-
-pdf: $(TARGET_DIR)/$(TARGET).pdf
 
 clean:
 	rm -rf $(TARGET_DIR)
@@ -33,3 +44,5 @@ clean:
 # shift to right
 # --shift-heading-level-by=-1
 #  --defaults
+#  we can also have a file called defaults.yaml
+#  next time we move to a full defaults.yaml file instead of Makefile
