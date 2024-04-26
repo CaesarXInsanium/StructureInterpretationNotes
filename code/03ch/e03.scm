@@ -18,5 +18,9 @@
       (if (eqv? first password)
         (apply proc args)
         "Incorrect Password")))
+
   ;; returns a procedure object as implementation
   (make-password-protected password dispatch))
+
+(define a (make-account 100 'pass))
+((a 'pass 'withdraw) 10)

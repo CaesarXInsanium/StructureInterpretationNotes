@@ -30,37 +30,37 @@
   (better-good-enough
     guess 
     x 
-    previous_guess
-  )
+    previous_guess)
+  
   (and 
     (<
       (abs
         (-
           (square 
-            guess
-          )
-          x
-        )
-      )
-      EPSILON
-    )
+            guess)
+          
+          x))
+        
+      
+      EPSILON)
+    
     (<
       (abs
         (- 
           previous_guess
-          guess 
-        )
-      )
-      EPSILON
-    )
-  )
-)
+          guess)) 
+        
+      
+      EPSILON)))
+    
+  
+
     
 (define (sqrt-iter guess x previous_guess)
   (if (better-good-enough guess x previous_guess)
     guess
     (sqrt-iter (improve guess x)
-                x guess)))
+               x guess)))
 
 (define (sqrt x)
   (sqrt-iter 1.0 x 0.0))
