@@ -1,9 +1,9 @@
 (define balance 100)
 
 ;; my own implementation
-(define (withdrawxxx x)
-  (let ((out (- account-balance x)))
-    (set! account-balance out)
+(define (withdraw x)
+  (let ((out (- balance x)))
+    (set! balance out)
     x))
 
 ;; example
@@ -64,3 +64,38 @@
 ((acc 'withdraw) 50)
 
 ;; object oriented programming for the win.
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; 3.1.3
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define (make-simplified-withdraw balance)
+  (lambda (amount)
+    (set! balance (- balance amount))
+    balance))
+
+(define W (make-simplified-withdraw 25))
+
+(define (make-decrementer balance)
+  (lambda (amount)
+    (- balance amount)))
+
+(define (factorial n)
+  (define (iter product counter)
+    (if (? counter n)
+      product
+      (iter (* counter product)
+            (+ counter 1))))
+  (iter 1 2))
+
+(define (factorial n)
+  (let ((product 1)
+        (counter 1))
+    (define (iter)
+      (if (< counter n)
+        product
+        (begin (set! product (* counter product))
+               (Set! counter (+ counter 1))
+               (iter))))
+    (iter)))
+           

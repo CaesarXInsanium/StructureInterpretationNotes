@@ -35,9 +35,32 @@ track of the inner state variable. *Monte Carlo* simulation is implemented using
 this idea. The code given is about a procedure that can compute the value of *pi*
 using the fun property of random numbers.
 
-Code is in `code/Rand.scm`
+> Code is in `code/Rand.scm`
 
 Encapsulating a random number state hides it away from the idea of Monte Carlo
 and keeps them seperate, the user calling `monte-carlo` does not have to worry about
 
 ### 3.1.3 The Costs of Introducing Assignment
+
+*Functional Programming* is first introduced, the first 2 chapter are all about
+this functional style. The substitution model analysis no longer works for analyzing
+programs that are written using the `set!` function.
+
+#### Sameness and Change
+
+Two things can be equivalent without being the same objects and `set!` introduces
+the notion that two things are not `eq?` or `eqv?` meaning that they are functionally
+not the same thing. They cannot be substitued for the other.
+
+It is here that the scheme programming language runs into the same problem that
+other languages such as `C` experience with pointers and multiple references to
+the same object and touching memory that itsn't yours.
+
+#### Pitfalls of Imperative Programming
+
+Imperative Programming
+: Makes extensive use of Assignment
+
+Differs from functional programs where no side affects are possible. Changing the
+values of variables in different orders would change the result of a programing,
+yielding an incorrect result.
