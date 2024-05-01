@@ -18,7 +18,8 @@ SOURCES= Notes/Procedures.md \
 				 Notes/DataAbstractions.md \
 				 Notes/ModularityObjectsStateIntro.md \
 				 Notes/AssignmentAndLocalState.md \
-				 Notes/EnvironmentModelEvaluation.md
+				 Notes/EnvironmentModelEvaluation.md \
+				 Notes/ModelingMutableData.md
 
 # allow force rebuild
 
