@@ -7,31 +7,24 @@
             (else (assoc key (cdr records)))))
 
     ;; we need a predicate and a way  to recurse down
-    (define (insert! key-1 key-2 value)
-      (let ((subtable (assoc key-1 (cdr local-table))))
-        (if subtable
-          (let ((record (assoc key-2 (cdr subtable))))
-            (if record
-              (set-cdr! record value)
-              (set-cdr! subtable
-                        (cons (cons key-2 value)
-                              (cdr subtable)))))
-          (set-cdr! local-table
-                    (cons (list key-1
-                                (cons key-2 value))
-                          (cdr table)))))
-      'ok)
+    (define (table? x) (pair? (car x)))
+    (define (insert! value . keys)
+      (define (iter value keys table)
+        (if (not (null? keys))
+          (let ((result (assoc (car keys) (cdr table))))
+            (if (table? result)
+              (iter value (cdr keys) result)
+              (if result
+                (cdr result)
+                false)))
+          false))
+      (iter value keys local-table))
+            
 
-    (define (lookup key-1 key-2)
-      (let ((subtable (assoc key-1 (cdr local-table))))
-        (if subtable
-          (let ((record (assoc key-2 (cdr subtable))))
-            (if record
-              (cdr record)
-              false))
-          false)))
     (define (dispatch m)
       (cond ((eq? m 'lookup-proc) lookup)
             ((eq? m 'insert-proc!) insert!)
             (else (error "Unknown operation -- TABLE" m))))
     dispatch))
+
+;; time is up
