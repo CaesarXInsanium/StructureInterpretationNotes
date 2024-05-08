@@ -188,3 +188,5 @@ anything. That coolest thing I have learned is representing objects with procedu
 #### Representing Connectors
 
 Here is the representation of the connector type.
+
+Finished this section.
