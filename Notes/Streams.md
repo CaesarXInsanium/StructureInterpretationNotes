@@ -49,3 +49,28 @@ The thunk must be memoized, once the procedure has been computed, the result is
 saved and if the procedure is called again it simply returns saved result.
 `delay` can be implemented in terms of `memo-proc` and `force`.
 
+### 3.5.2 Infinite Streams
+
+Given the definition of streams, it is possible to use streams in order to represent
+practically infinite lists. For example a stream representing integers. In essence
+we have a well. Each `stream-cdr` is a promise to evaluate and expression at a
+later time.
+
+And infinite prime generator is created by writing a stream that generates another
+stream with filter which generates another stream with another filter and so on
+to filter out numbers divisible by 2, then 3, then 4 and so on until infinity.
+
+#### Defining Streams Implicitly
+
+Here is some hilarious code. It produces and infinite stream of ones. It takes
+advantage of the fact that evaluation of the second argument is delayed until it
+it needed. So the values ones is treated as a symbol.
+
+```scheme
+(define ones (cons-stream 1 ones))
+```
+
+We can define summations in this way, where each element depends on the value
+of the previous element. It is very abstract, I don't get half of it. An infinite
+list of integers can be created in terms of the infinite list of ones. A Fibonacci
+number stream uses the previous two elements.

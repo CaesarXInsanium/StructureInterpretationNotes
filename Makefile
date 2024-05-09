@@ -19,7 +19,9 @@ SOURCES= Notes/Procedures.md \
 				 Notes/ModularityObjectsStateIntro.md \
 				 Notes/AssignmentAndLocalState.md \
 				 Notes/EnvironmentModelEvaluation.md \
-				 Notes/ModelingMutableData.md
+				 Notes/ModelingMutableData.md \
+				 Notes/Concurrency.md \
+				 Notes/Streams.md
 
 # allow force rebuild
 
