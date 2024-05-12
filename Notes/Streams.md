@@ -74,3 +74,75 @@ We can define summations in this way, where each element depends on the value
 of the previous element. It is very abstract, I don't get half of it. An infinite
 list of integers can be created in terms of the infinite list of ones. A Fibonacci
 number stream uses the previous two elements.
+
+### 3.5.3 Exploiting the Stream Paradigm
+
+Using streams is useful tool when dealing with a language that has assignment
+and the concept of change. A time series is a list of values.
+
+#### Formulating Iterations as Stream Processes
+
+Iteration can be improved with streams, the square root guessing procedure can be
+modeled with a stream to generate better and better guesses. This is done with
+a stream generator `sqrt-stream`. Approximating *pi* up to a predetermined amount
+with a stream. 
+
+With that what can be written is a procedure that determines if a guess if good
+enough and then stop generating answers. Another strategy is to use the infinite
+summation strategy.
+
+There is a method to generate better guesses faster using Euler's Sequence Accelerator.
+This transformation can easily be described in scheme code. Several procedures
+are required for this, but it can increase memory requirements for an increase
+in processing speed.
+
+#### Infinite Streams of Pairs
+
+There is a way to generate using promises and streams specific elements in
+a 2D array, specific indexes. The main challenge is to write a stream definition
+that would allow for a stable lazy generation of pairs, where items in one column
+are not all generated at one when one element is requested from the stream.
+
+#### Streams as Signals
+
+Streams can be used to represent signal values in accordance to time. With this
+idea integrals can be defined in terms of streams.
+
+### 3.5.4 Streams and Delayed Evaluation
+
+Feedback loops are possible to emulate using the `integral` procedure, which can
+then be used in signal processing. It all comes back to the individual implementation
+of the `delay` procedure. Generally it is a macro or syntax extension in GNU Guile.
+
+Using streams to simulate designated increments in time.
+
+#### Normal Order Evaluation
+
+Creating separate classes of procedures requires the creation of a separate
+class of higher order procedures, procedures that return other procedures. This
+section describes some problems that the introduction of lazy evaluation introduces
+into a programming language. One obvious issue is types. Lisp is a dynamically typed
+but some typed programming languages cannot express higher order procedures due
+to the ambiguity of types. Mutability and delayed evaluation do not mix well in
+programming languages.
+
+### 3.5.5 Modularity of Functional Programs and Modularity of Objects
+
+Modularity is easier with assignment in scheme. Mixing the assignment and delayed
+evaluation in a controlled manner allows for some cool stuff I guess. It is possible
+to containerize the assignment and delay into separate sections to get the best
+both worlds.
+
+#### A Functional Programming View of Time
+
+Streams are used to model that changing state of an object, with defined time
+intervals. Now the state of object is decoupled from environment or some shit.
+Each time a procedure is called it generates a new stream representing the possible
+changes in a state. There is a way to represent state without explicit assignment
+or side effects, Using streams. It is possible to model state with computational
+objects.
+
+Functional programming languages are developed in an attempt to solve this issue.
+Time problems are not completely gone though.
+
+In Summary, I have no idea what I just read.
