@@ -100,7 +100,7 @@ It we mash all the code into a single procedure we can finally do the implementa
     dispatch))
 ```
 
-> Bada bing bada boom
+Done
 
 ```scheme
 (define operation-table (make-table))
