@@ -16,12 +16,28 @@ FLAGS= --pdf-engine=xelatex \
 
 SOURCES= Notes/Procedures.md \
 				 Notes/DataAbstractions.md \
+# Chapter 3\
 				 Notes/ModularityObjectsStateIntro.md \
 				 Notes/AssignmentAndLocalState.md \
 				 Notes/EnvironmentModelEvaluation.md \
 				 Notes/ModelingMutableData.md \
 				 Notes/Concurrency.md \
-				 Notes/Streams.md
+				 Notes/Streams.md \
+# Chapter 4\
+				 Notes/MetalinguisticAbstraction.md \
+				 Notes/MetacircularEvaluator.md \
+				 Notes/LazyEvaluation.md \
+				 Notes/NondeterministicComputing.md \
+				 Notes/LogicProgramming.md \
+# Chapter 5\
+				 Notes/RegisterMachines.md \
+				 Notes/DesigningRegister.md \
+				 Notes/RegisterSimulator.md \
+				 Notes/AllocationGarbageCollection.md \
+				 Notes/ControlEvaluator.md \
+				 Notes/Compilation.md
+
+
 
 # allow force rebuild
 

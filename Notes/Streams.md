@@ -1,9 +1,18 @@
 ## 3.5 Streams
 
+
 Streams are used to model state, a scheme data structure. Thinking of it as a
 continuous function that does not change, it produces different values based on
 the input of time. Different functions can be used to represent *infinite* streams,
 sources of endless data.
+
+#### Relevant Lectures
+
+I forgot to watch these lectures so maybe that is why I haven't done any of the
+relevant exercises. I had too small a brain.
+
+- [Lecture 6A: Streams Part 1](https://www.youtube.com/watch?v=JkGKLILLy0I&list=PLE18841CABEA24090&index=11)
+- [Lecture 6B: Stream Part 2](https://www.youtube.com/watch?v=qp05AtXbOP0&list=PLE18841CABEA24090&index=12)
 
 ### 3.5.1 Streams as Delayed Lists
 
