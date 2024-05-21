@@ -16,20 +16,17 @@ FLAGS= --pdf-engine=xelatex \
 
 SOURCES= Notes/Procedures.md \
 				 Notes/DataAbstractions.md \
-# Chapter 3\
 				 Notes/ModularityObjectsStateIntro.md \
 				 Notes/AssignmentAndLocalState.md \
 				 Notes/EnvironmentModelEvaluation.md \
 				 Notes/ModelingMutableData.md \
 				 Notes/Concurrency.md \
 				 Notes/Streams.md \
-# Chapter 4\
 				 Notes/MetalinguisticAbstraction.md \
 				 Notes/MetacircularEvaluator.md \
 				 Notes/LazyEvaluation.md \
 				 Notes/NondeterministicComputing.md \
 				 Notes/LogicProgramming.md \
-# Chapter 5\
 				 Notes/RegisterMachines.md \
 				 Notes/DesigningRegister.md \
 				 Notes/RegisterSimulator.md \
@@ -41,9 +38,7 @@ SOURCES= Notes/Procedures.md \
 
 # allow force rebuild
 
-.PHONY: $(TARGET_DIR) \
-	   $(TARGET_DIR)/$(TARGET).pdf \
-	   $(TARGET_DIR)/$(TARGET).epub
+.PHONY: $(TARGET_DIR) $(TARGET_DIR)/$(TARGET).pdf $(TARGET_DIR)/$(TARGET).epub
 
 $(TARGET_DIR)/$(TARGET).pdf: $(SOURCES)
 	$(PANDOC) $(FLAGS) $? -o $@
