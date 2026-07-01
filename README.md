@@ -14,29 +14,27 @@ fast enough to my true goal of writing my own Minecraft clone.
 
 Crafting Interpreters can be read before or after this book.
 
+I am back once again. I have resolved to reread this book(or my notes) and
+finish this book once and for all. I have finished Crafting Interpreters. I
+hated it but I did learn some cool stuff.
+
+Now that I have checked once again the table of contents of SICP, I actually
+recognize some of the stuff that is in it.
+
+I was planning on reading some source code BUT, I now realized I really want to
+finish this book. I will be throwing/gifting the other books that I have
+finished but now I realize that this book, SICP is a true godsend.
+
 ## Goals
 
 -   [ ] finish book
--   [ ] learn ORG mode
-    -   failed because I have no loyalty to any editor. Also I am
-        thinking of setting everything back to markdown files
-    -   I like neovim keybindings
-    -   I dislike some Emacs
 -   [x] Learn a LISP language
 -   [x] learn to code, hard way
--   [x] create a strategy for note-taking
 -   [x] create strategy for organizing exercises
--   [x] configure Neovim for Lisp code editing
--   [x] configure Neovim for note-taking.
-    -   [x] configure for ORG documents
--   [x] attempt to use other editors for writing code
-    -   sticking to Emacs with Lisp editing tools and Geiser
--   [x] write compiler in GNU Guild
--   [x] move all notes to Notes to ORG documents
--   [x] switch to my own configured version of emacs
--   [ ] stick to Emacs for SICP, helix for everything and anything that
-    has a proper language server
-    -   failed bacause I suck
+-   [  ] configure Neovim for note-taking. Since I am back this is hard, I have
+    configured Neovim to be a good TEXT editor, less focus on code editing
+-   [x] write compiler in GNU Guile
+-   a lot of TODOs failed bacause I suck
 
 ## Example of Scheme Code
 

@@ -25,10 +25,10 @@ SOURCES= Notes/Procedures.md \
 				 Notes/MetalinguisticAbstraction.md \
 				 Notes/MetacircularEvaluator.md \
 				 Notes/LazyEvaluation.md \
-				 Notes/NondeterministicComputing.md \
+				 Notes/NonDeterministicComputing.md \
 				 Notes/LogicProgramming.md \
 				 Notes/RegisterMachines.md \
-				 Notes/DesigningRegister.md \
+				 Notes/DesigningRegisterMachines.md \
 				 Notes/RegisterSimulator.md \
 				 Notes/AllocationGarbageCollection.md \
 				 Notes/ControlEvaluator.md \

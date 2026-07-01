@@ -42,6 +42,7 @@ and keeps them separate, the user calling `monte-carlo` does not have to worry a
 
 ### 3.1.3 The Costs of Introducing Assignment
 
+
 *Functional Programming* is first introduced, the first 2 chapter are all about
 this functional style. The substitution model analysis no longer works for analyzing
 programs that are written using the `set!` function.
