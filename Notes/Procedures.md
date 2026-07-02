@@ -1,11 +1,10 @@
 # Chapter 1
 
-Here are the relevant lectures related to this chapter
+Here are the relevant lectures related to this chapter, youtube links.
 
--   [Lecture 1A](https://www.youtube.com/watch?v=eJeMOEiHv8c)
-- [Lecture
-  1B](https://www.youtube.com/watch?v=-J_xL4IGhJA&list=PLE18841CABEA24090&index=1)
--   [Lecture 2A](https://youtu.be/eJeMOEiHv8c?list=PLE18841CABEA24090)
+- [Lecture 1A](https://www.youtube.com/watch?v=eJeMOEiHv8c)
+- [Lecture 1B](https://www.youtube.com/watch?v=-J_xL4IGhJA&list=PLE18841CABEA24090&index=1)
+- [Lecture 2A](https://youtu.be/eJeMOEiHv8c?list=PLE18841CABEA24090)
 
 A process is an idea of a set of events occurring under the direction of a
 program.
@@ -137,6 +136,8 @@ completeness and is basis for any for decision-making. Here are some examples.
       (- x)
       x))
 ```
+> from the future: now we know that the `cond` expression can actually be a macro.
+> implemented in relation to other simpler constructs.
 
 Here a condition is defined followed by a list of clauses or tests that can be
 performed.

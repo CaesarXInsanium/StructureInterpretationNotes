@@ -46,6 +46,9 @@ $(TARGET_DIR)/$(TARGET).pdf: $(SOURCES)
 $(TARGET_DIR)/$(TARGET).epub: $(SOURCES)
 	$(PANDOC) $(FLAGS) $? -o $@
 
+$(TARGET_DIR)/$(TARGET).html: $(SOURCES)
+	$(PANDOC) $(FLAGS) $? -o $@
+
 epub: $(TARGET_DIR)/$(TARGET).epub
 
 $(TARGET_DIR):
