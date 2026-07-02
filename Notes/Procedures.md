@@ -1,4 +1,4 @@
-# Chapter 1
+# Chapter 1: Procedures
 
 Here are the relevant lectures related to this chapter, youtube links.
 

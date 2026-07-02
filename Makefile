@@ -4,13 +4,15 @@ TARGET=SICPNotes
 AUTHOR=Caesar X Insanium
 FLAGS= --pdf-engine=xelatex \
 			 --toc \
-			 --variable documentclass=report \
+			 --variable documentclass=scrreprt \
 			 --variable title="$(TARGET)" \
 			 --variable author="$(AUTHOR)" \
-			 --variable margin-left=1in \
-			 --variable margin-right=1in \
+			 --variable margin-left=0.75in \
+			 --variable margin-right=0.75in \
 			 --variable margin-top=1in \
 			 --variable margin-bottom=1in \
+			 --variable mainfont="Iosevka" \
+			 --variable monofont="Iosevka Term" \
 
 #--variable classoption=landscape,twocolumn 
 
