@@ -3,17 +3,10 @@
 Relevant lectures
 
 -   [Lecture 2B](https://www.youtube.com/watch?v=DrFkf-T-6Co&t=3722s)
--   [Lecture
-    3A](https://www.youtube.com/watch?v=PEwZL3H2oKg&list=PLE18841CABEA24090&index=5)
--   [Lecture
-    3B](https://www.youtube.com/watch?v=bV87UzKMRtE&list=PLE18841CABEA24090&index=6&t=17s)
+-   [Lecture 3A](https://www.youtube.com/watch?v=PEwZL3H2oKg&list=PLE18841CABEA24090&index=5)
+-   [Lecture 3B](https://www.youtube.com/watch?v=bV87UzKMRtE&list=PLE18841CABEA24090&index=6&t=17s)
 -   [Lecture 4A](https://www.youtube.com/watch?v=_fXQ1SwKjDg)
 -   [Lecture 4B](https://www.youtube.com/watch?v=OscT4N2qq7o&t=18s)
-
-I might be lost on where I am supposed to be at with the lectures. Never mind
-the lecture is separate, or a prefix to 2.3 Its seems I was correct
-
-Current location 4B start
 
 ## 2.1 Introduction of Data Abstraction
 
@@ -23,7 +16,7 @@ processes using simple functions.
 
 However, everything that has been learned use only integers, float and ratios.
 Even more complex behavior require the use to computational objects that have
-different parts. `Compound Data`{.verbatim} is the building of abstraction by
+different parts. `Compound Data` is the building of abstraction by
 combining data objects. Compound procedures allow for elevated procedures and is
 the same with compound data.
 
@@ -35,7 +28,7 @@ be managed.
 
 Compound data also allow for separation of the actions and procedures that act
 on the data from the actual implementation and background of the compound data.
-`Data Abstraction`{.verbatim} is the idea that the true nature of how data ideas
+`Data Abstraction` is the idea that the true nature of how data ideas
 are represented in the hardware is hidden from user in order for easier design
 and management.
 
@@ -46,8 +39,8 @@ Linear Combinations can be expressed as such.
   (+ (* a x) (* b y)))
 ```
 
-This implementation take is 4 numbers, However, we can define using data
-abstraction a procedure that takes 4 anything and performs the appropriate
+This implementation takes in 4 numbers. However, we can define a data
+abstraction as a procedure that takes 4 anything and performs the appropriate
 procedures defined for the data object on the data provided. The `add` and `mul`
 procedures determine the data type in question and use correct procedure for
 addition and multiplication respectably
@@ -63,49 +56,51 @@ sections for program.
 
 Programming languages provide the glue for allowing this forms of abstractions.
 From the way that data is stored and represented in computer to expression data
-as nothing more than procedures on primitive data. `Closure`{.verbatim} is the
+as nothing more than procedures on primitive data. `Closure` is the
 idea that a language allows for the combining of both primitive data and
-compound data. `Symbolic`{.verbatim} expression is augmentation of language
+compound data. `Symbolic` expression is augmentation of language
 expressive power by arbitrary symbols as opposed to numbers in which they are
 not defined and called until they are used store some data.
 
-`Generic Operations`{.verbatim} allow for defining generic operations that can
-be applied to different data types and a `data oriented programming`{.verbatim}
-approach. This in technique, data is the most important concept and data
-representations are defined separately and combined `additively`{.verbatim}
+`Generic Operations` allow for defining generic operations that can
+be applied to different data types and a `data oriented programming` 
+approach. In this technique, data is the most important concept and data
+representations are defined separately and combined `additively` 
 
 ## 2.2 Hierarchical Data and Closure Property
 
 > Relevant Lecture section start at 3B 8:00, current time 28:38
 
-We have learned that the `cons`{.verbatim} function can be used to build simple
+We have learned that the `cons`  function can be used to build simple
 data representations and abstractions of which individual parts can be accessed
-with `car`{.verbatim} and `cdr`{.verbatim}. Numbers and other pairs can be
+with `car`  and `cdr` . Numbers and other pairs can be
 combined in this method.
 
-The closure property of cons refers to its ability to represent abstract data
+The closure property of `cons` refers to its ability to represent abstract data
 and concepts. In accordance to specification. Hierarchical structures are made
 up of smaller parts coming together in order to make bigger parts.
 
 ### 2.2.1 Representing Sequences
 
-The logical extension is that `cons`{.verbatim} can be used to build arbitrary
-long sequences of which, lists can be built. A collection of different items
-that end in a nil item.
+The logical extension is that `cons`  can be used to build arbitrary
+length sequences with which lists can be built. A collection of different items
+that end in a `nil` item. Which itself is just an empty list object `'()'`
 
 ``` scheme
 (define l (cons 1 (cons 2 (cons 3 (cons 3 nil)))))
+(define l (cons 1 (cons 2 (cons 3 (cons 3 '())))))
 ```
 
-Scheme defines this as a `list`{.verbatim} can can be defined with a function
-and a series of arguments. Merely syntactic sugar for the above code segment.
+Scheme defines this as a `list` object.  It can can be defined with a function
+and a series of arguments. Merely syntactic sugar for the previous code.
 
 ``` scheme
 (define 1-to-4 (list 1 2 3 4))
+;; => $1 = (1 2 3 4)
 ```
 
-Individual elements can be accessed individually by using `car`{.verbatim} and
-`cdr`{.verbatim}.
+Individual elements can be accessed individually by using `car` and
+`cdr`. As with the normal `cons` pairs
 
 ``` scheme
 (car (cdr (cdr 1-to-4)))
@@ -113,7 +108,8 @@ Individual elements can be accessed individually by using `car`{.verbatim} and
 ```
 
 Certain list operations have been defined by Scheme such as
-`list-ref`{.verbatim} which inputs a list and an index.
+`list-ref` which inputs a list and an index. Notably access is $O(n)$ where $n$
+is the size of the list. Which suxs.
 
 ``` scheme
 (define (list-ref items n)
@@ -131,6 +127,7 @@ time we recurse.
   (if (null? items)
       0
       (+ 1 (length (cdr items)))))
+;; going down the list, incrementing as we do
 
 (define (length-iter items)
   (define (iter a count)
@@ -150,10 +147,12 @@ generates a new list with a new element added.
       (cons (car list1) (append (cdr list1) list2))))
 ```
 
+I think that what we are really doing is going down a linked list.
+
 #### Mapping Over Lists
 
 One useful function is to take a list and apply a transformation on each item
-and generate a new list. The scheme `map`{.verbatim} function is for this
+and generate a new list. The scheme `map`  function is for this
 purpose. This is a higher order procedure.
 
 ``` scheme
@@ -192,9 +191,9 @@ change in behavior for the use to deal with.
 
 ### 2.2.2 Hierarchical Structures
 
-The `cons`{.verbatim} function allows for the holding of more than just numbers,
-other cons boxes can hold more cons boxes. This allows for a rudimentary tree to
-be defined and used. Cons boxes can hold indefinite levels of cons boxes.
+The `cons` function allows for the holding of more than just numbers,
+other `cons` boxes can hold more `cons` boxes. This allows for a rudimentary tree
+to be defined and used. Cons boxes can hold indefinite levels of cons boxes.
 Restricted only by the amount of memory a computer holds.
 
 ``` scheme
@@ -205,10 +204,14 @@ Restricted only by the amount of memory a computer holds.
 Tree structures lend themselves easily to recursion since operations on entire
 trees can be simplified to operations on branches and then to leaves. Deciding
 weather or not an object is a pair can be made easy with the scheme function
-`pair?`{.verbatim}
+`pair?` 
 
 ``` scheme
 (pair? (cons 1 2)) ; => #t
+(pair? (list 1 2 3)) ;; => #t
+(pair? (cons (cons 1 (cons 3 4))
+             (cons (list 1 2 3)
+                   (cons '() 5)))) ;; => #t
 ```
 
 A simple procedure for recursively counting the number of leaves on a tree is
@@ -221,10 +224,12 @@ shown.
         (else (+ (count-leaves (car x))
                  (count-leaves (cdr x))))))
 ```
+> Note that this function is not tail recursive, so it cannot be optimized to
+> with tail call optimization techniques.
 
-Mapping Over Trees
+#### Mapping Over Trees
 
-The `map`{.verbatim} procedure is a powerful concept that can be used in order
+The `map`  procedure is a powerful concept that can be used in order
 to define a way to create a new list using the elements of an existing list and
 applying a procedure to build it. A procedure to apply the same idea to trees
 should not be difficult to imagine.
@@ -249,12 +254,14 @@ a simple interface.
                     (tree-map proc (cdr tree))))))
 ```
 
+> Notice how this `tree-map` is almost valid for use against normal lists
+
 ### 2.2.3 Sequences as Conditional Interfaces
 
 Conventional Interfaces are used in order to design data in a way to solve a
 particular problem without regards to underlying implementations. This allows
 for internal representation to change and as long as behavior does not change
-this allows for user to continue using the data with no worry.
+this allows for user to continue using the interface with no worry.
 
 For example given the two programs.
 
@@ -278,9 +285,9 @@ For example given the two programs.
 
 These follow a similar pattern in that follow similar steps
 
--   travel through the different leaves
--   selects them based on criteria
--   accumulates the results
+- travel through the different leaves
+- selects them based on criteria
+- accumulates the results
 
 In there are steps of enumeration, mapping and accumulation. However, the
 different is the order in which steps are done.
@@ -291,11 +298,11 @@ One way to think about this is laid out big the book in which each number or
 leave that is traversed is a signal, and they must be processed, filtered and
 measured in order to be useful.
 
-Defining signals as simply lists allow us to simply `map`{.verbatim} over them
-in order to process them.
+Defining signals as simply lists allow us to simply apply `map` over theme.
 
 ``` scheme
 (map square (list 1 2 3 4 5))
+;; => (1 4 9 16 25)
 ```
 
 Filtering can be easily implemented for lists.
@@ -365,7 +372,7 @@ of components that can then be stringed together in order to solve a problem.
                          (filter programmer? record))))
 ```
 
-Moral of the story here, if one sees a low of repeating code the goal is to
+Moral of the story here, if one sees a row of repeating code, the goal is to
 abstract what is possible into a modular procedure that can be called with
 arguments being the differentiation part of the thing.
 
@@ -447,10 +454,10 @@ can be built using simple things. It is possible to generate very complex
 patterns by the different procedures that act on the painter.
 
 Higher order operations can be achieved with procedure generators. The power
-lies in lisp\'s ability to create entirely new languages.
+lies in lisp's ability to create entirely new languages.
 
-I am able to use the picture language and test it out using Dr-Racket and the
-SCIP package.
+> I am able to use the picture language and test it out using Dr-Racket and the
+> SCIP package.
 
 The lecture talks about the closure property. From I can follow I only need to
 implement some very basic primitives in order to implement the full stack of the
@@ -528,12 +535,12 @@ And now the all important beside function.
 ```
 
 All of this satisfies the closure property. The closure property seems to be an
-ability for lower level primitives
+ability for lower level primitives to be composed and make bigger things.
 
-This idea of closure property allows for a `stratified`{.verbatim} design in
+This idea of closure property allows for a `stratified`  design in
 which one level solely depends on the lower levels. All computer science is
 based off of layers of abstraction. Lisp allows for language levels to be
-designed and use based one simple primitives the are provides on lower levels.
+designed and used based on simple primitives that are provided at lower levels.
 
 In theory a change in design or implementation should not have a significant
 effect on the upper layers of the language. There are many examples of this, but
@@ -560,7 +567,7 @@ accomplished with the quotation operator.
 ```
 
 Allows for a differentiation between expressions to be evaluated and data
-representation that can be manipulated and explored. The `eq?`{.verbatim}
+representation that can be manipulated and explored. The `eq?` 
 function allows for testing for the equality of symbols.
 
 ``` scheme
@@ -568,7 +575,7 @@ function allows for testing for the equality of symbols.
 (eq? 'a s)
 ```
 
-An implementation of `memq`{.verbatim} is possible which checks a list for the
+An implementation of `memq`  is possible which checks a list for the
 presence of a specific symbol inside of it. If it is not contained then the
 function returns false. If it is contained then the function returns a sub-list
 which the item as first entry.
@@ -646,14 +653,14 @@ functions are defined then we can create a function.
         (else (error "Unknown expression type -- DERIV"))))
 ```
 
-    Now all that we need to do is define all of these relevant functions and
-    values now we have a pretty good thing going on. We also need to define the
-    representation for the algebraic expressions.
+Now all that we need to do is define all of these relevant functions and
+values now we have a pretty good thing going on. We also need to define the
+representation for the algebraic expressions.
 
 2. Representing Algebraic Expressions
 
     Scheme\'s symbols are a straight forward way to define the expressions.
-    $ ax + b $ becomes `(+ (* a x) b)`{.verbatim} very easily. And so they can
+    $ ax + b $ becomes `(+ (* a x) b)`  very easily. And so they can
     be defined using merely scheme primitives.
 
 ```scheme
@@ -692,7 +699,7 @@ Here is one such example of a test.
 
 The tests here are technically correct however they need to be simplified in
 order to be accepted as proper answers. In order to properly make amends for
-this issue changing that function `deriv`{.verbatim} is not necessary since
+this issue changing that function `deriv`  is not necessary since
 we can instead change the other functions, the lower levels to account for
 the technicality.
 
@@ -792,7 +799,7 @@ have seen this code before it is simple binary search.
 
 Blah blah blah the time savings are roughly one half of the expected time
 spent with the previous implementation. The time saving are most apparent
-with the procedure `intersection-set`{.verbatim} as as soon as an elements
+with the procedure `intersection-set`  as as soon as an elements
 if found to not exist in a set, it stop searching for it and begins with the
 next element.
 
@@ -839,7 +846,7 @@ The book claims the increase in efficiency is linear. I will now do the
     ```
 
     With this it is already possible to reimplement the
-    `element-of-set`{.verbatim} procedure.
+    `element-of-set`  procedure.
 
     ``` {.scheme tangle="code/binary_tree.scm"}
     (define false #f)
@@ -852,7 +859,7 @@ The book claims the increase in efficiency is linear. I will now do the
     ```
 
     The procedures work. These are the building blocks in order to create fun
-    things such as `adjoin-set`{.verbatim}
+    things such as `adjoin-set` 
 
     ``` {.scheme tangle="code/binary_tree.scm"}
     (define (adjoin-set x set)
@@ -884,7 +891,7 @@ The book claims the increase in efficiency is linear. I will now do the
     value. Examples exists but the most obvious one is a dictionary. A lookup
     function is required to make use of the key with the dataset.
 
-    This implementation assumes that the `set-of-records`{.verbatim} is
+    This implementation assumes that the `set-of-records`  is
     implemented as an unordered list. Actual performance system will have more
     thought put into their system with a strategy such as a binary search tree.
 
@@ -1047,7 +1054,7 @@ designed in such a way that allow them to operate on any form of data. Abstract
 implementation of generics that are so common in modern programming. Interfaces,
 traits and contracts.
 
-This scheme implementation would use `type tags`{.verbatim}.
+This scheme implementation would use `type tags` .
 
 Data Oriented Programming
 :   implementation strategy that uses a global table to lookup items and decide
@@ -1204,8 +1211,8 @@ procedures.
 (get <op> <type>)
 ```
 
-We pretend that there are two procedures, `put`{.verbatim} and `get`{.verbatim}.
-`put`{.verbatim} places an item, a procedure on a table of procedures. Each
+We pretend that there are two procedures, `put`  and `get` .
+`put`  places an item, a procedure on a table of procedures. Each
 column deals with a data type. Each row is an unique generic operation. The
 entries are unique procedures. Here is the new code.
 
@@ -1223,8 +1230,8 @@ entries are unique procedures. Here is the new code.
 ```
 
 The book contains a lot more code but this is enough to get the idea across.
-Assuming that there exists functions known as `put`{.verbatim} and
-`get`{.verbatim} we can allow for the easy table directed installation and usage
+Assuming that there exists functions known as `put`  and
+`get`  we can allow for the easy table directed installation and usage
 of multiple representation of the same data and their respective generic
 operators. Usage can be done with following code.
 
@@ -1430,7 +1437,7 @@ type as an object of another.
 ```
 
 Now we have a new procedure to implement that allows for this magic to occur.
-`put-coercion`{.verbatim} and `get-coercion`{.verbatim} would allow the casting
+`put-coercion`  and `get-coercion`  would allow the casting
 between types. There are some holes available. It is not possible to treat a
 complex number as an integer. Unless we ignore the imaginary part, losing
 information in the process.

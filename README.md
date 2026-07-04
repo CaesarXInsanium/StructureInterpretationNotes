@@ -40,6 +40,9 @@ college was my pride. But due to personal reasons, the is no longer the case.
 - [X] configure Neovim for note-taking. Since I am back this is hard, I have
   configured Neovim to be a good TEXT editor, less focus on code editing
 - [x] write compiler in GNU Guile
+- get rid of makefile
+- add support for EPUB
+- [ ] chapters 1 and 2
 
 A lot of TODOs failed bacause I suck, as such they were deleted.
 

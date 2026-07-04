@@ -1,6 +1,7 @@
 # Chapter 1: Procedures
 
-Here are the relevant lectures related to this chapter, youtube links.
+Here are the relevant lectures related to this chapter, YouTube links. These
+will be available in all of the chapters.
 
 - [Lecture 1A](https://www.youtube.com/watch?v=eJeMOEiHv8c)
 - [Lecture 1B](https://www.youtube.com/watch?v=-J_xL4IGhJA&list=PLE18841CABEA24090&index=1)
@@ -25,7 +26,7 @@ decision-making. This is composed to 3 things
 - primitive expressions: simplest entities and data
 - combination: methods to build larger things from smaller ones
 - abstractions: ways to reduce complexity by finding implementation details
-  and organizing data and procedures
+ and organizing data and procedures
 
 ### 1.1.1 Expressions
 
@@ -49,16 +50,14 @@ Of course such expressions can also be rewritten in a way that would allow for
 easier human understanding by aligning operators.
 
 ``` scheme
-(+ (* 3
-      (+ (* 2 4)
-         (+ 3 5)))
-   (+ (- 10 7)
-      (6))
+(+ (* 3 (+ (* 2 4)
+           (+ 3 5)))
+   (+ (- 10 7) 6))
 ```
 
 ### 1.1.2 Naming and Environment
 
-In lisp things can be named with `define`{.verbatim}. This allows easy reference
+In lisp things can be named with `define`  This allows easy reference
 with a value without spelling it out. Assigned variable names are evaluated with
 their referred value.
 
@@ -95,7 +94,7 @@ Here is procedure that square a number.
 ```
 
 Define a procedure where we multiply a thing by itself. Here we use the
-`define`{.verbatim} keyword to name a procedure, specify that it takes only one
+`define` keyword to name a procedure, specify that it takes only one
 parameter and then following expression is that happens to data that is passed.
 
 ``` example
@@ -125,11 +124,11 @@ completeness and is basis for any for decision-making. Here are some examples.
 
 ``` scheme
 (define (abs x)
-  (cond ((> x 0) x) ;; this function is very similar to switch statement from C
+  (cond ((> x 0) x)
         ((= x 0) 0)
-        ((< x 0) (-x))))
+        ((< x 0) -x)))
 (define (abs x)
-  (cond ((< x 0) (-x))
+  (cond ((< x 0) -x)
         (else x)))
 (define (abs x)
   (if (< x 0)
@@ -165,9 +164,8 @@ We see the base form for a conditional statement in lisp.
 
 (define (sqrt-iter guess x)
   (if (good-enough? guess x)
-    guess
-    (sqrt-iter (improve guess x)
-                x)))
+      guess
+      (sqrt-iter (improve guess x) x)))
 
 (define (sqrt x)
   (sqrt-iter 1.0 x))
@@ -176,7 +174,7 @@ We see the base form for a conditional statement in lisp.
 ### 1.1.8 Procedures as Black-Box Abstractions
 
 Procedure Abstraction should allow for encapsulation of lower level procedure
-and joining them together in order to make larger procedures. Naming arguments
+and joining them together to make larger procedures. Naming arguments
 generally does not matter to user of a procedure. All that matters is that the
 function is correct and returns needed value.
 
@@ -200,7 +198,7 @@ the bast idea on how to design and build a system one must have a good idea on
 what we want the end result to be. It makes it necessary to plan out much of
 what we want to do. Procedures are local evolutions of computational processes
 and as such can be built on top of each other in order to create the bigger
-result. They are some \"shapes\" that procedure definitions can follow.
+result. They are some **shapes** that procedure definitions can follow.
 
 Lisp allows reasoning about and build procedures as if they were mathematical
 expressions.
@@ -209,30 +207,25 @@ expressions.
 
 The definition of factorial is as follows
 
-```{=latex}
-\begin{equation}
+$$
 n! = n * (n - 1) * (n -2) ...3 * 2 * 1
-\end{equation}
-```
+$$
+
 From this it is logical to assume that *n* factorial is equal to *n* times *n*
 minus one factorial.
 
-```{=latex}
-\begin{equation}
+$$
 n! = n * (n-1)!
-\end{equation}
-```
+$$
+
 Here is a more recursive method
 
 ``` scheme
 (define (factorial n)
-  (if (= n 1)
-    1
-    (* n
-       (factorial (- n -1)))))
+  (if (= n 1) 1 (* n (factorial (- n -1)))))
 ```
 
-Here is another method of defining the factorial function.
+Here is another iterative method of defining the factorial function.
 
 ``` scheme
 (define (factorial n)
@@ -244,18 +237,18 @@ Here is another method of defining the factorial function.
   (iter 1 1))
 ```
 
-Expanding expression allows one to see the true \"shape\" of a procedure as it
+Expanding expression allows one to see the true **shape** of a procedure as it
 evaluates. Some have a diamond shape as the expression expands to the simplest
 term and then contracts as each term is evaluated.
 
 The expansion evaluation of a procedure is known as
-`deferred operations`{.verbatim} in which an is like as the program is being run
+`deferred operations` in which an is like as the program is being run
 this is the part where each function is being initial called. And then after
 that the evaluation of the value is the actual recursion.
 
 With the iterative function definition each time the recursive function is
 called it is being immediate evaluated before it can be called again. This is
-`iterative`{.verbatim} processes. In this method the state can be tracked with
+`iterative` processes. In this method the state can be tracked with
 certain variables keeping track of when the process should end if at all. For is
 a for loop in most languages.
 
@@ -321,12 +314,11 @@ but it is useful in describing how efficient an algorithm really is.
 One way to calculate the exponent of a value is to use the recursive definition
 of exponentiation.
 
-```{=latex}
-\begin{equation}
+$$
 b^n = b * b^{n-1},
 b^0 = 1
-\end{equation}
-```
+$$
+
 Here it is in scheme.
 
 ``` scheme
@@ -340,11 +332,10 @@ It is possible to make a faster procedure by simply using a different algorithm.
 It can be done using the idea that certain value can be reached faster. For
 example take following expression.
 
-```{=latex}
-\begin{equation}
+$$
 b^4 = b^2 * b^2
-\end{equation}
-```
+$$
+
 Using this $$ b^8 $$ can be calculated much faster. Here is an implementation.
 
 ``` scheme
@@ -366,11 +357,10 @@ $$ x *GCD =A $$ and $$ y* GCD =  B $$
 
 Finding the GCD is simple since one can take the recursive definition.
 
-```{=latex}
-\begin{equation}
+$$
 GCD(a,b) = GCD(b,r)
-\end{equation}
-```
+$$
+
 Use it to define this function in scheme.
 
 ``` scheme
@@ -452,7 +442,7 @@ The final form. Will take a number and number of attempts to see if it is prime.
 However, it has been proven that even if the procedure says that a number passes
 the test then it does not mean that it is prime. There is also the fact that
 some non primes that fool the Fermat test for why modulo congruent with a lot of
-numbers. This algorithm is an example of a `Probabilistic Algorithm`{.verbatim}
+numbers. This algorithm is an example of a `Probabilistic Algorithm`
 in which there is a chance of error that the algorithm yields the incorrect
 result.
 
@@ -462,7 +452,7 @@ The ability to write procedures and function allows for the ability to create
 program that can work on higher and higher levels of abstraction and reuse
 instructions and operations without repeat the definitions.
 
-Procedures that only work on numbers can be limiting. `Higher Order`{.verbatim}
+Procedures that only work on numbers can be limiting. `Higher Order`
 procedures are those that accept functions as arguments and can return functions
 as results.
 
@@ -497,11 +487,10 @@ These are similar procedures, that have the same template and could be
 automatically generated. Sigma notation is used in order to express how express
 a method to add the results of a function given a range of integer values.
 
-```{=latex}
-\begin{equation}
-\sum_{n=a}^{b}(f(n) = f(a)+...+f(b))
-\end{equation}
-```
+$$
+\sum_{n=a}^{b}{f(n) = f(a) + \cdots + f(b)}
+$$
+
 The realization that the pattern being emulated is in fact a mathematical
 summation allows for easy redefinition using the scheme language.
 
@@ -514,7 +503,7 @@ summation allows for easy redefinition using the scheme language.
 
 ;; term is a function that determines the selection of items being summed
 ;; next is a function that determines which is the next items after the previous one
-    ;; for function term
+;; for function term
 ```
 
 Using some other helper functions it is possible to redefine all the functions.
@@ -554,7 +543,7 @@ approximate the integral of a function.
 ### 1.3.2 Constructing Procedures Using Lambda
 
 Scheme allows for methods of defining simple single use functions without giving
-them names. These are `lambda`{.verbatim}, anonymous function that are a
+them names. These are `lambda`  anonymous function that are a
 definition of a function that does one simple thing and developer forgets about
 them.
 
@@ -591,25 +580,23 @@ sugar for lambda.
 (define f (lambda (x) (+ x 1)))
 ```
 
-#### Using `let`{.verbatim} to create local variables
+#### Using `let` to create local variables
 
-Using the `let`{.verbatim} keyword is useful in defining variables with limited
+Using the `let` keyword is useful in defining variables with limited
 scope in order to pollute namespace. Taking the mathematical expression
 
-```{=latex}
-\begin{equation}
+$$
 f(x, y) = x(1 + (x * y))^2 + 1 y (1 - y) + ( 1 + (x * y))(1 - y)
-\end{equation}
-```
+$$
+
 can be simplified to
 
-```{=latex}
-\begin{equation}
+$$
 a = 1 + (x * y),
 b = 1 - y,
 f(x, y) = xa^2 + (y * b) + ab
-\end{equation}
-```
+$$
+
 Writing scheme code in order to emulate this function would require not only the
 parameters but also defining the local variables a and b. Here is some normal
 scheme code.
@@ -654,7 +641,7 @@ thought of as syntactic sugar for a lambda expression that take in certain
 parameters that are the names of parameters and outputs a list with each item
 being corresponding to the value of expression.
 
-If a variable already has a value, then the `let`{.verbatim} expression
+If a variable already has a value, then the `let` expression
 overrides it within the scope of the expression, ignoring outside values.
 
 ``` scheme
@@ -664,8 +651,8 @@ overrides it within the scope of the expression, ignoring outside values.
    x) ;; evaluates to 38
 ```
 
-Best practices dictates to use `let`{.verbatim} in defining variables and
-`define`{.verbatim} in defining internal procedures.
+Best practices dictates to use `let` in defining variables and
+`define` in defining internal procedures.
 
 ### 1.3.3 Procedures as General Methods
 
@@ -704,7 +691,7 @@ midpoint. Then if negative the new range is from midpoint to end of range. If
 the midpoint evaluates to zero then it gets returned.
 
 Search should not be called directly and instead suitable interval should first
-be found and then `search`{.verbatim} should be called.
+be found and then `search` should be called.
 
 #### Fixed Points of Functions
 
@@ -712,11 +699,10 @@ Fixed point in function are where the output of a function is the same as the
 input. These points can be found by applying this calculation. Where x is a
 guess and applying the same transformation.
 
-```{=latex}
-\begin{equation}
+$$
 f(x), f(f(x)), f(f(f(x))), f(f(f(f(x))))
-\end{equation}
-```
+$$
+
 Using this definition it is possible to define procedure that finds a fixed
 point given a function and initial guess. Here is the example the book gives.
 
@@ -741,11 +727,10 @@ based on some criteria.
 
 It can also find the solution to equations. Give for example.
 
-```{=latex}
-\begin{equation}
+$$
 y = cos(y) + sin(y)
-\end{equation}
-```
+$$
+
 Can be solved with.
 
 ``` scheme
@@ -769,14 +754,13 @@ average damp the result of a function.
 What this function does is it take a function and return a new function that
 takes the average of an input and the result of calling that function on an
 input. This concept can be used in order to redefine the square root function in
-terms of the previously define `fixed-point`{.verbatim} function.
+terms of the previously define `fixed-point` function.
 
 ``` scheme
 (define (sqrt x)
   (fixed-point (average-damp (lambda (y) (/ x y))) 1.0))
-
-;; Cube Root can also be defined
 ```
+> Cube Root can also be defined using these principles
 
 Recognizing patterns that repeat in procedures is an important skill to have as
 it for more easy reuse of different components.
@@ -786,23 +770,21 @@ it for more easy reuse of different components.
 Early implementation of square root function involved Newton\'s method in which
 solution can be approximated using the identity.
 
-```{=latex}
-\begin{equation}
+$$
 f(x) = x - \frac{g(x)}{Dg(x)}
-\end{equation}
-```
+$$
+
 The does here is to find *x* such that f(x) = 0. The bottom term is the
 derivative of the function *g* at *x*. This method does not always converge but
 does converge enough times such that it is useful approximation.
 
 In order to use this method, the derivative must found, and used. It is defined
-as
+as so
 
-```{=latex}
-\begin{equation}
+$$
 g'(x) = \frac{g(x + dx) - g(x)}{dx}
-\end{equation}
-```
+$$
+
 The code here is simply returning a new function that is in terms of the passed
 and uses the definition of the derivative in order to calculate the derivative
 at a certain value of *x*.
@@ -816,8 +798,8 @@ at a certain value of *x*.
            dx)))
 ```
 
-A new procedure can be defined that take a function *f* and returns it\'s
-derivative in terms of *f*. Then Newton\'s Method can be implemented by using it
+A new procedure can be defined that take a function *f* and returns it's
+derivative in terms of *f*. Then Newton's Method can be implemented by using it
 as a fixed point function.
 
 ``` scheme
@@ -834,7 +816,7 @@ The square root function can be redefined in terms of these new functions.
 
 #### Abstractions and First Class Procedures
 
-Further abstraction can be achieved by formulating the repeat used of the fixed
+Further abstraction can be achieved by formulating the repeated used of the fixed
 point function and abstracting its repeated use.
 
 ``` scheme
@@ -844,15 +826,14 @@ point function and abstracting its repeated use.
 
 This procedure takes as arguments function g, a function that a solution found,
 and an initial guess. What is does is it calls the fixed point function that
-takes the transform procedure and calls it on g, and the guess. The whole
+takes the transform procedure and calls it on *g*, and the guess. The whole
 purpose is to define a function that can be solved and to solve it. And this can
 be used to redefine the square root function.
 
 ``` scheme
 (define (sqrt x)
-  (fixed-point-of-transform (lambda (y) (/ x y))
-                            average-damp
-                            1.0))
+  (fixed-point-of-transform 
+    (lambda (y) (/ x y)) average-damp 1.0))
 ```
 
 These higher order procedures allow for easy expression of computing methods

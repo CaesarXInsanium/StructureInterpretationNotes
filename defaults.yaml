@@ -1,0 +1,50 @@
+standalone: true          # pandoc assumes standalone for EPUB
+input-files:
+  - Notes/Procedures.md
+  - Notes/DataAbstractions.md
+
+output-file: SICPnotes.pdf
+
+# css: styles.css
+metadata:
+  title: "SICP Notes"
+  author: "Caesar X Insanium"
+  # date would be automatic
+  # date: "2026-07-03"
+  lang: en
+  description: "A collection of personal notes for SICP"
+  keywords: [notes, knowledge, zettelkasten, scheme]
+
+# Table of contents
+toc: true
+toc-depth: 3               # show headings down to level 2 in the TOC
+standalone: true
+
+# EPUB‑specific options
+epub-chapter-level: 1       # split the EPUB into separate XHTML files at level‑1 headings
+# epub-cover-image: cover.png # optional cover image (PNG/JPG, <1000px wide)
+
+# mathml works
+# math-method: mathml
+html-math-method:
+  method: mathml
+
+# Embed fonts (optional, repeat as needed)
+# epub-embed-font:
+#  - fonts/MyFont-Regular.ttf
+#  - fonts/MyFont-Bold.ttf
+
+# Other useful settings
+# epub-subdirectory: EPUB   # default is fine
+
+## PDF Options
+variables:
+  mathml: true
+  documentclass: report
+  # classoption: [twocolumn, landscape]
+  geometry:
+    - top=30mm
+    - left=20mm
+    - heightrounded
+  fontsize: 11pt
+  mainfont: "TeX Gyre Pagella"
