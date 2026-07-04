@@ -24,18 +24,16 @@ standalone: true
 epub-chapter-level: 1       # split the EPUB into separate XHTML files at level‑1 headings
 # epub-cover-image: cover.png # optional cover image (PNG/JPG, <1000px wide)
 
-# mathml works
-# math-method: mathml
-html-math-method:
-  method: mathml
-
 # Embed fonts (optional, repeat as needed)
 # epub-embed-font:
 #  - fonts/MyFont-Regular.ttf
 #  - fonts/MyFont-Bold.ttf
 
-# Other useful settings
-# epub-subdirectory: EPUB   # default is fine
+# HTML specific options
+html-math-method:
+  method: mathml
+
+highlight-style: pygments
 
 ## PDF Options
 variables:
