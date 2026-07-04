@@ -446,7 +446,7 @@ numbers. This algorithm is an example of a `Probabilistic Algorithm`
 in which there is a chance of error that the algorithm yields the incorrect
 result.
 
-### Formulating Abstractions with Higher Order Procedures 1.3
+### 1.3 Formulating Abstractions with Higher Order Procedures
 
 The ability to write procedures and function allows for the ability to create
 program that can work on higher and higher levels of abstraction and reuse

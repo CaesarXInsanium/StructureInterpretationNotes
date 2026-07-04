@@ -1,5 +1,6 @@
 standalone: true          # pandoc assumes standalone for EPUB
 input-files:
+    # chapter 1 all in one file
   - Notes/Procedures.md
   - Notes/DataAbstractions.md
 
@@ -17,7 +18,7 @@ metadata:
 
 # Table of contents
 toc: true
-toc-depth: 3               # show headings down to level 2 in the TOC
+toc-depth: 2               # show headings down to level 2 in the TOC
 standalone: true
 
 # EPUB‑specific options
@@ -36,13 +37,18 @@ html-math-method:
 highlight-style: pygments
 
 ## PDF Options
+pdf-engine: xelatex
 variables:
   mathml: true
-  documentclass: report
+  documentclass: book
   # classoption: [twocolumn, landscape]
   geometry:
     - top=30mm
     - left=20mm
     - heightrounded
-  fontsize: 11pt
-  mainfont: "TeX Gyre Pagella"
+  fontsize: 12pt
+  mainfont: "Iosevka"
+  monofont: "Iosevka Term"
+# FreeSerif
+# Go, Go Mono
+# Liberation Serif

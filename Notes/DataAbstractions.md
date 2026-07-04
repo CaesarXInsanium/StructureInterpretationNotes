@@ -193,8 +193,11 @@ change in behavior for the use to deal with.
 
 The `cons` function allows for the holding of more than just numbers,
 other `cons` boxes can hold more `cons` boxes. This allows for a rudimentary tree
-to be defined and used. Cons boxes can hold indefinite levels of cons boxes.
+to be defined and used. `cons` boxes can hold indefinite levels of cons boxes.
 Restricted only by the amount of memory a computer holds.
+
+> From what I can see `cons` boxes are just structs with pointers to arbitrary
+> data.
 
 ``` scheme
 (cons (cons 1 2)
@@ -224,7 +227,7 @@ shown.
         (else (+ (count-leaves (car x))
                  (count-leaves (cdr x))))))
 ```
-> Note that this function is not tail recursive, so it cannot be optimized to
+> Note that this function is not tail recursive, so it cannot be optimized
 > with tail call optimization techniques.
 
 #### Mapping Over Trees
