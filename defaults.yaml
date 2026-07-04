@@ -2,7 +2,15 @@ standalone: true          # pandoc assumes standalone for EPUB
 input-files:
     # chapter 1 all in one file
   - Notes/Procedures.md
+  # chapter 2
   - Notes/DataAbstractions.md
+  # Chapter 3, first file is the intro.
+  - Notes/ModularityObjectsStateIntro.md
+  - Notes/AssignmentAndLocalState.md
+  - Notes/EnvironmentModelEvaluation.md
+  - Notes/ModelingMutableData.md
+  - Notes/Concurrency.md
+  - Notes/Streams.md
 
 output-file: SICPnotes.pdf
 
@@ -47,7 +55,7 @@ variables:
     - left=20mm
     - heightrounded
   fontsize: 12pt
-  mainfont: "Iosevka"
+  mainfont: "Iosevka Slab"
   monofont: "Iosevka Term"
 # FreeSerif
 # Go, Go Mono

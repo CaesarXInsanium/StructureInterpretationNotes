@@ -1,5 +1,3 @@
-(define *table* (make-hash-table))
-
 (define (put op type proc)
   (hash-set! *table* (cons op type) proc))
 (define (get op type)
@@ -88,7 +86,7 @@
   (define (make-term order coef) (list order coeff))
   (define (order term) (car term))
   (define (coeff term) (cadr term))
-                     
+
   (put 'add '(polynomial polynomial)
        (lambda (p1 p2) (tag (add-poly p1 p2))))
   (put 'mul '(polynomial polynomial)
@@ -103,37 +101,37 @@
 (define (make-polynomial var terms)
   ((get 'make 'polynomial) var terms))
 
-(define (zero-poly? poly) 
- (define (zero-terms? termlist) 
-   (or (empty-termlist? termlist) 
-       (and (=zero? (coeff (first-term termlist))) 
-            (zero-terms? (rest-terms termlist))))) 
- (zero-terms? (term-list poly))) 
+(define (zero-poly? poly)
+ (define (zero-terms? termlist)
+   (or (empty-termlist? termlist)
+       (and (=zero? (coeff (first-term termlist)))
+            (zero-terms? (rest-terms termlist)))))
+ (zero-terms? (term-list poly)))
 
 (put '=zero? 'polynomial zero-poly?)
-(put 'negate 'scheme-number 
-      (lambda (n) (tag (- n)))) 
-  
- ;; add into rational package 
-(put 'negate 'rational 
-    (lambda (rat) (make-rational (- (numer rat)) (denom rat)))) 
+(put 'negate 'scheme-number
+      (lambda (n) (tag (- n))))
 
-;; add into complex package 
-(put 'negate 'complex 
-  (lambda (z) (make-from-real-imag (- (real-part z)) 
-                                   (- (imag-part z))))) 
+ ;; add into rational package
+(put 'negate 'rational
+    (lambda (rat) (make-rational (- (numer rat)) (denom rat))))
 
-;; add into polynomial package 
-(define (negate-terms termlist) 
-  (if (empty-termlist? termlist) 
-      the-empty-termlist 
-      (let ((t (first-term termlist))) 
-        (adjoin-term (make-term (order t) (negate (coeff t))) 
-                     (negate-terms (rest-terms termlist)))))) 
+;; add into complex package
+(put 'negate 'complex
+  (lambda (z) (make-from-real-imag (- (real-part z))
+                                   (- (imag-part z)))))
 
-(put 'negate 'polynomial 
-      (lambda (poly) (make-polynomial (variable poly) 
-                                      (negate-terms (term-list poly))))) 
+;; add into polynomial package
+(define (negate-terms termlist)
+  (if (empty-termlist? termlist)
+      the-empty-termlist
+      (let ((t (first-term termlist)))
+        (adjoin-term (make-term (order t) (negate (coeff t)))
+                     (negate-terms (rest-terms termlist))))))
 
-(put 'sub '(polynomial polynomial) 
-   (lambda (x y) (tag (add-poly x (negate y))))) 
+(put 'negate 'polynomial
+      (lambda (poly) (make-polynomial (variable poly)
+                                      (negate-terms (term-list poly)))))
+
+(put 'sub '(polynomial polynomial)
+   (lambda (x y) (tag (add-poly x (negate y)))))

@@ -1,18 +1,18 @@
 ## 3.1 Assignment and Local State
 
-> [Relevant Lecture 5A](https://youtu.be/a2Qt9uxhNSM?si=bnAnEcuD6LOevxlz)
+[Relevant Lecture 5A](https://youtu.be/a2Qt9uxhNSM?si=bnAnEcuD6LOevxlz)
 
 Sometimes previous values are not important, the 'environment model' of computation
-allows not needed the history of value to make use of it now. Computational objects
-must be decoupled from time and an assignment operation is required, to change
-value associated with a variable.
+allows not needing to know the history of value to make use of it now. Computational 
+objects must be decoupled from time and an assignment operation is required, to
+change value associated with a variable.
 
 ### 3.1.1 Local State Variables
 
 Here is where the example Bank Account program is used to show the idea of state
 and setting the values of a variable, associated with a symbol. 
 
-[Code](code/AssignmentAndLocalState.scm)
+[code/AssignmentAndLocalState.scm](code/AssignmentAndLocalState.scm)
 
 We see a function that returns a different value each time that it is called.
 Because it has a side effect.

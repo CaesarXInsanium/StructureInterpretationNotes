@@ -1,4 +1,5 @@
 ;; GNU Guile Compatibility hack to make code look like book
+;; in retrospective, this could be done using --r7rs
 (define true #t)
 (define false #f)
 

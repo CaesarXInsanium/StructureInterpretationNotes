@@ -132,8 +132,7 @@ completeness and is basis for any for decision-making. Here are some examples.
         (else x)))
 (define (abs x)
   (if (< x 0)
-      (- x)
-      x))
+      (- 0 x) x))
 ```
 > from the future: now we know that the `cond` expression can actually be a macro.
 > implemented in relation to other simpler constructs.
@@ -446,7 +445,7 @@ numbers. This algorithm is an example of a `Probabilistic Algorithm`
 in which there is a chance of error that the algorithm yields the incorrect
 result.
 
-### 1.3 Formulating Abstractions with Higher Order Procedures
+## 1.3 Formulating Abstractions with Higher Order Procedures
 
 The ability to write procedures and function allows for the ability to create
 program that can work on higher and higher levels of abstraction and reuse

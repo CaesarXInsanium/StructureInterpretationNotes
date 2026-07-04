@@ -1,6 +1,6 @@
 ## 3.3 Modeling with Mutable Data
 
-[Lecture 5B: Computational Objects"](https://youtu.be/yedzRWhi-9E?si=W2IwzrfHB3uoFwaE)
+[Lecture 5B: Computational Objects](https://youtu.be/yedzRWhi-9E?si=W2IwzrfHB3uoFwaE)
 
 Mutators
 : operation that change a value in a data structure.
@@ -17,25 +17,33 @@ of unused data. Scheme also requires that the procedure `cons` is defined in ter
 of new primitive procedure `get-new-pair`.
 
 ```scheme
+(define (return x) x)
 (define (cons x y)
   (let ((new (get-new-pair)))
-    (set-car! new x)
-    (set-cdr! new y)
-    new))
+       (set-car! new x)
+       (set-cdr! new y)
+       (return new)))
 ```
 
 #### Sharing and Identity
 
-There must be a way to tell if two symbols are point to the same value in memory.
+There must be a way to tell if two symbols are pointing to the same value in memory.
 If they are bound to the same object. `eq?` allows for determining if two objects
 point to same memory. Which does not make sense since Scheme is a dynamic programming
 language. Symbols themselves are inherently shared. Great care must be made when
 procedure that alter pointer and pairs, the price that must be paid are bugs and
 incorrectness.
 
+> Future: I get it know. Literally all symbols are the same object in memory. If
+> we have a symbol name 'banana. We assign this to a variable. And we do the
+> same with another variable. And then we `eq?` both of them. We get yes. 
+> All symbols of 'banana are the same since all of them point to the literal
+> same region of memory inside of the implementation of scheme that we are
+> working in.
+
 #### Representing Queues
 
-One use case of mutable `cons` pairs is the creation of queues ans tables.
+One use case of mutable `cons` pairs is the creation of queues and tables.
 
 Queue
 : Sequence of items, inserted on one end and queried from another. It is an abstract

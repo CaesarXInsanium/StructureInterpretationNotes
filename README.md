@@ -1,7 +1,6 @@
 # Structure and Interpretation of Computer Programs Notes
 
 This repo contains my personal self study notes from reading the book by
-Abelson, Sussman, and the other Sussman. To be more specific the second
 edition.
 
 ~~Currently stuck on chapter 2, skipped my last exercise. Will now focus
@@ -50,11 +49,10 @@ A lot of TODOs failed bacause I suck, as such they were deleted.
 
 ``` scheme
 (define (square x) (* x x))
-(define relu (lambda (x) (if (< x 0)
-                             0
-                             x))))
-(square 3)
-(relu 7)
-(display "Hello World!\n")
-(relu -2)
+(define relu (lambda (x) (if (< x 0) 0 x)))
+
+(square 3) ;; => 9
+(relu 7) ;; => 7
+(display "Hello World!\n") ;; Writes to standard out.
+(relu -2) ;; => 0
 ```

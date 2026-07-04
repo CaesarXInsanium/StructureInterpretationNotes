@@ -1,4 +1,4 @@
-# Chapter 2
+# Chapter 2: Building Abstractions with Data
 
 Relevant lectures
 
@@ -609,12 +609,17 @@ The SICP implementation defines a set of differential properties that are
 kept in mind when beginning to implement a way to find derivative
 expressions.
 
-$-- no space after open $, no space before $
+for any value
 
-- $\frac{dc}{dx} = 0$ for any value
-- $\frac{dx}{dx} = 1$ identity
-- $\frac{d(u + v)}{dx} = \frac{du}{dv} + \frac{dv}{dx}$
-- $\frac{d(u  v)}{dx} = u  \frac{dv}{dx} + v  \frac{du}{dx}$
+$$\frac{dc}{dx} = 0$$ 
+
+identity
+
+$$\frac{dx}{dx} = 1$$
+
+$$\frac{d(u + v)}{dx} = \frac{du}{dv} + \frac{dv}{dx}$$
+
+$$\frac{d(u  v)}{dx} = u  \frac{dv}{dx} + v  \frac{du}{dx}$$
 
 The third and fourth rules are recursive in nature, it allows for
 splitting a problem into smaller, more solvable chunks. Further
@@ -642,7 +647,7 @@ way to parse expressions.
 All of these functions must be defined. If we assume that all of these
 functions are defined then we can create a function.
 
-```{.scheme tangle="code/diffentiation.scm" mkdirp="yes"}
+```scheme
 (define (deriv exp var)
   (cond ((number? exp) 0)
         ((variable? exp) (if (same-variable? exp-var) 1 0))
@@ -662,9 +667,9 @@ representation for the algebraic expressions.
 
 2. Representing Algebraic Expressions
 
-    Scheme\'s symbols are a straight forward way to define the expressions.
-    $ ax + b $ becomes `(+ (* a x) b)`  very easily. And so they can
-    be defined using merely scheme primitives.
+Scheme's symbols are a straight forward way to define the expressions.
+$ ax + b $ becomes `(+ (* a x) b)`  very easily. And so they can
+be defined using merely scheme primitives.
 
 ```scheme
 (define (variable? x) (symbol? x))
@@ -776,7 +781,7 @@ Here are some basic procedures for interacting with sets.
                     (union-set (cdr a) b)))))
 ```
 
-Efficiency if a require thing to think about since number of steps to do
+Efficiency is a required thing to think about since number of steps to do
 anything useful would in theory hamper what sort of things can be done in a
 reasonable amount of time. Here is where asymptotic notation rears its ugly head
 once again since set could be anything.
@@ -826,93 +831,93 @@ next element.
 The book claims the increase in efficiency is linear. I will now do the
 61st exercise.
 
-2.  Sets as Binary Trees
+2.  Sets as trinary Trees
 
-    Just as the title suggests the book now represent sets as a binary trees
-    with each node having a number and a two branches, one side has values less
-    than node and other side has values greater than node. This would be a
-    binary heap or a binary search tree. Nope its a tree. With a tree
-    representation, it is possible to cut the search size in half with each
-    comparison, if the key is present in tree at all.
+Just as the title suggests the book now represent sets as a binary trees
+with each node having a number and a two branches, one side has values less
+than node and other side has values greater than node. This would be a
+binary heap or a binary search tree. Nope its a tree. With a tree
+representation, it is possible to cut the search size in half with each
+comparison, if the key is present in tree at all.
 
-    The nodes themselves are lists of three items, the item, and the two
-    sub-trees. With this idea it is possible to immediately begin representing
-    trees.
+The nodes themselves are lists of three items, the item, and the two
+sub-trees. With this idea it is possible to immediately begin representing
+trees.
 
-    ``` {.scheme tangle="code/binary_tree.scm"}
-    (define (entry tree) (car tree))
-    (define (left-branch tree) (cadr tree))
-    (define (right-branch tree) (caddr tree))
+```scheme
+(define (entry tree) (car tree))
+(define (left-branch tree) (cadr tree))
+(define (right-branch tree) (caddr tree))
 
-    (define (make-tree entry left right)
-      (list entry left right))
-    ```
+(define (make-tree entry left right)
+  (list entry left right))
+```
 
-    With this it is already possible to reimplement the
-    `element-of-set`  procedure.
+With this it is already possible to reimplement the
+`element-of-set`  procedure.
 
-    ``` {.scheme tangle="code/binary_tree.scm"}
-    (define false #f)
-    (define true #t)
-    (define (element-of-set? x set)
-      (cond ((null? set) false)
-            ((= x (entry set)) true)
-            ((< (entry set)) (element-of-set? x (left-branch set)))
-            ((> x (entry set)) (element-of-set? x (right-branch set)))))
-    ```
+```scheme
+(define false #f)
+(define true #t)
+(define (element-of-set? x set)
+  (cond ((null? set) false)
+        ((= x (entry set)) true)
+        ((< (entry set)) (element-of-set? x (left-branch set)))
+        ((> x (entry set)) (element-of-set? x (right-branch set)))))
+```
 
-    The procedures work. These are the building blocks in order to create fun
-    things such as `adjoin-set` 
+The procedures work. These are the building blocks in order to create fun
+things such as `adjoin-set` 
 
-    ``` {.scheme tangle="code/binary_tree.scm"}
-    (define (adjoin-set x set)
-      (cond ((null? set) (make-tree x '() '()))
-            ((= x (entry set)) set)
-            ((< x (entry set)) (make-tree (entry set)
-                                          (adjoin-set x (left-branch set))
-                                          (right-branch set)))
-            ((> x (entry set)) (make-tree (entry set)
-                                          (left-branch set)
-                                          (adjoin-set x (right-branch set))))))
-    ```
+```scheme
+(define (adjoin-set x set)
+  (cond ((null? set) (make-tree x '() '()))
+        ((= x (entry set)) set)
+        ((< x (entry set)) (make-tree (entry set)
+                                      (adjoin-set x (left-branch set))
+                                      (right-branch set)))
+        ((> x (entry set)) (make-tree (entry set)
+                                      (left-branch set)
+                                      (adjoin-set x (right-branch set))))))
+```
 
-    The tree can be searched in logarithmic time but that is under the
-    assumption that the tree itself is balanced, meaning that one side has
-    roughly the same number of elements as the other. It could lead to time
-    complexity that is on par with a simple sorted linked list, which it is. The
-    solution is to create a method for keeping the tree balanced in some form.
-    Here we start getting into the exercises.
+The tree can be searched in logarithmic time but that is under the
+assumption that the tree itself is balanced, meaning that one side has
+roughly the same number of elements as the other. It could lead to time
+complexity that is on par with a simple sorted linked list, which it is. The
+solution is to create a method for keeping the tree balanced in some form.
+Here we start getting into the exercises.
 
 3.  Sets and Information Retrieval
 
-    Look at different methods to implement the idea of a set can show how much
-    of an impact that the choice of data representation strategy can have an
-    impact on the performance on the program.
+Look at different methods to implement the idea of a set can show how much
+of an impact that the choice of data representation strategy can have an
+impact on the performance on the program.
 
-    When creating a system for managing and searching large volumes of data it
-    is helpful to define a method by which a *key* can be used to search a
-    value. Examples exists but the most obvious one is a dictionary. A lookup
-    function is required to make use of the key with the dataset.
+When creating a system for managing and searching large volumes of data it
+is helpful to define a method by which a *key* can be used to search a
+value. Examples exists but the most obvious one is a dictionary. A lookup
+function is required to make use of the key with the dataset.
 
-    This implementation assumes that the `set-of-records`  is
-    implemented as an unordered list. Actual performance system will have more
-    thought put into their system with a strategy such as a binary search tree.
+This implementation assumes that the `set-of-records`  is
+implemented as an unordered list. Actual performance system will have more
+thought put into their system with a strategy such as a binary search tree.
 
-    ``` {.scheme tangle="code/information_retrieval.scm"}
-    (define key nil)
-    (define (lookup given-key set-of-records)
-      (cond ((null? set-of-records) #f)
-            ((equal? given-key (key (car set-of-records)))
-             (car set-of-records))
-            (else (lookup given-key (cdr set-of-records)))))
-    ```
+```scheme
+(define key nil)
+(define (lookup given-key set-of-records)
+  (cond ((null? set-of-records) #f)
+        ((equal? given-key (key (car set-of-records)))
+         (car set-of-records))
+        (else (lookup given-key (cdr set-of-records)))))
+```
 
 #### 2.3.4 Example: Huffman Encoding Trees
 
 Section focuses on a possible useful use of the sets and binary representation
 using a Huffman encoding tree. The main idea with this is the fact in order to
 represent *n* unique bits of data it requires $\log{2}{n}$ bits in order to
-represent it. 8 unique data points requires 3 bits to represent them all,
+represent. 8 unique data points requires 3 bits to represent them all,
 minimum.
 
 These are *fixed length* codes, where each set number of bits represent one data
@@ -927,114 +932,117 @@ frequency of each symbol. We sort the frequency of these symbols and then, go
 right and left adding a zero or a one based on going right or left in tree.
 Going down the tree is down by comparing each bit until a symbol is reached.
 
-1.  Generating Huffman Trees
+1. Generating Huffman Trees
 
-    Generating a Huffman tree requires the Huffman algorithm for encoding the
-    maximum amount of information in the fewest number of bits. In generating a
-    tree, the goal is to set the furthest leaves to represent the least common
-    symbols. The algorithm requires a set of nodes, each representing a symbol
-    and a weight denoting its frequency.
+Generating a Huffman tree requires the Huffman algorithm for encoding the
+maximum amount of information in the fewest number of bits. In generating a
+tree, the goal is to set the furthest leaves to represent the least common
+symbols. The algorithm requires a set of nodes, each representing a symbol
+and a weight denoting its frequency.
 
-    The tree is generated by comparing each node, one after the other merging
-    until the optimum combination is found.
+The tree is generated by comparing each node, one after the other merging
+until the optimum combination is found.
 
 2.  Representing Huffman Trees
 
-    The scheme representation is very rudimentary since it is a least containing
-    a scheme symbol.
+The scheme representation is very rudimentary since it is a least containing
+a scheme symbol.
 
-    ``` {.scheme tangle="code/huffman.scm"}
-    (define (make-leaf symbol weight)
-      (list 'leaf symbol weight))
+```scheme
+(define (make-leaf symbol weight)
+  (list 'leaf symbol weight))
 
-    (define (leaf? object)
-      (eq? (car object) 'leaf))
+(define (leaf? object)
+  (eq? (car object) 'leaf))
 
-    (define (symbol-leaf x) (cadr x))
+(define (symbol-leaf x) (cadr x))
 
-    (define (weight-leaf x) (caddr x))
+(define (weight-leaf x) (caddr x))
+```
+
+This is not very complicated.
+
+```scheme
+(define (make-code-tree left right)
+  (list left
+        right
+        (append (symbols left) (symbols right))
+        (+ (weight left) (weight right))))
+
+(define (left-branch tree) (car tree))
+(define (right-branch tree) (cadr tree))
+
+(define  (symbols tree)
+  (if (leaf? tree)
+      (list (symbol-leaf tree))
+      (caddr tree)))
+
+(define (weight tree)
+  (if (leaf? tree)
+      (weight-leaf tree)
+      (cadddr tree)))
     ```
 
-    This is not very complicated.
-
-    ``` {.scheme tangle="code/huffman.scm"}
-    (define (make-code-tree left right)
-      (list left
-            right
-            (append (symbols left) (symbols right))
-            (+ (weight left) (weight right))))
-
-    (define (left-branch tree) (car tree))
-    (define (right-branch tree) (cadr tree))
-
-    (define  (symbols tree)
-      (if (leaf? tree)
-          (list (symbol-leaf tree))
-          (caddr tree)))
-
-    (define (weight tree)
-      (if (leaf? tree)
-          (weight-leaf tree)
-          (cadddr tree)))
-    ```
-
-    Apparently these are examples of *generic procedures* that work on a
-    multitude of different types of data.
+Apparently these are examples of *generic procedures* that work on a
+multitude of different types of data.
 
 3.  The Decoding Procedure
 
-    I am just going to copy the decoding procedure that is listed in the thing.
+I am just going to copy the decoding procedure that is listed in the thing.
 
-    ``` {.scheme tangle="code/huffman.scm"}
-    (define (decode bits tree)
-      (define (decode-1 bits current-branch)
-        (if (null? bits)
-            '()
-            (let ((next-branch (choose-branch (car bits) current-branch)))
-              (if (leaf? next-branch)
-                  (cons (symbol-leaf next-branch)
-                        (decode-1 (cdr bits) tree))
-                  (decode-1 (cdr bits) next-branch)))))
-      (decode-1 bits tree))
+```scheme
+(define (decode bits tree)
+  (define (decode-1 bits current-branch)
+    (if (null? bits)
+        '()
+        (let ((next-branch (choose-branch (car bits) current-branch)))
+          (if (leaf? next-branch)
+              (cons (symbol-leaf next-branch)
+                    (decode-1 (cdr bits) tree))
+              (decode-1 (cdr bits) next-branch)))))
+  (decode-1 bits tree))
 
-    (define (choose-branch  bit branch)
-      (cond ((= bit 0) (left-branch branch))
-            ((= bit 1) (right-branch branch))
-            (else (error "bad bit -- CHOSE BRANCH" bit))))
-    ```
+(define (choose-branch  bit branch)
+  (cond ((= bit 0) (left-branch branch))
+        ((= bit 1) (right-branch branch))
+        (else (error "bad bit -- CHOSE BRANCH" bit))))
+```
 
-    I don\'t like the function raises an exception as opposed to returning a
-    result or option type. But I guess that is because the Rust programming
-    language exists.
+I don't like the function raises an exception as opposed to returning a
+result or option type. But I guess that is because the Rust programming
+language exists.
+
+> future note. I refuse to Rust not because I dislike it but because I want to
+> be a good programmer before I start using it.
 
 4.  Sets of Weighted Elements
 
-    Given the first paragraph it seems that the algorithm for generating the
-    tree representation of the set requires some sort of sorting algorithm. We
-    can copy an answer from exercise 2.61 or simply copy the implementation that
-    is given.
+Given the first paragraph it seems that the algorithm for generating the
+tree representation of the set requires some sort of sorting algorithm. We
+can copy an answer from exercise 2.61 or simply copy the implementation that
+is given.
 
-    ``` {.scheme tangle="code/huffman.scm"}
-    (define (adjoin-set x set)
+```scheme
+(define (adjoin-set x set)
 
-      (cond ((null? set) (list x))
-            ((< (weight x) (weight (car set)))  (cons x set))
-            (else (cons (car set)
-                        (adjoin-set x (cdr set))))))
+  (cond ((null? set) (list x))
+        ((< (weight x) (weight (car set)))  (cons x set))
+        (else (cons (car set)
+                    (adjoin-set x (cdr set))))))
 
-    (define (make-leaf-set pairs)
-      (if (null? pairs)
-          '()
-          (let ((pair (car pairs)))
-            (adjoin-set (make-leaf (car pair)
-                                   (cadr pair))
-                        (make-leaf-set (cdr pairs))))))
-    ```
+(define (make-leaf-set pairs)
+  (if (null? pairs)
+      '()
+      (let ((pair (car pairs)))
+        (adjoin-set (make-leaf (car pair)
+                               (cadr pair))
+                    (make-leaf-set (cdr pairs))))))
+```
 
 ## 2.4 Multiple Representations for Abstract Data
 
 > Relevant lecture: [Lecture 4B: Generic
-Operators](https://www.youtube.com/watch?v=OscT4N2qq7o&list=PLE18841CABEA24090&t=18)
+ Operators](https://www.youtube.com/watch?v=OscT4N2qq7o&list=PLE18841CABEA24090&t=18)
 
 This section deals with the more power to the abstract data representation. The
 main idea was separating the representation of the data way from the usage and
@@ -1080,29 +1088,29 @@ multiplying complex numbers is easier with polar presentation. Same is
 subtracting and dividing respectively. There are two functions that deal with
 conversion.
 
-``` {.scheme tangle="code/complex.scm"}
+```scheme
 (make-from-real-imag (real-part z) (imag-part z))
 (make-from-mag-ang (magnitude z) (angle z))
 ```
 
 Assuming these functions exist we can then implement some more functions.
 
-``` {.scheme tangle="code/complex.scm"}
+```scheme
 (define (add-complex z1 z2)
-  ((make-from-real-imag (+ (real-part z1) (real-part z2))
-                        (+ (imag-part z1) (imag-part z2)))))
+  (make-from-real-imag (+ (real-part z1) (real-part z2))
+                       (+ (imag-part z1) (imag-part z2))))
 
 (define (sub-complex z1 z2)
   (make-from-real-imag (- (real-part z1) (real-part z2))
                        (- (imag-part z1) (imag-part z2))))
+```
 
-;; multiplication and division is easier with polar representation
+Multiplication and division is easier with polar representation
 
+```scheme
 (define (mul-complex z1 z2)
   (make-from-mag-ang (* (magnitude z1) (magnitude z2))
                      (+ (angle z1) (angle z2))))
-
-
 (define (div-complex z1 z2)
   (make-from-mag-ang (/ (magnitude z1) (magnitude z2))
                      (- (angle z1) (angle z2))))
@@ -1113,7 +1121,7 @@ This design of the API requires that necessity to define some other functions.
 These are that the functions look like when dealing with a rectangular
 representation.
 
-``` {.scheme tangle="code/complex.scm"}
+```scheme
 ;; Can only deal with the Rectangular representation
 (define (real-part) (car z))
 (define (imag-part z) (cdr z))
@@ -1130,7 +1138,7 @@ representation.
 
 Here are what the functions look like to deal with a polar representation.
 
-``` {.scheme tangle="code/complex.scm"}
+```scheme
 (define (real-part z) (* (magnitude z) (cos (angle z))))
 
 (define (imag-part z) (* (magnitude z) (sin (angle z))))
@@ -1153,18 +1161,17 @@ amount of work required in order to get something represented and worked out.
 Selectors and tagged data allows for the deferral of actual implementation to
 more and more select packages and procedures.
 
-The example given by the book assumes that each piece of data is actual tagged
+The example given by the book assumes that each piece of data is actually tagged
 with a symbol.
 
 ``` scheme
-(cons <symbol>
-      <datum>)
+(cons <symbol> <datum>)
 ```
 
 This would allow for a way to differentiate between the two implementations.
 These require two procedures.
 
-``` {.scheme tangle="code/arithmetic.scm"}
+```scheme
 (define (attach-tag type-tag contents)
   (cons type-tag contents))
 
@@ -1190,17 +1197,17 @@ number type to exist simultaneously. How we are still not done since each
 individual function still has to check the type of each item in order to do any
 sort of work.
 
-\> code is on page 177, I\'m not typing that in.
+> code is on page 177, I'm not typing that in.
 
-Each \'generic\' operation that can be done requires individual checks for the
+Each 'generic' operation that can be done requires individual checks for the
 relevant types. Adding any new implementation requires editing each individual
 procedure.
 
 ### 2.4.3 Data-Directed Programming and Additivity
 
 Dispatching on Type
-:   checking on type of datum and calling the appropriate procedure is the very
-    essence of data oriented programming
+: checking on type of datum and calling the appropriate procedure is the very
+  essence of data oriented programming
 
 Extendability requires that each implementation requires as little work as
 possible. Another weakness in given implementation is that requirement to give
@@ -1215,16 +1222,15 @@ procedures.
 ```
 
 We pretend that there are two procedures, `put`  and `get` .
-`put`  places an item, a procedure on a table of procedures. Each
+`put` places an item, a procedure on a table of procedures. Each
 column deals with a data type. Each row is an unique generic operation. The
 entries are unique procedures. Here is the new code.
 
-``` {.scheme tangle="code/complex-packages.scm"}
+```scheme
 (define (install-rectangular-package)
   (define (real-part z) (car z))
   (put 'real-part '(rectangular) real-part)
   ...)
-
 
 (define (install-polar-package)
   (define (real-part z) (* (magnitude z) (cos (angle z))))
@@ -1238,7 +1244,7 @@ Assuming that there exists functions known as `put`  and
 of multiple representation of the same data and their respective generic
 operators. Usage can be done with following code.
 
-``` {.scheme tangle="code/arithmetic.scm"}
+```scheme
 (define (apply-generic op . args)
   (let ((type-tags (map type-tag args)))
     (let ((proc (get op type-tags)))
@@ -1270,11 +1276,13 @@ Constructors can be defined in terms of the procedures available in the table.
 It is at this point when we can start with the exercises. Best of luck to future
 Caesar.
 
+> Future Caesar: I have no I idea what happened here, if I did good or no.
+
 #### Message Passing
 
 Alternative implementation is to have table where types are actually procedures
 that take in a datum and a procedure to operate on and then the dispatching is
-done by the datums. I don\'t get it.
+done by the datums. I don't get it.
 
 ``` scheme
 (define (make-from-real-imag x y)
@@ -1305,7 +1313,7 @@ arithmetic system.
 
 First thing that must be defined is the generic procedures themselves.
 
-``` {.scheme tangle="code/arithmetic.scm"}
+```scheme
 (define (add x y) (apply-generic 'add x y))
 (define (sub x y) (apply-generic 'sub x y))
 (define (mul x y) (apply-generic 'mul x y))
@@ -1314,7 +1322,7 @@ First thing that must be defined is the generic procedures themselves.
 
 Ordinary numbers (integers) are the first things that are defined.
 
-``` {.scheme tangle="code/arithmetic.scm"}
+```scheme
 (define (install-scheme-number-package)
   (define (tag x)
     (attach-tag 'scheme-number x))
@@ -1334,7 +1342,7 @@ Ordinary numbers (integers) are the first things that are defined.
 
 Rational numbers can be added in the same way that ordinary numbers are added.
 
-``` {.scheme tangle="code/arithmetic.scm"}
+```scheme
 (define (install-rational-package)
   (define (number x) (car x))
   (define (denom x) (cdr x))
@@ -1360,7 +1368,7 @@ Rational numbers can be added in the same way that ordinary numbers are added.
 
 The complex number package can also be added. For some reason.
 
-``` {.scheme tangle="code/arithmetic.scm"}
+```scheme
 (define (install-complex-package)
   ;; private functions
   (define (make-from-real-imag x y)
@@ -1395,10 +1403,10 @@ The complex number package can also be added. For some reason.
   'done)
 ```
 
-All of this requires the definition of external constructors that actual just
+All of this requires the definition of external constructors that actually just
 call the real constructors.
 
-``` {.scheme tangle="code/arithmetic.scm"}
+```scheme
 (define (make-from-real-imag x y)
   ((get 'make-from-real-imag 'complex) x y))
 
@@ -1429,7 +1437,7 @@ conversion between different types.
 
 #### Coercion
 
-The solution it to change the problem to one where. This is where *coercion*
+The solution is to change the problem to one where. This is where *coercion*
 comes into play. The book introduces the idea of simply viewing an object of one
 type as an object of another.
 
@@ -1477,8 +1485,10 @@ The logical next step is to define a *hierarchy* of types. When each level
 defines a type which is represents a subset of the type over it. Like integers
 are a subset of rational numbers. It is here where things are getting
 interesting. It seems that we are getting to a point where we can implement
-Scheme\'s numerical tower. The entire book is leading to building a scheme
+Scheme's numerical tower. The entire book is leading to building a scheme
 compiler.
+
+> eyyyyyyy. I figured it out a long time ago.
 
 What is then mentioned is the idea of designing a path of coercions for the
 language to take in order to find a path. From one type to another.
@@ -1510,7 +1520,7 @@ system with focus on polynomial arithmetic.
 
 #### Arithmetic on Polynomials
 
- Indeterminate
+Indeterminate
 : Variables of a polynomial
 
 Book will focus on polynomials of a single variable, *univariate polynomial*.
@@ -1520,7 +1530,7 @@ Some restrictions must be applied.
 Some more code is defined, creating a  polynomial package. I will no longer copy
 it over in this document.
 
-> page 205 [code](../code/symbolic_algebra.scm)
+> page 205 [code](code/symbolic_algebra.scm)
 
 What was missing from the given code is ways to simply the expressions and add terms
 that have same power into one term with added coefficient. `add-terms` is defined
@@ -1537,7 +1547,8 @@ Term lists must have unique terms as well as be ordered from most significant to
 least. Ordered sets are required of the representation of terms. There is also
 *dense* $x^5 + 2x^4 +3x^2 - 2x - 5$ versus 
 *sparse* $x^100 + 2x^2 + 1$ term lists. Representing one would be less efficient
-for representing the other. So both types are going to be represented in the implementation.
+for representing the other. So both types are going to be represented in the
+implementation.
 
 #### Hierarchies of Types in Symbolic Algebra
 
@@ -1563,3 +1574,5 @@ and applied to a function named `gcd-terms`.
 
 I am struggling to understand the point of the rest of this chapter, other than
 implementing mathematics in scheme.
+
+> Future: I still don't get it. As I am rereading this stuff.
