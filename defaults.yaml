@@ -18,8 +18,7 @@ output-file: SICPnotes.pdf
 metadata:
   title: "SICP Notes"
   author: "Caesar X Insanium"
-  # date would be automatic
-  # date: "2026-07-03"
+  date: "2026-07-03"
   lang: en
   description: "A collection of personal notes for SICP"
   keywords: [notes, knowledge, zettelkasten, scheme]
@@ -54,9 +53,11 @@ variables:
     - top=30mm
     - left=20mm
     - heightrounded
+  # 10 11 12 only
   fontsize: 12pt
   mainfont: "Iosevka Slab"
   monofont: "Iosevka Term"
+# Alternative fonts
 # FreeSerif
 # Go, Go Mono
 # Liberation Serif

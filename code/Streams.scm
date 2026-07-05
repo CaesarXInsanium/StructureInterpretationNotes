@@ -1,6 +1,5 @@
 ;; Guile Library
-(use-modules (math primes))
-(use-modules (srfi srfi-41))
+(import (srfi srfi-41))
 
 
 (define (stream-ref s n)
@@ -71,6 +70,7 @@
 
 (define (integers-starting-from n)
   (cons-stream n (integers-starting-from (+ n 1))))
+
 (define integers (integers-starting-from 1))
 
 (define (divisible? x y) (= (remainder x y) 0))
@@ -95,8 +95,9 @@
 (define primes (sieve (integers-starting-from 2)))
 
 ;; Implicit
-(define (add-streams s1 s21)
-  (stream-map + s1 s2))
+(define (add-streams s1 s2)
+  (stream-map + s0 s2))
+
 (define integers (cons-stream 1 (add-streams ones integers)))
 
 ;; this formatting is ugly but at least it is readable

@@ -45,8 +45,8 @@ from writing to a variable.
 #### Serializers in Scheme
 
 Wishful thinking, however I know of a procedure in GNU Guile called `parallel`.
-Which should do the same thing as `parallel-execute`, which takes a *thunk*, a
-procedure with no arguments. We have to generate a procedure and then pass said
+Which should do the same thing as `parallel-execute`, which takes a *thunk* (a
+procedure with no arguments). We have to generate a procedure and then pass said
 procedure to the function.
 
 ```scheme
@@ -75,6 +75,9 @@ is a one element list with the symbol inside either `true` or `false`. If there
 are processes waiting to get access to a resource associated with the mutex then
 it tests and tests again and again until it finds the right time to acquire it
 as soon as it is unlocked.
+
+> However this can move the race conditions to mutex objects themselves without
+> special hardware support.
 
 Operations on mutexes must be done *atomically* to ensure that race conditions do
 not occur on mutexes themselves. In single core CPUs. Mutexes work wonders, the

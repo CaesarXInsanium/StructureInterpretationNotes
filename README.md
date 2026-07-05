@@ -45,6 +45,10 @@ college was my pride. But due to personal reasons, the is no longer the case.
 
 A lot of TODOs failed bacause I suck, as such they were deleted.
 
+I have decided at this point that the lectures are a waste of time. The lecturer
+seems to really like spending his time writing stuff on the chalkboard.
+Something which bores me to no end.
+
 ## Example of Scheme Code
 
 ``` scheme

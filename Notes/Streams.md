@@ -1,10 +1,13 @@
 ## 3.5 Streams
 
-
 Streams are used to model state, a scheme data structure. Thinking of it as a
 continuous function that does not change, it produces different values based on
 the input of time. Different functions can be used to represent *infinite* streams,
 sources of endless data.
+
+> I have seen in the future, that Streams are a form of lazy evaluation. They
+> are basically a series of forms that delay execution until they are needed. It
+> can also allow for recursion to turn into iteration.
 
 #### Relevant Lectures
 
@@ -40,6 +43,11 @@ for the usage other list actions. The core of stream is the function `delay` and
 (delay <exp>) ;; => promise object
 (force <promise>) 
 ```
+
+> delay is actually a compiler primitive/intrinsic. At least in the scheme
+> implementation that SICP uses. It is essentially creating a thunk. An
+> anonymous function that will no be evaluated until `force` is called on it.
+
 
 In GNU Guile `delay` is a macro, that returns a promise. `force` is a procedure.
 It also has the predicate `promise?`. Check out SRFI-46.
