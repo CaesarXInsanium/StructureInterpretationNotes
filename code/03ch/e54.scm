@@ -4,7 +4,7 @@
   (stream-map * s1 s2))
 
 ;; 0 1 2 3 4  5  6
-;; 1 1 2 6 12 60 360
+;; 1 1 2 6 24 60 360
 
 (define (integers-starting-from n)
   (stream-cons n (integers-starting-from (+ n 1))))
