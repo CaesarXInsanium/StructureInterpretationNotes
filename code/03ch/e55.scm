@@ -9,9 +9,10 @@
 ;;(define (partial-sums s) ...)
 
 (define (partial-sums s)
-  (define (inner n g)
-    (stream-cons n (inner (+ n (stream-car g)) (stream-cdr g))))
+  (define (inner current-total stream)
+    (stream-cons current-total (inner (+ current-total (stream-car stream)) 
+                                      (stream-cdr stream))))
   (inner (stream-car s) (stream-cdr s)))
 
-(display (stream->list 6 (partial-sums integers)))
+(display (stream->list 8 (partial-sums integers)))
 (newline)
