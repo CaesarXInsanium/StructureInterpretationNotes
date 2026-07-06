@@ -143,6 +143,7 @@
 (define (pi-summands n)
   (stream-cons (/ 1.0 n)
                (stream-map - (pi-summands (+ n 2)))))
+
 (define pi-stream
   (scale-stream (partial-sums (pi-summands 1)) 4))
 
@@ -167,4 +168,46 @@
   (stream-map stream-care
               (make-tableu transform s)))
 
-;; At a certain point I gave up
+;; Exploiting the Stream Paradigm
+
+(define (interleave s1 s2)
+  (if (stream-null? s1)
+    s2
+    (stream-cons (stream-car s1)
+                 (interleave s2 (stream-cdr s1)))))
+
+(define (pairs s t)
+  (stream-cons (list (stream-car s) (stream-car t))
+               (interleave (stream-map (lambda (x) (list (stream-car s) x))
+                                       (stream-cdr t)
+                                    (pairs (stream-cdr s) (stream-cdr t))))))
+;; Streams as Signals
+
+(define (integral integrand initial-value dt)
+  (define int (stream-cons initial-value
+                           (add-streams (scale-stream integrand dt)
+                                        int)))
+  int)
+
+;;; Streams and delayed Evaluation
+
+(define int 
+  (stream-cons initial-value
+               (add-streams (scale-stream integrand dt)
+                            int)))
+
+(define (solve f y0 dt)
+  (define y (integral dy d0 dt))
+  (define dy (stream-map f y))
+  y)
+
+(define (integral delayed-integrand initial-value dt)
+  (define int
+    (stream-cons initial-value
+                 (let [(integrand (force delayed-integrand))]
+                   (add-streams (scale-stream integrand dt)
+                                int)))))
+(define (solve f y0 dt)
+  (define y (integral (delay dy) y0 dt))
+  (define dy (stream-map f y))
+  y)

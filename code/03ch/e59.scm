@@ -17,4 +17,4 @@
 (define cosine-series (stream-cons 1 (stream-map neg sine-series)))
 
 ;; Now I remember why I quit this stuff. It is so hard to wrap my brain around the
-;; concepts here that I get depressed because I can't
+;; concepts here that I get depressed when I can't
