@@ -17,3 +17,5 @@ code/02ch/pictures
 *.tex
 *.pdf
 docs
+code/CodeFormating.scm
+SICPNotes.epub

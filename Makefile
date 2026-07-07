@@ -1,67 +1,19 @@
 PANDOC=/usr/bin/pandoc
-TARGET_DIR=docs
 TARGET=SICPNotes
-AUTHOR=Caesar X Insanium
-FLAGS= --pdf-engine=xelatex \
-			 --toc \
-			 --variable documentclass=scrreprt \
-			 --variable title="$(TARGET)" \
-			 --variable author="$(AUTHOR)" \
-			 --variable margin-left=0.75in \
-			 --variable margin-right=0.75in \
-			 --variable margin-top=1in \
-			 --variable margin-bottom=1in \
-			 --variable mainfont="Iosevka" \
-			 --variable monofont="Iosevka Term" \
+CONFIG=defaults.yaml
 
-#--variable classoption=landscape,twocolumn 
+default: $(TARGET).pdf
 
-SOURCES= Notes/Procedures.md \
-				 Notes/DataAbstractions.md \
-				 Notes/ModularityObjectsStateIntro.md \
-				 Notes/AssignmentAndLocalState.md \
-				 Notes/EnvironmentModelEvaluation.md \
-				 Notes/ModelingMutableData.md \
-				 Notes/Concurrency.md \
-				 Notes/Streams.md \
-				 Notes/MetalinguisticAbstraction.md \
-				 Notes/MetacircularEvaluator.md \
-				 Notes/LazyEvaluation.md \
-				 Notes/NonDeterministicComputing.md \
-				 Notes/LogicProgramming.md \
-				 Notes/RegisterMachines.md \
-				 Notes/DesigningRegisterMachines.md \
-				 Notes/RegisterSimulator.md \
-				 Notes/AllocationGarbageCollection.md \
-				 Notes/ControlEvaluator.md \
-				 Notes/Compilation.md
+all: $(TARGET).pdf $(TARGET).epub $(TARGET).html
 
+$(TARGET).epub:
+	$(PANDOC) -d $(CONFIG) -o $(TARGET).epub
 
+$(TARGET).html:
+	$(PANDOC) -d $(CONFIG) -o $(TARGET).html
 
-# allow force rebuild
-
-.PHONY: $(TARGET_DIR) $(TARGET_DIR)/$(TARGET).pdf $(TARGET_DIR)/$(TARGET).epub
-
-$(TARGET_DIR)/$(TARGET).pdf: $(SOURCES)
-	$(PANDOC) $(FLAGS) $? -o $@
-
-$(TARGET_DIR)/$(TARGET).epub: $(SOURCES)
-	$(PANDOC) $(FLAGS) $? -o $@
-
-$(TARGET_DIR)/$(TARGET).html: $(SOURCES)
-	$(PANDOC) $(FLAGS) $? -o $@
-
-epub: $(TARGET_DIR)/$(TARGET).epub
-
-$(TARGET_DIR):
-	mkdir $@
+$(TARGET).pdf:
+	$(PANDOC) -d $(CONFIG)
 
 clean:
-	rm -rf $(TARGET_DIR)
-
-# useful flags
-# shift to right
-# --shift-heading-level-by=-1
-#  --defaults
-#  we can also have a file called defaults.yaml
-#  next time we move to a full defaults.yaml file instead of Makefile
+	rm -rf $(TARGET)*
