@@ -11,6 +11,19 @@ input-files:
   - Notes/ModelingMutableData.md
   - Notes/Concurrency.md
   - Notes/Streams.md
+  # Chapter 4
+  - Notes/MetalinguisticAbstraction.md
+  - Notes/MetacircularEvaluator.md
+  - Notes/LazyEvaluation.md
+  - Notes/NonDeterministicComputing.md
+  - Notes/LogicProgramming.md
+  # Chapter 5
+  - Notes/RegisterMachines.md
+  - Notes/DesigningRegisterMachines.md
+  - Notes/RegisterSimulator.md
+  - Notes/AllocationGarbageCollection.md
+  - Notes/ControlEvaluator.md
+  - Notes/Compilation.md
 
 output-file: SICPnotes.pdf
 
