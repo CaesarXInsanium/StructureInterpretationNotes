@@ -1,5 +1,8 @@
 PANDOC=/usr/bin/pandoc
 TARGET=SICPNotes
+# TODO add method to add pandoc flags
+
+# All pandoc configuration should remain in this file
 CONFIG=defaults.yaml
 
 default: $(TARGET).pdf

@@ -1,6 +1,6 @@
 ;; original
 ;; arguments to a function are a list of expressions to be evaluated
-;; order of operations
+;; order of operations is determined by the implementation of scheme
 (define (list-of-values exps env)
   (if (no-operands? exps)
     '()
@@ -26,5 +26,6 @@
            (set-cdr! result (eval (first-operand exps) env))
            result)))
 
-;; let me check
-;; yep, i dont get it
+;; key question is, what does the `operands` procedure do, they take the quoted expression
+;; and symbols from the list, so they simple exclude the first symbol and return
+;; everyting else
