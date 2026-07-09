@@ -31,3 +31,5 @@ do not have to be evaluated more than once. But it comes at the cost of space.
 
 The code is now in `code/LazyEvaluation.scm`. Most of which is copied and
 modified slightly.
+
+### 4.2.3 Streams as Lazy Lists
