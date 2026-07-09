@@ -1,9 +1,7 @@
 (define (factorial n)
   (if (= n 1)
     1
-    (* n (factorial (- n -1)))
-  )
-)
+    (* n (factorial (- n -1)))))
 
 (define (factorial n)
   (define (iter product counter)
@@ -19,5 +17,5 @@
         ((= y 1) 2)
         (else (A (- x 1) (A x (- y 1))))))
 
-(write (A 3 3) )
+(write (A 3 3))
 (newline)

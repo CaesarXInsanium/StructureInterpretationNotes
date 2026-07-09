@@ -209,7 +209,7 @@ inefficient, linear in time scale. A more efficient approach would be a hash
 table but that is beside the point. The recurive and iterative functions for
 doing these things also have duplicative code, they loop similar enough.
 
-### Running the Evaluator as a Program
+### 4.1.4 Running the Evaluator as a Program
 
 On the first reading, it seems to be talking about the actual infrastrcuture
 required to start implementing the REPL. It does so by creating a starting
@@ -222,3 +222,85 @@ the procedures.
 
 There has to be a starting point, a bootstrap. An initial enviroment is
 required. And that in itself requires more primitive building blocks.
+
+### 4.1.5 Data as Programs
+
+The key thing is that programs are an abstraction over the concept of a turing
+machine. An infinitly long tape. Such a abstract machine can compute anything,
+over a long enough period of time. However programming languages are an
+abstraction over this abstract concept by allowing the illusion of infinites on
+a very finite real life machine. That is one of the reasons that garbage
+collecters are a thing that must be implemented, so that memory can be reclaimed
+and continue providing the illusion of infinite memory.
+
+Here where I idenpently draw the connection to Alan Turing, and his ideas.
+Essentially if have a machine or evaluator, that can interpret code in one
+language, it can be made to interpret of evaluate code in any other language.
+The only requirement is that the source and target languages both must be turing
+complete. Which essentially amounts having conditional statements. I tmight be
+more than that but, IDK.
+
+Anyways, look at this factorial function.
+```scheme
+(define (factorial n)
+  (if (= n 1)
+    1
+    (* n (factorial (- n 1)))))
+```
+
+Nothing special about it. I just want the reader to look at it.
+
+### 4.1.6 Internal Definitions
+
+If a procedure has `define` expressions inside of its own body, then the key to
+allowing proper scoping and namespacing to to transform the list of `define`
+expression into a `let` expression. If there are internal procedures, then that
+simply means we have named lambdas. Or something. This is what the book is
+talking about, some sort of syntax transformation from one form to another.
+
+```scheme
+(lambda <vars>
+  (define a <e1>)
+  (define b <e2>)
+  <body>)
+;; to =>
+(lambda <vars>
+  (let ((a *unassigned*)
+        (b *unassigned*))
+    (set! a <e1>)
+    (set! b <e2>)
+    <body>))
+```
+
+`unassigned` is a special form that would cause a crash if value of `a` or `b`
+is looked. The exercises will be focusing on implementing this functionality.
+
+### 4.1.7 Seperating Syntactic Analysis from Execution
+
+On the first reading, it seems that this sectin is talking about going down on
+the syntax of the `read` code, and making sure that that form, each procedure
+call, are all  in the correct format, in corrent syntax. Since I remember that
+one section is footnote that is explicitly talking about how something
+someething is an integral part of the compilation process.
+
+So basically it is ahead of time type checking. Everything must be in the
+correct formating and grammar rules must be followed. And it is doing so once,
+so no work is repeated for no reason.
+
+Which leads to reimplementation of the eval procedure. New code will no be in
+`code/SyntacticAnalysis.scm`
+
+Eval now does a lot less work. Analyze returns a procedure, which will take the
+current enviroment and immediatly call the returned procedure
+
+```scheme
+(define (eval exp env) (analyze exp) env)
+```
+
+The internal definition of `analyze` is based on helper functions that all
+return an `lambda`. Now that I realize it, this is setting up the correct
+infrastruction to allow for the implemtation of normal order evaluation and
+delay execution.
+
+The core is `execute-application` which assumes that the body of the procedure
+has already been analyzed, and no more work is required.
