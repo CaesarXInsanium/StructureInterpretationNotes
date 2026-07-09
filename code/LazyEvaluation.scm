@@ -323,7 +323,6 @@
       (display prompt stdout)
       (display " " stdout))))
 
-
 ;; START the REPL!
 (driver-loop)
 
