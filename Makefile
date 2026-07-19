@@ -16,7 +16,7 @@ $(TARGET).html:
 	$(PANDOC) -d $(CONFIG) -o $(TARGET).html
 
 $(TARGET).pdf:
-	$(PANDOC) -d $(CONFIG)
+	$(PANDOC) -d $(CONFIG) -o $(TARGET).pdf
 
 clean:
 	rm -rf $(TARGET)*
