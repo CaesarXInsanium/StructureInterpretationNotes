@@ -41,3 +41,29 @@ instructions.
 I have finished the big function
 
 ### 5.2.2 The Assembler
+
+Here we are in the assembler section. The assembler looks at the assembly code,
+scans for immediate data, transforms instructions into the bytecode, resolves
+references within the code, resolves labels for  jump instructions
+and replaces whatever needs to be replaced.
+
+I fail to be able to encapsulate the formatting of the code that is supposed to
+be worked with here.
+
+### 5.2.3 Generating Execution Procedures for Instructions
+
+Now we are at the section of dispatching the correct procedure to perform an
+operation based on the instruction. The things doing the actual work is a scheme
+procedure.
+
+It looks like each variation or message will tell the assembler to generate some
+sort of thunk I think, for what the machine will do in lisp.
+
+In the assign section, there is something about analyzing the program before
+anything is executed, saving work by doing things at compile time instead of
+checking at runtime. It is in this section that the instruction pointer is
+dealt with.
+ 
+It seems that the way that the instructions work, is the assembler looks at the
+instruction and builds a thunk for the specific purpose of executing that
+particular function.

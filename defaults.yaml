@@ -34,7 +34,7 @@ metadata:
   date: "2026-07-03"
   lang: en
   description: "A collection of personal notes for SICP"
-  keywords: [notes, knowledge, zettelkasten, scheme]
+  keywords: [sicp, notes, knowledge, zettelkasten, scheme]
 
 # Table of contents
 toc: true
