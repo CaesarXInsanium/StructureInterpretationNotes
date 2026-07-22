@@ -1,0 +1,40 @@
+(define (even-fibs n)
+  (define (next k)
+    (if (> k n)
+        nil
+        (let ((f (fib k)))
+          (if (even? f)
+              (cons f (next (+ k 1)))
+              (next (+ k 1))))))
+  (next 0))
+
+(define (sum-odd-squares tree)
+  (cond ((null? tree) 0)
+        ((not (pair? tree)) (if (odd? tree) (square tree) 0))
+        (else (+ (sum-odd-squares (car tree))
+                 (sum-odd-squares (cdr tree))))))
+
+(define (add-complex z1 z2)
+  (make-from-real-imag (+ (real-part z1) (real-part z2))
+                       (+ (imag-part z1) (imag-part z2))))
+
+(define (abs x)
+  (cond ((> x 0) x)
+        ((= x 0) 0)
+        ((< x 0) -x)))
+
+(define (abs x)
+  (cond ((< x 0) -x)
+        (else x)))
+(define (abs x)
+  (if (< x 0)
+      (- 0 x) x))
+
+(define relu (lambda (x) (if (< x 0) 0 x)))
+
+(define (return x) x)
+(define (cons x y)
+  (let ((new (get-new-pair)))
+       (set-car! new x)
+       (set-cdr! new y)
+       (return new)))
